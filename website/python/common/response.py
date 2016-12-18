@@ -9,9 +9,11 @@ from django.http import Http404
 import json
 from SchoolJob import settings
 from datetime import datetime
-from singleton import Singleton, singleton
+from singleton import Singleton
+
 
 class ResponsesSingleton(Singleton):
+
     #以json的方式响应,数据data是数组
     def responseJsonArray(self, status="success", message="请求成功", data=[]):
         dict = {
@@ -54,6 +56,3 @@ class DateEncoder(json.JSONEncoder):
 
         return json.JSONEncoder.default(self, obj);
 
-
-def shareResponse():
-    return ResponsesSingleton();

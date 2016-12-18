@@ -98,7 +98,7 @@ DATABASES = {
     }
 }
 # import redis_cache.backends.
-#cache配置，使用redis做cache
+#cache配置，使用redis做cache  https://github.com/sebleier/django-redis-cache
 CACHES = {
     'default' : {
         # 'BACKEND' : 'django.core.cache.backends.db.DatabaseCache',

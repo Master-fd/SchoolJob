@@ -1,27 +1,26 @@
-#coding:utf8
-__author__ = 'fenton-fd.zhu'
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+__author__ = 'Administrator'
+
+'''
+网络请求处理
+'''
 
 from website import models
 from website.python.common.response import ResponsesSingleton
 from website.python.common.schoolInfo import SchoolInfo
-from userDatabase import StudentInfoManager, ResumeManager, ColloctManager, ApplicantManager
+from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
 
 from django.http import HttpRequest
-from django.forms import model_to_dict
 import hashlib
-import random
 
-'''
-网络请求数据处理
-'''
-class StudentRequestManager(models.StudentInfo):
+class OrganizationRequestManager(models.StudentInfo):
 
     def __init__(self):
-        super(StudentRequestManager, self).__init__();
-        self.studentInfoManager = StudentInfoManager();
-        self.resumeInfoManager = ResumeManager();
-        self.collectInfoManager = ColloctManager();
-        self.applicantInfoManager = ApplicantManager();
+        super(OrganizationInfoManager, self).__init__();
+        self.organizationInfoManager = OrganizationInfoManager();
+        self.jobsInfoManager = JobsManager();
+        self.recvResumInfoManager = RecvResumeManager();
 
     #管理请求端口,分发任务
     def requestPortManager(self, request=HttpRequest()):
@@ -60,23 +59,22 @@ class StudentRequestManager(models.StudentInfo):
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '请使用get或post请求');
 
+
 #--------------- 基本信息操作--------------------------------------------------------------
     #检测账户密码输入合法性
-    def __inputDataCheck(self, account, password, email, provincesId, universityId, collegeId):
+    def __inputDataCheck(self, account, password, name, provincesId, universityId, collegeId):
         result = True;
         #判断合法性
         if not account:
             result = "账户不能为空";
         if not password:
             result = "密码不能为空";
-        if not email:
-            result = "Email不能为空";
+        if not name:
+            result = "组织名不能为空";
         if not provincesId:
             result = "省份不能为空";
         if not universityId:
             result = "大学不能为空";
-        if not collegeId:
-            result = "学院不能为空";
         if len(account)<6 or len(account)>15:
             result = "合法账户长度6-15位";
         if len(password)<6 or len(password)>15:
@@ -89,18 +87,19 @@ class StudentRequestManager(models.StudentInfo):
         #输入合法性检验
         account = request.POST.get('account', None);
         password = request.POST.get('password', None);
-        email = request.POST.get('email', None);
+        name = request.POST.get('name', None);
         collegeId = request.POST.get('collegeId', None);
         universityId = request.POST.get('universityId', None);
         provincesId = request.POST.get('provincesId', None);
 
-        checkResult = self.__inputDataCheck(account, password, email, provincesId, universityId, collegeId);
+
+        checkResult = self.__inputDataCheck(account, password, name, provincesId, universityId, collegeId);
         if checkResult == True:
             hash_md5 = hashlib.md5(); #加密
             hash_md5.update(password);
             hashPassword = hash_md5.hexdigest();
             #查询数据库
-            result = self.studentInfoManager.getData(account=account);
+            result = self.organizationInfoManager.getData(account=account);
             if result:
                 return ResponsesSingleton.getInstance().responseJsonArray("fail", "账号已被注册");
             else:
@@ -108,12 +107,12 @@ class StudentRequestManager(models.StudentInfo):
                 data = {
                     'account' : account,
                     'password' : password,
-                    'email' : email,
+                    'name' : name,
                     'provincesId' : provincesId,
                     'universityId' : universityId,
                     'collegeId' : collegeId
                 };
-                result = self.studentInfoManager.addData(**data);
+                result = self.organizationInfoManager.addData(data);
                 if result:
                     data = [{ 'account' : account}];
                     request.session['account'] = account;  #注册之后直接登录
@@ -135,7 +134,7 @@ class StudentRequestManager(models.StudentInfo):
             hash_md5.update(password);
             hashPassword = hash_md5.hexdigest();
             try:
-                results = self.studentInfoManager.getData(account=account, password=hashPassword);
+                results = self.organizationInfoManager.getData(account=account, password=hashPassword);
                 if results:#登录成功
                     data = [{ 'account' : account}];
                     request.session['account'] = account;
@@ -171,7 +170,7 @@ class StudentRequestManager(models.StudentInfo):
         isLogin, account = self.checkIsLogin(request);
         if isLogin == True:
             #查找用户信息
-            data = self.studentInfoManager.getData(account=account);
+            data = self.organizationInfoManager.getData(account=account);
             if data:
                 return ResponsesSingleton.getInstance().responseJsonArray("success", "查找用户信息", data);
             else:
@@ -191,159 +190,134 @@ class StudentRequestManager(models.StudentInfo):
                 hash_md5.update(password);
                 hashPassword = hash_md5.hexdigest();
                 condition['password'] = hashPassword;
-            if request.POST.get('nickname', None):
-                condition['nickname'] = request.POST.get('nickname', None);
-            if request.POST.get('email', None):
-                condition['email'] = request.POST.get('email', None);
+            if request.POST.get('name', None):
+                condition['name'] = request.POST.get('name', None);
 
             try:
-                result = self.studentInfoManager.modifyData(account, condition);
+                result = self.organizationInfoManager.modifyData(account, condition);
                 if result:
                     return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
             except Exception, e:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
+            
+#--------------- 发布job信息操作--------------------------------------------------------------
 
-#--------------- 简历操作--------------------------------------------------------------
-    #读取用户简历
-    def __getResume(self, account, request=HttpRequest()):
-        data = self.resumeInfoManager.getData(account);
+    #读取用户job信息
+    def __getJob(self, account, request=HttpRequest()):
+        condition = {
+            'jobId' : request.GET.get('jobId', None)
+        }
+        data = self.jobsInfoManager.getData(account, condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
-    #设置简历
-    def __addResume(self, account, request=HttpRequest()):
+    #设置job
+    def __addjob(self, account, request=HttpRequest()):
 
         data = {
             'name' : request.POST.get('name' , None),
-            'sex' : request.POST.get('sex' , None),
-            'college' : request.POST.get('college', None),
-            'email' : request.POST.get('email', None),
-            'phoneNumber' : request.POST.get('phoneNumber', None),
-            'experience' : request.POST.get('experience', None),
-            'strong' : request.POST.get('strong', None),
-            'others' : request.POST.get('others', None),
+            'department' : request.POST.get('department', None),
+            'description' : request.POST.get('description', None),
+            'number' : request.POST.get('number', None),
         }
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.resumeInfoManager.addData(account, data);
+        results = self.jobsInfoManager.addData(account, data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
-    #删除简历
-    def __deleteResume(self, account, request=HttpRequest()):
-        results = self.resumeInfoManager.deleteData(account);
+    #删除job
+    def __deleteJob(self, account, request=HttpRequest()):
+
+        condition = {
+            'jobId' : request.GET.get('jobId', None)
+        }
+        results = self.jobsInfoManager.deleteData(account, condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
-    #修改简历
-    def __modifyResume(self, account, request=HttpRequest()):
+
+    #修改job
+    def __modifyJob(self, account, request=HttpRequest()):
+        jobId = request.POST.get('jobId', None),
         data = {
             'name' : request.POST.get('name' , None),
-            'sex' : request.POST.get('sex' , None),
-            'college' : request.POST.get('college', None),
-            'email' : request.POST.get('email', None),
-            'phoneNumber' : request.POST.get('phoneNumber', None),
-            'experience' : request.POST.get('experience', None),
-            'strong' : request.POST.get('strong', None),
-            'others' : request.POST.get('others', None),
+            'department' : request.POST.get('department', None),
+            'description' : request.POST.get('description', None),
+            'number' : request.POST.get('number', None)
         }
-
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
 
-        results = self.resumeInfoManager.modifyData(account, data);
+        results = self.jobsInfoManager.modifyData(account, jobId, data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
-#--------------- 收藏操作--------------------------------------------------------------
 
-    #读取用户collect
-    def __getCollect(self, account, request=HttpRequest()):
+#--------------- 简历操作--------------------------------------------------------------
+    #读取用户接收到的简历信息
+    def __getRecvResume(self, account, request=HttpRequest()):
         condition = {
-            'collectId' : request.GET.get('collectId', None)
+            'receResumeId' : request.GET.get('receResumeId', None)
         }
-        data = self.collectInfoManager.getData(account, condition);
+        data = self.recvResumInfoManager.getData(account, condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
-    #设置收藏
-    def __addCollect(self, account, request=HttpRequest()):
+    #添加RecvResume
+    def __addRecvResume(self, account, request=HttpRequest()):
 
         data = {
-            'jobId' : request.POST.get('jobId' , None),
-            'name' : request.POST.get('name' , None),
-            'organizations' : request.POST.get('organizations', None),
-            'department' : request.POST.get('department', None),
-            'description' : request.POST.get('description', None),
-            'status' : request.POST.get('status', None),
+            'resumeId' : request.POST.get('resumeId' , None),
+            'sex' : request.POST.get('sex' , None),
+            'college' : request.POST.get('college' , None),
+            'email' : request.POST.get('email' , None),
+            'phoneNumber' : request.POST.get('phoneNumber' , None),
+            'experience' : request.POST.get('experience' , None),
+            'strong' : request.POST.get('strong' , None),
+            'others' : request.POST.get('others' , None),
+            'status' : request.POST.get('status' , None),
         }
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.collectInfoManager.addData(account, data);
+        results = self.recvResumInfoManager.addData(account, data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
-    #删除收藏
-    def __deleteCollect(self, account, request=HttpRequest()):
+    #删除RecvResume
+    def __deleteRecvResume(self, account, request=HttpRequest()):
 
         condition = {
-            'collectId' : request.GET.get('collectId', None)
+            'receResumeId' : request.GET.get('receResumeId', None)
         }
-        results = self.collectInfoManager.deleteData(account, condition);
+        results = self.recvResumInfoManager.deleteData(account, condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
-#--------------- 应聘操作--------------------------------------------------------------
-    #读取用户applicant
-    def __getApplicant(self, account, request=HttpRequest()):
-        condition = {
-            'applicantId' : request.GET.get('applicantId', None)
-        }
-        data = self.applicantInfoManager.getData(account, condition);
-        return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
-
-    #设置applicant
-    def __addApplicant(self, account, request=HttpRequest()):
-
+    #修改RecvResume
+    def __modifyRecvResume(self, account, request=HttpRequest()):
+        receResumeId = request.POST.get('receResumeId', None),
         data = {
-            'jobId' : request.POST.get('jobId' , None),
-            'name' : request.POST.get('name' , None),
-            'organizations' : request.POST.get('organizations', None),
-            'department' : request.POST.get('department', None),
-            'description' : request.POST.get('description', None),
-            'status' : request.POST.get('status', None),
+            'status' : request.POST.get('status' , None)
         }
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.applicantInfoManager.addData(account, data);
+
+        results = self.recvResumInfoManager.modifyData(account, receResumeId, data);
         if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
+            return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
-
-    #删除applicant
-    def __deleteApplicant(self, account, request=HttpRequest()):
-
-        condition = {
-            'collectId' : request.GET.get('collectId', None)
-        }
-        results = self.applicantInfoManager.deleteData(account, condition);
-        if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
-        else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
-
-
