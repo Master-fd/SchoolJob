@@ -59,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',   #cache中间件
+    'website.python.middleware.auth.AuthenticationMiddleware',  #进入后台，检测是否login，中间件
 )
 
 ROOT_URLCONF = 'SchoolJob.urls'
@@ -76,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'website.views.userInfo',
             ],
         },
     },

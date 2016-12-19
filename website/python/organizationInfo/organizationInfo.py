@@ -6,18 +6,19 @@ __author__ = 'Administrator'
 网络请求处理
 '''
 
-from website import models
-from website.python.common.response import ResponsesSingleton
-from website.python.common.schoolInfo import SchoolInfo
-from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
-
-from django.http import HttpRequest
 import hashlib
 
-class OrganizationRequestManager(models.StudentInfo):
+from django.http import HttpRequest
+
+from website import models
+from website.python.common.response import ResponsesSingleton
+from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
+
+
+class OrganizationRequestManager(object):
 
     def __init__(self):
-        super(OrganizationInfoManager, self).__init__();
+        super(OrganizationRequestManager, self).__init__();
         self.organizationInfoManager = OrganizationInfoManager();
         self.jobsInfoManager = JobsManager();
         self.recvResumInfoManager = RecvResumeManager();
@@ -36,11 +37,17 @@ class OrganizationRequestManager(models.StudentInfo):
             elif operation == 'modifyInfo':  #修改基本信息
                 return self.__userModify(request);
             elif operation == 'addResume':   #add 简历
-                return self.__addResume(account,request);
+                return self.__addRecvResume(account,request);
             elif operation == 'modifyResume':   #修改简历
-                return self.__modifyResume(account, request);
+                return self.__modifyRecvResume(account, request);
             elif operation == 'deleteResume': #删除简历
-                return self.__deleteResume(account, request);
+                return self.__deleteRecvResume(account, request);
+            elif operation == 'addJob':    #增加工作
+                return self.__addjob(account, request);
+            elif operation == 'modifyJob':   #修改工作
+                return self.__modifyJob(account, request);
+            elif operation == 'deleteJob': #删除工作
+                return self.__deleteJob(account, request);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
         elif request.method == 'GET':
@@ -53,7 +60,9 @@ class OrganizationRequestManager(models.StudentInfo):
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray('fail', '未登录');
             elif operation == 'getResume':   #获取简历
-                return self.__getResume(account, request);
+                return self.__getRecvResume(account, request);
+            elif operation == 'getJob':   #获取工作
+                return self.__getJob(account, request);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
         else:
@@ -92,7 +101,6 @@ class OrganizationRequestManager(models.StudentInfo):
         universityId = request.POST.get('universityId', None);
         provincesId = request.POST.get('provincesId', None);
 
-
         checkResult = self.__inputDataCheck(account, password, name, provincesId, universityId, collegeId);
         if checkResult == True:
             hash_md5 = hashlib.md5(); #加密
@@ -112,7 +120,7 @@ class OrganizationRequestManager(models.StudentInfo):
                     'universityId' : universityId,
                     'collegeId' : collegeId
                 };
-                result = self.organizationInfoManager.addData(data);
+                result = self.organizationInfoManager.addData(**data);
                 if result:
                     data = [{ 'account' : account}];
                     request.session['account'] = account;  #注册之后直接登录
@@ -127,8 +135,7 @@ class OrganizationRequestManager(models.StudentInfo):
         #输入合法性检验
         account = request.POST.get('account', None);
         password = request.POST.get('password', None);
-        checkResult = self.__inputDataCheck(account, password);
-        if checkResult == True:
+        if account and password:
             #查询数据库
             hash_md5 = hashlib.md5();
             hash_md5.update(password);
@@ -192,9 +199,11 @@ class OrganizationRequestManager(models.StudentInfo):
                 condition['password'] = hashPassword;
             if request.POST.get('name', None):
                 condition['name'] = request.POST.get('name', None);
+            if request.POST.get('description', None):
+                condition['description'] = request.POST.get('description', None);
 
             try:
-                result = self.organizationInfoManager.modifyData(account, condition);
+                result = self.organizationInfoManager.modifyData(account, **condition);
                 if result:
                     return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
                 else:
@@ -209,7 +218,7 @@ class OrganizationRequestManager(models.StudentInfo):
         condition = {
             'jobId' : request.GET.get('jobId', None)
         }
-        data = self.jobsInfoManager.getData(account, condition);
+        data = self.jobsInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #设置job
@@ -224,7 +233,7 @@ class OrganizationRequestManager(models.StudentInfo):
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.jobsInfoManager.addData(account, data);
+        results = self.jobsInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
@@ -236,7 +245,7 @@ class OrganizationRequestManager(models.StudentInfo):
         condition = {
             'jobId' : request.GET.get('jobId', None)
         }
-        results = self.jobsInfoManager.deleteData(account, condition);
+        results = self.jobsInfoManager.deleteData(account, **condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:
@@ -255,7 +264,7 @@ class OrganizationRequestManager(models.StudentInfo):
             if value==None:
                 data.pop(key);  #删除值为None的key-value
 
-        results = self.jobsInfoManager.modifyData(account, jobId, data);
+        results = self.jobsInfoManager.modifyData(account, jobId, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
@@ -268,7 +277,7 @@ class OrganizationRequestManager(models.StudentInfo):
         condition = {
             'receResumeId' : request.GET.get('receResumeId', None)
         }
-        data = self.recvResumInfoManager.getData(account, condition);
+        data = self.recvResumInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #添加RecvResume
@@ -288,7 +297,7 @@ class OrganizationRequestManager(models.StudentInfo):
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.recvResumInfoManager.addData(account, data);
+        results = self.recvResumInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
@@ -300,7 +309,7 @@ class OrganizationRequestManager(models.StudentInfo):
         condition = {
             'receResumeId' : request.GET.get('receResumeId', None)
         }
-        results = self.recvResumInfoManager.deleteData(account, condition);
+        results = self.recvResumInfoManager.deleteData(account, **condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:
@@ -316,7 +325,7 @@ class OrganizationRequestManager(models.StudentInfo):
             if value==None:
                 data.pop(key);  #删除值为None的key-value
 
-        results = self.recvResumInfoManager.modifyData(account, receResumeId, data);
+        results = self.recvResumInfoManager.modifyData(account, receResumeId, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:

@@ -23,10 +23,6 @@ class StudentInfo(models.Model):
     account = models.CharField(unique=True, blank=False, max_length=64);
     password = models.CharField(blank=False, max_length=64);
     iconUrl = models.CharField(max_length=256);
-    sex_choices = (("undefine", u"未定义"),
-                   ("male", u"男"),
-                ("female", u"女"));
-    sex = models.CharField(max_length=64, choices=sex_choices, default=sex_choices[0][0]);
     email = models.EmailField();
     createDate = models.DateTimeField(auto_now_add=True);
     updateDate = models.DateTimeField(auto_now=True);

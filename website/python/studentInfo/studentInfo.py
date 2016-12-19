@@ -1,20 +1,18 @@
 #coding:utf8
 __author__ = 'fenton-fd.zhu'
 
-from website import models
-from website.python.common.response import ResponsesSingleton
-from website.python.common.schoolInfo import SchoolInfo
-from userDatabase import StudentInfoManager, ResumeManager, ColloctManager, ApplicantManager
+import hashlib
 
 from django.http import HttpRequest
-from django.forms import model_to_dict
-import hashlib
-import random
+
+from website import models
+from website.python.common.response import ResponsesSingleton
+from userDatabase import StudentInfoManager, ResumeManager, ColloctManager, ApplicantManager
 
 '''
 网络请求数据处理
 '''
-class StudentRequestManager(models.StudentInfo):
+class StudentRequestManager(object):
 
     def __init__(self):
         super(StudentRequestManager, self).__init__();
@@ -128,8 +126,7 @@ class StudentRequestManager(models.StudentInfo):
         #输入合法性检验
         account = request.POST.get('account', None);
         password = request.POST.get('password', None);
-        checkResult = self.__inputDataCheck(account, password);
-        if checkResult == True:
+        if account and password:
             #查询数据库
             hash_md5 = hashlib.md5();
             hash_md5.update(password);
@@ -145,7 +142,7 @@ class StudentRequestManager(models.StudentInfo):
             except Exception, e:
                 return ResponsesSingleton.getInstance().responseJsonArray("fail", "账户或密码错误");
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray("fail", checkResult);
+            return ResponsesSingleton.getInstance().responseJsonArray("fail", '账户或密码为空');
 
     #检测用户是否已经登录
     def checkIsLogin(self, request=HttpRequest()):
@@ -197,7 +194,7 @@ class StudentRequestManager(models.StudentInfo):
                 condition['email'] = request.POST.get('email', None);
 
             try:
-                result = self.studentInfoManager.modifyData(account, condition);
+                result = self.studentInfoManager.modifyData(account, **condition);
                 if result:
                     return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
                 else:
@@ -208,7 +205,7 @@ class StudentRequestManager(models.StudentInfo):
 #--------------- 简历操作--------------------------------------------------------------
     #读取用户简历
     def __getResume(self, account, request=HttpRequest()):
-        data = self.resumeInfoManager.getData(account);
+        data = self.resumeInfoManager.getData(account=account);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #设置简历
@@ -227,7 +224,7 @@ class StudentRequestManager(models.StudentInfo):
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.resumeInfoManager.addData(account, data);
+        results = self.resumeInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
@@ -257,7 +254,7 @@ class StudentRequestManager(models.StudentInfo):
             if value==None:
                 data.pop(key);  #删除值为None的key-value
 
-        results = self.resumeInfoManager.modifyData(account, data);
+        results = self.resumeInfoManager.modifyData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
@@ -270,7 +267,7 @@ class StudentRequestManager(models.StudentInfo):
         condition = {
             'collectId' : request.GET.get('collectId', None)
         }
-        data = self.collectInfoManager.getData(account, condition);
+        data = self.collectInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #设置收藏
@@ -287,7 +284,7 @@ class StudentRequestManager(models.StudentInfo):
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.collectInfoManager.addData(account, data);
+        results = self.collectInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
@@ -299,7 +296,7 @@ class StudentRequestManager(models.StudentInfo):
         condition = {
             'collectId' : request.GET.get('collectId', None)
         }
-        results = self.collectInfoManager.deleteData(account, condition);
+        results = self.collectInfoManager.deleteData(account, **condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:
@@ -311,7 +308,7 @@ class StudentRequestManager(models.StudentInfo):
         condition = {
             'applicantId' : request.GET.get('applicantId', None)
         }
-        data = self.applicantInfoManager.getData(account, condition);
+        data = self.applicantInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #设置applicant
@@ -328,7 +325,7 @@ class StudentRequestManager(models.StudentInfo):
         for key, value in data:
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.applicantInfoManager.addData(account, data);
+        results = self.applicantInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
@@ -340,7 +337,7 @@ class StudentRequestManager(models.StudentInfo):
         condition = {
             'collectId' : request.GET.get('collectId', None)
         }
-        results = self.applicantInfoManager.deleteData(account, condition);
+        results = self.applicantInfoManager.deleteData(account, **condition);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '删除成功');
         else:

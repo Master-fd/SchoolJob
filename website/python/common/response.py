@@ -33,20 +33,20 @@ class ResponsesSingleton(Singleton):
         return HttpResponse(json.dumps(dict, cls=DateEncoder));
 
     #渲染返回页面,同时返回login
-    def returnDrawPage(self, isLogin, page, dictName, data):
+    def returnDrawPage(self, isLogin, page, data):
         dataDict = {
             'isLogin' : json.dumps(isLogin),
-            dictName : data
+            'data' : data
         };
         return render_to_response(page, dataDict);
 
     #渲染返回后台类页面，需要先check用户是否login
-    def returnCheckLoginDrawPage(self, isLogin, page, dictName, data):
-        if isLogin:
-            return self.returnDrawPage(isLogin, page, dictName, data);
-        else:
-            #未login，从定向到home页
-            return HttpResponseRedirect(settings.BASE_URL);
+    # def returnCheckLoginDrawPage(self, isLogin, page, dictName, data):
+    #     if isLogin:
+    #         return self.returnDrawPage(isLogin, page, dictName, data);
+    #     else:
+    #         #未login，从定向到home页
+    #         return HttpResponseRedirect(settings.BASE_URL);
 
 #json默认只能dump一些基本的类，例如数组之类的，对于日期和自定义的类是无法dump的，需要我们自己写
 class DateEncoder(json.JSONEncoder):

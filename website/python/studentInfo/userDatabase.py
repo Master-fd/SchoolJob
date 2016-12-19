@@ -45,7 +45,7 @@ class StudentInfoManager(object):
     #修改基本信息数据
     def modifyData(self, account, **new):
         try:
-            self.modelObjects.filter(account).update(**new);
+            self.modelObjects.filter(account=account).update(**new);
             result = True;
         except Exception as e:
             result = False;
@@ -85,7 +85,7 @@ class ResumeManager(object):
                 if not self.resumeModel.get(resumeId=resumeId):
                     break;
 
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             kwargs['studentInfoId'] = userObj;
             kwargs['resumeId'] = resumeId;
             kwargs['account'] = account;
@@ -101,7 +101,7 @@ class ResumeManager(object):
     #删除一个简历数据
     def deleteData(self, account=None):
         try:
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             userObj.resume.delete();
             result = True;
         except Exception as e:
@@ -150,7 +150,7 @@ class ColloctManager(object):
                 collectId = str(random.randint(10000000, 100000000))
                 if not self.collectModel.get(collectId=collectId):
                     break;
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             kwargs['studentInfoId'] = userObj;
             kwargs['collectId'] = collectId;
             results = self.collectModel.create(**kwargs)
@@ -165,7 +165,7 @@ class ColloctManager(object):
     #删除一个收藏数据
     def deleteData(self, account=None, **kwargs):
         try:
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             userObj.collect_set.filter(**kwargs).delete();
             result = True;
         except Exception as e:
@@ -207,7 +207,7 @@ class ApplicantManager(object):
                 applicantId = str(random.randint(10000000, 100000000))
                 if not self.applicantModel.get(applicantId=applicantId):
                     break;
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             kwargs['studentInfoId'] = userObj;
             kwargs['applicantId'] = applicantId;
             results = self.applicantModel.create(**kwargs)
@@ -222,7 +222,7 @@ class ApplicantManager(object):
     #删除一个应聘数据
     def deleteData(self, account=None, **kwargs):
         try:
-            userObj = self.studentModel.get(account);
+            userObj = self.studentModel.get(account=account);
             userObj.applicant_set.filter(**kwargs).delete();
             result = True;
         except Exception as e:

@@ -8,8 +8,11 @@ import views
 
 
 urlpatterns = [
-    url('', views.main),
-    url('^main/$', views.main),
+    url('^$', views.home),
+    url('^home/$', views.home),   # 首页
+
+    url('^search/$', views.search),
+    url('^backgroup/(?P<pageName>\w+)/$', views.studentBackPage),
 
 ]
 
