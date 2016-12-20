@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<body>
+    {% if data.popAddressModal %}
+        <div id="pop" class="address-modal" style="display: block">
+    {% else %}
+        <div id="pop" class="address-modal" style="display: none">
+    {% endif %}
+        <div class="modal-mask js-modal-close"></div>
+            <div class="modal-main">
+                <div class="modal-header">
+                    注册账户
+                    <a class="close-btn js-modal-close" href="javascript:void(0);">
+                        <i class="passport-icon close-icon"></i>
+                    </a>
+                </div>
+                <div class="modal-content">
+                    <input name="account" class="input input-small" type="text" placeholder="请输入6-15位账户">
+                    <input name="password" class="input input-small" type="text" placeholder="请输入6-15位密码">
+                    <input name="name" class="input input-small" type="text" placeholder="学生名/组织名">
+                    <select class="province" id="province">
+                        <option>省份</option>
+                    </select>
+                    <select class="university" id="university">
+                        <option>大学</option>
+                    </select>
+                    <select class="college" id="college">
+                        <option>学院</option>
+                    </select>
+                    <div class="check">
+                        <label ><input name="type" class="checkredio" type="radio" value="student">学生</label>
+                        <label ><input name="type" class="checkredio" type="radio" value="organization">组织</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a class="cancel-btn" href="javascript:void(0);">返回</a>
+                    <a class="submit-btn" href="javascript:void(0);">确定</a>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

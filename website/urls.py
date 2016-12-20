@@ -11,8 +11,8 @@ urlpatterns = [
     url('^$', views.home),
     url('^home/$', views.home),   # 首页
 
-    url('^search/$', views.search),
-    url('^backgroup/(?P<pageName>\w+)/$', views.studentBackPage),
+    url('^search/$', views.search),   #搜索
+    url('^backgroup/(?P<pageName>\w+)/$', views.studentBackPage),  #后台
 
 ]
 

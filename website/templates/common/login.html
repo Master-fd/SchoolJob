@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<body>
+    {% if data.popLoginModal %}
+    <div id="pop" class="login-modal" style="display: block">
+    {% else %}
+    <div id="pop" class="login-modal" style="display: none">
+    {% endif %}
+        <div class="modal-mask js-modal-close"></div>
+        <div class="modal-main">
+            <a class="close-btn js-modal-close" href="javascript: void(0);">
+                <i class="passport-icon close-icon"></i>
+            </a>
+            <h1 class="passport-logo">
+                <img src="/static/image/logo.png">
+            </h1>
+            <div class="modal-content">
+                <input class="input" name="account" type="text" placeholder="请输入6-15位账户">
+                <input class="input" name="password" type="password" placeholder="请输入6-15位密码">
+
+                <a class="submit-btn" data-id="login" href="javascript:void(0);">登录</a>
+                <a class="submit-btn" data-id="register" href="javascript:void(0);">注册</a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

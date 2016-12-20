@@ -33,13 +33,5 @@ class AuthenticationMiddleware(object):
     def process_response(self, request, response):
         return response
 
-    def process_template_response(self, request, response):
-        """
-            传递公共数据
-        """
-        print 'process_template_response'
-        if isinstance(response.context_data, dict):
-            response.context_data['isLogin'] = '6'
-        else:
-            response.context_data = {'account' : '8'}
-        return response
+
+

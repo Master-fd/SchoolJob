@@ -2,46 +2,32 @@
 
 from django.shortcuts import render, render_to_response, HttpResponse
 from django.http import HttpRequest
-from django.template import loader, RequestContext
+from django.template import loader, RequestContext, Context
 from django.core.cache import cache
 from website.python.common.response import ResponsesSingleton
 
 # Create your views here.
 
 
-#检测用户是否已经登录
-def checkIsLogin(self, request=HttpRequest()):
-    account = None;
-    try:
-        account = request.session.get('account', None);
-        if account:
-            return True, account;
-        else:
-            return False, account;
-    except:
-        return False, account;
 
-def userInfo(request):
-    isLogin, account = checkIsLogin(request);
-    return {
-        'isLogin': '2',
-        'account' : '3'
-    }
 #搜索接口
 def search(request):
     dic = {
-        'data' : {'name' : 'feidong'}
+        'data' : {'popLoginModal' : False,
+                  'popAddressModal' : True}
     }
-    temp = loader.get_template('home/home.html');
-    return render(request, temp, dic)
-    # return render_to_response('home/home.html', dic);
-    # return render_to_response('home/home.html', context_instance=RequestContext(request, dic));
+
+    return render_to_response('home/home.html', context_instance=RequestContext(request, dic));
 
 
 #首页渲染
 def home(request):
-    print request.path.split('/')
-    return HttpResponse('ok')
+    data = {
+        'data' : {'popLoginModal' : True,
+                  'popAddressModal' : False}
+    }
+    return render_to_response('home/home.html', context_instance=RequestContext(request, data));
+
 
 #student后台
 def studentBackPage(request, pageName='me'):

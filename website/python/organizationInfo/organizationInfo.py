@@ -151,7 +151,7 @@ class OrganizationRequestManager(object):
             except Exception, e:
                 return ResponsesSingleton.getInstance().responseJsonArray("fail", "账户或密码错误");
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray("fail", checkResult);
+            return ResponsesSingleton.getInstance().responseJsonArray("fail", '账户或密码为空');
 
     #检测用户是否已经登录
     def checkIsLogin(self, request=HttpRequest()):
