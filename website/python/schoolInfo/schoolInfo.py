@@ -28,6 +28,10 @@ class SchoolRequestManager(object):
                 return self.getAllProvinces(request);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
+        elif request.method == 'POST':
+            operation = request.POST.get('operation', None);
+            if operation == 'setUniversity':
+                self.setUniversity(request);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '请使用get或post请求');
 
@@ -37,7 +41,7 @@ class SchoolRequestManager(object):
         provincesId = request.POST.get('provincesId', None);
         universityId = request.POST.get('universityId', None);
         collegeId = request.POST.get('collegeId', None);
-        data = self.schoolInfoManager.provincesUniversityCollegeById(provincesId, universityId, collegeId);
+        data = self.schoolInfoManager.getProvincesUniversityCollegeById(provincesId, universityId, collegeId);
         if data:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
         else:
@@ -68,3 +72,17 @@ class SchoolRequestManager(object):
             return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '没有数据');
+
+    #设置指定的学校
+    def setUniversity(self, request=HttpRequest()):
+        universityId = request.POST.get('universityId', None);
+        data = self.schoolInfoManager.getProvincesUniversityCollegeById(None, universityId, None);
+        if data:
+            university = data[0];
+            #设置session
+            request.session['universityId'] = university.id;
+            request.session['universityName'] = university.name;
+
+            return ResponsesSingleton.getInstance().responseJsonArray('success', '设置成功', data);
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '设置失败');

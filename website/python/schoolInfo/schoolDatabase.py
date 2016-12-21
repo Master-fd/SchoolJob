@@ -43,6 +43,12 @@ class SchoolInfoManager(object):
                     schools.append(model_to_dict(obj));
             except Exception as e:
                 schools = [];
+        else:
+            try:
+                data = self.universityModel.all().first();
+                schools.append(model_to_dict(data));
+            except Exception as e:
+                schools = [];
         return schools;
 
     #根据学校，获取所有学院
@@ -55,22 +61,28 @@ class SchoolInfoManager(object):
                     college.append(model_to_dict(obj));
             except Exception as e:
                 college = [];
+        else:
+            try:
+                data = self.collegeModel.all().first();
+                college.append(model_to_dict(data));
+            except Exception as e:
+                college = [];
         return college;
 
 
     #根据id获取省份,大学，学院，返回字典，
-    def provincesUniversityCollegeById(self, provincesId=None, universityId=None, collegeId=None):
+    def getProvincesUniversityCollegeById(self, provincesId=None, universityId=None, collegeId=None):
         data = {};
         try:
             if provincesId:
                 result = self.provinceModel.get(id=provincesId);  #省份
-                data = model_to_dict(result);
+                data['province'] = model_to_dict(result);
             if universityId:
                 result = self.universityModel.get(id=universityId);
-                data += model_to_dict(result);
+                data['university'] = model_to_dict(result);
             if collegeId:
                 result = self.collegeModel.get(id=collegeId);
-                data += model_to_dict(result);
+                data['college'] = model_to_dict(result);
         except Exception as e:
             data = None;
         return data;

@@ -13,15 +13,17 @@ from django.http import HttpRequest
 from website import models
 from website.python.common.response import ResponsesSingleton
 from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
+from website.python.userBase.userBase import UserBase
+from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
 
-
-class OrganizationRequestManager(object):
+class OrganizationRequestManager(UserBase):
 
     def __init__(self):
         super(OrganizationRequestManager, self).__init__();
         self.organizationInfoManager = OrganizationInfoManager();
         self.jobsInfoManager = JobsManager();
         self.recvResumInfoManager = RecvResumeManager();
+        self.schoolInfoManager = SchoolInfoManager();
 
     #管理请求端口,分发任务
     def requestPortManager(self, request=HttpRequest()):
@@ -143,8 +145,13 @@ class OrganizationRequestManager(object):
             try:
                 results = self.organizationInfoManager.getData(account=account, password=hashPassword);
                 if results:#登录成功
+                    user = results[0];
                     data = [{ 'account' : account}];
+                    universityList = self.schoolInfoManager.getProvincesUniversityCollegeById(None, user['universityId'], None);
+                    university = universityList[0];
                     request.session['account'] = account;
+                    request.session['universityId'] = university['id'];
+                    request.session['universityName'] = university['name'];
                     return ResponsesSingleton.getInstance().responseJsonArray("success", "登录成功", data);
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray("fail", "账户或密码错误");
@@ -152,25 +159,6 @@ class OrganizationRequestManager(object):
                 return ResponsesSingleton.getInstance().responseJsonArray("fail", "账户或密码错误");
         else:
             return ResponsesSingleton.getInstance().responseJsonArray("fail", '账户或密码为空');
-
-    #检测用户是否已经登录
-    def checkIsLogin(self, request=HttpRequest()):
-        account = None;
-        try:
-            account = request.session.get('account', None);
-            if account:
-                return True, account;
-            else:
-                return False, account;
-        except:
-            return False, account;
-
-    #注销
-    def __userLogout(self, request):
-        isLogin, account = self.checkIsLogin(request);
-        if isLogin:
-            del request.session['account'];
-        return ResponsesSingleton.getInstance().responseJsonArray("success", "已退出");
 
     #读取用户基本信息
     def __getUserInfo(self, request=HttpRequest()):
