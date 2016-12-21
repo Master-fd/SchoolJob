@@ -13,12 +13,34 @@
 {% block title %}首页{% endblock %}
 
 {% block userStyle %}
-
+    <link rel="stylesheet" href="/static/css/home.css">
 {% endblock %}
 
 
 {% block content %}
 
+    <img class="backgroup" src="/static/image/home-black-bg.jpg">
+    <div id="page" class="container home" data-id="home">
+
+        <div class="search-box">
+            <div class="search-inner">
+                <form action="/search/" method="get">
+                    <input class="search-input" type="text" placeholder="搜索" name="keyword">
+                    <button class="search-btn cursor-pointer" type="submit">搜搜一下</button>
+                </form>
+            </div>
+        </div>
+
+         <svg id="js-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <a id="SvgjsA1231" xlink:href="http://talent.baidu.com/external/baidu/index.html#/social/2/大数据部" target="_self">
+                    <text id="SvgjsText1232" font-family="Microsoft YaHei" pointType="small" px="323.71562500000005" py="339.9448259703315" font-size="10">
+                        <tspan id="SvgjsTspan1233" fill="rgba(255,255,255,0.5)" x="333.71562500000005" y="344.9448259703315">大数据</tspan>
+                    </text>
+                </a>
+                <ellipse id="SvgjsEllipse1237" rx="3.5" ry="3.5" cx="323.71562500000005" cy="339.9448259703315" fill="rgba(255,255,255,0.5)" linkIndex="2" pointType="small"></ellipse>
+        </svg>
+
+    </div>
 {% endblock %}
 
 

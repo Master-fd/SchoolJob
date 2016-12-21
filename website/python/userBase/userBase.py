@@ -38,7 +38,7 @@ def userInfo(request):
     user = UserBase();
     isLogin, account = user.checkIsLogin(request);
 
-
+    isLogin, account = True, 'feidong'
     return {
         'isLogin': json.dumps(isLogin),
         'account' : json.dumps(account),

@@ -48,7 +48,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',   #cache中间件
+    # 'django.middleware.cache.UpdateCacheMiddleware',   #cache中间件
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',  #添加ajax 跨域请求 许可 中间件
     'django.middleware.common.CommonMiddleware',
@@ -58,7 +58,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',   #cache中间件
+    # 'django.middleware.cache.FetchFromCacheMiddleware',   #cache中间件
     'website.python.middleware.auth.AuthenticationMiddleware',  #进入后台，检测是否login，中间件
 )
 
