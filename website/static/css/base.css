@@ -15,8 +15,9 @@ td th{
 div {
     display: block;
 }
-
-
+label{
+    font-weight: normal;
+}
 li{
     display: list-item;
     list-style: none;
@@ -42,6 +43,16 @@ a:visited{
 a:hover{
     text-decoration: none;
     color: #ff6753;
+}
+.header a,
+.header a:link,
+.header a:visited{
+    color: #FFFFFF;
+    opacity: 0.5;
+}
+.header a:hover{
+    color: #FFFFFF;
+    opacity: 1;
 }
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;

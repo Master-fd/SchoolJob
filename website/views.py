@@ -6,6 +6,7 @@ from django.template import loader, RequestContext, Context
 from django.core.cache import cache
 
 from website.python.page.home import Home
+from website.python.page.main import Main
 
 # Create your views here.
 
@@ -28,9 +29,9 @@ def home(request):
     return pageHome.pageHome();
 
 #社团招聘页
-def main(request):
-    pageHome = Home(request);
-    return pageHome.pageHome();
+def main(request, keyword):
+    pageMain = Main(request);
+    return pageMain.pageMain(keyword);
 
 #student后台
 def studentBackPage(request, pageName='me'):

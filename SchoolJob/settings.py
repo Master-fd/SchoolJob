@@ -101,28 +101,28 @@ DATABASES = {
 }
 # import redis_cache.backends.
 #cache配置，使用redis做cache  https://github.com/sebleier/django-redis-cache
-CACHES = {
-    'default' : {
-        # 'BACKEND' : 'django.core.cache.backends.db.DatabaseCache',
-        # 'BACKEND' : 'redis_cache.RedisCache',
-        'BACKEND' : 'django.core.cache.backends.dummy.DummyCache',
-        # 'LACATION' : '119.29.151.45:6379',
-        # 'LACATION' : 'my_cache',
-        'OPTIONS' : {
-            'MAX_ENTRIES' : 1000,
-            # 'DB' : 1,
-            # 'PASSWORD' : '633922',   #没有密码，可以不用设置
-            # 'PARSER_CLASS': 'redis.connection.HiredisParser',
-            # 'CONNECTION_POOL_CLASS' : 'redis.BlockingConnectionPool',
-            # 'CONNECTION_POOL_CLASS_KWARGS' : {
-            #     'max_connections' : 50,
-            #     'timeout' : 20,
-            # }
-        }
-    }
-}
-CACHE_MIDDLEWARE_SECONDS = 0
-CACHE_MIDDLEWARE_KEY_PREFIX = DOMIN
+# CACHES = {
+#     'default' : {
+#         # 'BACKEND' : 'django.core.cache.backends.db.DatabaseCache',
+#         # 'BACKEND' : 'redis_cache.RedisCache',
+#         'BACKEND' : 'django.core.cache.backends.dummy.DummyCache',
+#         # 'LACATION' : '119.29.151.45:6379',
+#         # 'LACATION' : 'my_cache',
+#         'OPTIONS' : {
+#             'MAX_ENTRIES' : 1000,
+#             # 'DB' : 1,
+#             # 'PASSWORD' : '633922',   #没有密码，可以不用设置
+#             # 'PARSER_CLASS': 'redis.connection.HiredisParser',
+#             # 'CONNECTION_POOL_CLASS' : 'redis.BlockingConnectionPool',
+#             # 'CONNECTION_POOL_CLASS_KWARGS' : {
+#             #     'max_connections' : 50,
+#             #     'timeout' : 20,
+#             # }
+#         }
+#     }
+# }
+# CACHE_MIDDLEWARE_SECONDS = 0
+# CACHE_MIDDLEWARE_KEY_PREFIX = DOMIN
 
 
 

@@ -10,14 +10,145 @@
     <meta name="keywords" content="校园社团 社团招聘 社团">
 {% endblock %}
 
-{% block title %}首页{% endblock %}
+{% block title %}主页{% endblock %}
 
 {% block userStyle %}
-    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/main.css">
 {% endblock %}
 
 
 {% block content %}
+<div id="page" data-id="main">
+{#    大轮播banner#}
+    <div class="banner">
+        <div id="carousel-example-generic" class="full carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+              {% for foo in data.banner %}
+                  {% if forloop.first %}
+                    <li data-target="#carousel-example-generic" data-slide-to="{{ foo.id }}" class="active"></li>
+                  {% else %}
+                      <li data-target="#carousel-example-generic" data-slide-to="{{ foo.id }}"></li>
+                  {% endif %}
+              {% endfor %}
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="full carousel-inner" role="listbox">
+            {% for foo in data.banner %}
+                {% if forloop.first %}
+                    <div class="full item active">
+                      <a href="{{ foo.url }}">
+                          <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
+                      </a>
+                    </div>
+                {% else %}
+                    <div class="full item">
+                      <a href="{{ foo.url }}">
+                          <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
+                      </a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only"></span>
+          </a>
+        </div>
+    </div>
+    <div class="container">
+{#   导航选择和搜索#}
+        <section class="nav">
+            <div>
+                <ul>
+                    <li><a class="current" href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外asfdsf两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外dadas两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外fasdfas两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外fsadf两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                    <li><a href="javascript:void (0);">外两</a></li>
+                </ul>
+            </div>
+            <div class="search-warp">
+                <input id="search-input" name="search-value" class="search-input pull-left" placeholder="搜索">
+                <a href="javascript:void (0);"><span class="search-icon"></span></a>
+            </div>
+        </section>
+    {#   内容#}
+        <section class="job-wrap">
+            <h2 class="job-list-title">职位信息</h2>
+            <table cellpadding="0" cellspacing="0" border="0">
+            <colgroup>
+                <col width="310">
+                <col width="210">
+                <col width="210">
+                <col width="150">
+                <col width="170">
+            </colgroup>
+            <thead>
+                <tr class="title">
+                    <th>职位名称</th>
+                    <th>社团</th>
+                    <th>部门</th>
+                    <th>招聘人数</th>
+                    <th>更新时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for foo in data.jobsList %}
+                <tr data-id={{ foo.jobId }}>
+                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+                    <td>{{ foo.organizations }}</td>
+                    <td>{{ foo.department }}</td>
+                    <td>{{ foo.number }}</td>
+                    <td>{{ foo.updateDate }}
+                        <a class="pull-right down-arrow-icon"></a>
+                    </td>
+                </tr>
+                <tr class="job-detail">
+                    <td colspan="5">
+                        <div>
+                            <p>{{ foo.description }}</p>
+                            <div class="job-operation">
+                                <a class="apply-job" data-index="0">申请职位</a>
+                                <a class="collect-job" data-index="0">收藏职位</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </section>
+    </div>
+</div>
+
 {% endblock %}
 
 

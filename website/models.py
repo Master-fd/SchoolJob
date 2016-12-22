@@ -79,6 +79,7 @@ class OrganizationsInfo(models.Model):
     password = models.CharField(blank=False, max_length=64);
     name = models.CharField(max_length=255, default=None);
     logoUrl = models.CharField(max_length=255); #社团logo
+    bannerImageUrl = models.CharField(max_length=255);   #推广图片
     description = models.TextField();  #社团简介描述
     createDate = models.DateTimeField(auto_now_add=True);
     updateDate = models.DateTimeField(auto_now=True);

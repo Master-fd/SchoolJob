@@ -1,0 +1,121 @@
+
+
+.banner{
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+.banner .carousel-inner .item>a>img{
+    height: 200px;
+}
+
+.nav{
+    margin: 15px auto auto 15px;
+    border-bottom: 1px solid #4090ff;
+}
+.nav ul>li{
+    display: inline-block;
+    margin: 5px 2px auto 3px;
+}
+.nav ul>li a{
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid #4090ff;
+    background-color: #FFFFFF;
+}
+.nav ul>li .current{
+    background-color: #4090ff;;
+}
+.nav .search-input{
+    width: 271px;
+    padding: 0 3px 0 8px;
+    border: none;
+    font-family: Microsoft YaHei;
+    font-size: 13px;
+    line-height: 32px;
+    height: 32px;
+    color: #333;
+    outline: none;
+    margin: 0;
+}
+.nav a{
+    display: inline-block;
+    padding: 5px 8px;
+    background-color: #4090ff;
+}
+.nav .search-warp{
+    display: block;
+    width: 308px;
+    margin: 15px auto 10px auto;
+    border: 1px solid #4090ff;
+}
+.search-icon{
+    display: inline-block;
+    padding: 18px 19px 0 0;
+    background: url(/static/image/banner-icon.png) 0 -219px;
+}
+
+.job-wrap .job-list-title{
+    margin: 10px auto 10px 25px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.job-wrap table{
+    margin: auto 25px auto 25px;
+}
+.job-wrap table th{
+    font-weight: 700;
+    font-family: Microsoft YaHei;
+    background-color: #e6e7e8;
+    height: 40px;
+    line-height: 40px;
+    /*text-align: center;*/
+    color: #363636;
+}
+.job-wrap table td{
+    height: 40px;
+}
+.job-wrap table .up-arrow-icon{
+    display: inline-block;
+    margin-top: 5px;
+    margin-right: 20px;
+    padding: 10px 21px 0 0;
+    background: url(/static/image/banner-icon.png) -2px -145px;
+}
+.job-wrap table .down-arrow-icon{
+    display: inline-block;
+    margin-top: 5px;
+    margin-right: 20px;
+    padding: 10px 21px 0 0;
+    background: url(/static/image/banner-icon.png) -28px -146px;
+}
+.job-wrap .job-detail{
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+}
+.job-wrap .job-operation{
+    margin: 15px auto 15px auto;
+}
+.job-wrap .job-detail .apply-job{
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+    background-color: #ec6738;
+}
+.job-wrap .job-detail .collect-job{
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+    background-color: #4090ff;
+}
