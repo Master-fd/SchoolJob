@@ -91,25 +91,15 @@
     padding: 10px 21px 0 0;
     background: url(/static/image/banner-icon.png) -28px -146px;
 }
-.job-wrap .job-detail{
+.job-detail{
     font-size: 12px;
     font-weight: 400;
     color: #666;
 }
-.job-wrap .job-operation{
+.job-operation{
     margin: 15px auto 15px auto;
 }
-.job-wrap .job-detail .apply-job{
-    padding: 8px 16px;
-    font-size: 14px;
-    line-height: 30px;
-    color: #fff;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    transition: .3s;
-    background-color: #ec6738;
-}
-.job-wrap .job-detail .collect-job{
+.job-detail .apply-job{
     padding: 8px 16px;
     font-size: 14px;
     line-height: 30px;
@@ -119,3 +109,170 @@
     transition: .3s;
     background-color: #4090ff;
 }
+.job-detail .collect-job{
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 30px;
+    color: #fff;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    transition: .3s;
+    background-color: #4090ff;
+}
+.job-detail h3{
+    margin: 2em 0;
+    font-size: 13px;
+    font-weight: 700;
+}
+.job-detail p{
+    margin: 2em 0;
+}
+/*******职位详情*****************************************************************/
+.job-message-container{
+    margin-top: 20px;
+    padding: 1px 11px 11px 11px;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+.job-message-container .job-detail{
+    padding: 0 2.5% 0;
+}
+.job-title{
+    padding-left: 10px;
+    font-size: 16px;
+    line-height: 29px;
+    color: #333;
+    font-weight: bold;
+}
+.job-survey ul{
+    padding: 0 2.5% 0;
+    font-size: 13px;
+    list-style: none;
+    color: #666;
+}
+.job-survey ul>li{
+    display: inline-block;
+    width: 33%;
+    line-height: 29px;
+}
+.job-survey label{
+    padding-right: 15px;
+    text-align: justify;
+}
+
+
+/******后台***************************************/
+.user-page-left{
+    float: left;
+    margin: 40px 50px 0 0;
+    width: 180px;
+    padding: 30px 23px 50px;
+    background-color: #FFFFFF;
+}
+.user-page-left .title{
+    font-weight: normal;
+    padding-bottom: 13px;
+    text-align: center;
+    line-height: 21px;
+    color: #000;
+    font-size: 18px;
+    border-bottom: 1px dashed #ccc;
+}
+.user-page-left .list{
+    padding: 8px 0 0 17px;
+}
+.user-page-left .list .item{
+    list-style: square;
+    margin: 10px auto 0px auto;
+    color: #c3c3c3;
+    font-size: 14px;
+}
+.user-page-left .list .item a{
+    display: block;
+    line-height: 34px;
+}
+.user-page-left .list .current, .user-page-left .list .current a {
+    color: #4090ff;
+}
+
+.page-containter{
+    float: left;
+    margin-top: 40px;
+    width: 830px;
+    padding-bottom: 170px;
+    min-height: 715px;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+}
+.page-containter h3{
+    margin: 20px auto 20px 30px;
+    height: 50px;
+    line-height: 50px;
+}
+.page-containter .add-btn{
+    display: inline-block;
+    float: right;
+    margin-right: 50px;
+    padding: 0 13px;
+    height: 38px;
+    color: #fff;
+    border-radius: 8px;
+    background-color: #a2a2a2;
+    font-size: 16px;
+    line-height: 38px;
+    text-align: center;
+}
+.page-containter .add-btn .icon-add{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-position: -316px -218px;
+    vertical-align: middle;
+    margin-right: 7px;
+}
+.information .list .item{
+    margin: 40px auto auto auto;
+    height: 150px;
+    border-bottom: 1px solid #e3e3e3;
+}
+.information .list .item .icon-check{
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    background-color: #69c231;
+    background-position: -486px -216px;
+    background-position-x: -486px;
+    background-position-y: -216px;
+    vertical-align: middle;
+    margin: -2px 13px auto 50px;
+}
+.information .list .item .title{
+    padding-top: 35px;
+    padding-bottom: 35px;
+    vertical-align: middle;
+    height: 25px;
+    line-height: 25px;
+    font-size: 16px;
+    display: block;
+}
+.information .list .item .nike-name{
+    display: inline-block;
+    width: 600px;
+    margin: 20px auto auto 85px;
+}
+.information .list .item .modify{
+    display: inline-block;
+    margin: 20px auto auto 100px;
+}
+.information .list .item.item-image{
+    margin: 40px auto auto auto;
+    height: auto;
+    border-bottom: 1px solid #e3e3e3;
+}
+.information .list .item img{
+    width: 600px;
+    height: 150px;
+}
+

@@ -1,0 +1,54 @@
+
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content="校园社团招聘">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="校园社团 社团招聘 社团">
+{% endblock %}
+
+{% block title %}应聘记录{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="page" class="container" data-id="applicant">
+    {% include 'backgroup/student/navbar.html' %}
+    <div class="page-containter">
+        <h3>我的应聘记录</h3>
+        <section class="job-wrap">
+            <table cellpadding="0" cellspacing="0" border="0">
+            <colgroup>
+                <col width="300">
+                <col width="180">
+                <col width="180">
+                <col width="120">
+            </colgroup>
+            <thead>
+                <tr class="title">
+                    <th>职位名称</th>
+                    <th>社团</th>
+                    <th>部门</th>
+                    <th>状态</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for foo in data.jobsList %}
+                <tr data-id={{ foo.jobId }}>
+                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+                    <td>{{ foo.organizations }}</td>
+                    <td>{{ foo.department }}</td>
+                    <td>{{ foo.status }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </section>
+    </div>
+</div>
+{% endblock %}

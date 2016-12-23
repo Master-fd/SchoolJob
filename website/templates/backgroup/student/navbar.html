@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<body>
+
+    <div class="user-page-left">
+        <h2 class="title">个人中心</h2>
+        <ul class="list">
+            <li class="item current"><a data-id='record' href="javascript:void(0);">应聘记录</a></li>
+            <li class="item "><a data-id='collect' href="javascript:void(0);">我的收藏</a></li>
+            <li class="item "><a data-id='resume' href="javascript:void(0);">我的简历</a></li>
+            <li class="item "><a data-id='userInfo' href="javascript:void(0);">我的资料</a></li>
+            {% if data.superUser %}
+                <li class="item "><a data-id='allOrder' href="javascript:void(0);">所有职位</a></li>
+                <li class="item "><a data-id='allresume' href="javascript:void(0);">所有简历</a></li>
+                <li class="item "><a data-id='uploader' href="javascript:void(0);">商品上传</a></li>
+                <li class="item "><a data-id='userInfo' href="javascript:void(0);">我的资料</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>

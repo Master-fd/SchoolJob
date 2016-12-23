@@ -1,0 +1,57 @@
+
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content="校园社团招聘">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="校园社团 社团招聘 社团">
+{% endblock %}
+
+{% block title %}我的收藏{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="page" class="container" data-id="collect">
+    {% include 'backgroup/student/navbar.html' %}
+    <div class="page-containter">
+        <h3>我的收藏</h3>
+        <section class="job-wrap">
+            <table cellpadding="0" cellspacing="0" border="0">
+            <colgroup>
+                <col width="250">
+                <col width="155">
+                <col width="155">
+                <col width="120">
+                <col width="100">
+            </colgroup>
+            <thead>
+                <tr class="title">
+                    <th>职位名称</th>
+                    <th>社团</th>
+                    <th>部门</th>
+                    <th>招聘人数</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for foo in data.jobsList %}
+                <tr data-id={{ foo.jobId }}>
+                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+                    <td>{{ foo.organizations }}</td>
+                    <td>{{ foo.department }}</td>
+                    <td>{{ foo.number }}</td>
+                    <td><a href="javascript:void (0);"></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </section>
+    </div>
+</div>
+{% endblock %}

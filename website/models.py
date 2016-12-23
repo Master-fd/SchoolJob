@@ -22,6 +22,7 @@ class College(models.Model):
 class StudentInfo(models.Model):
     account = models.CharField(unique=True, blank=False, max_length=64);
     password = models.CharField(blank=False, max_length=64);
+    name = models.CharField(max_length=255, default=None);
     iconUrl = models.CharField(max_length=256);
     email = models.EmailField();
     createDate = models.DateTimeField(auto_now_add=True);
@@ -68,7 +69,7 @@ class Applicant(models.Model):
     name = models.CharField(max_length=64);   #职位名称
     organizations = models.CharField(max_length=255);
     department = models.CharField(max_length=64);
-    description = models.TextField();  #职位描述
+    applicant = models.TextField();  #职位描述
     status = models.CharField(max_length=10);
     studentInfoId = models.ForeignKey('StudentInfo');
 

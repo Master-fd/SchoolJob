@@ -31,6 +31,11 @@ body{
     background: #fff;
     background-color: #ededed;
 }
+* {
+     -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
 a{
     text-decoration: none;
     cursor: pointer;
@@ -42,7 +47,7 @@ a:visited{
 }
 a:hover{
     text-decoration: none;
-    color: #ff6753;
+    color: #4090ff;
 }
 .header a,
 .header a:link,
@@ -87,7 +92,10 @@ table .gap-line{
     width: 100%;
     height: 100%;
 }
-
+.icon{
+    display: inline-block;
+    background: url(../image/sbolo-icon.png);
+}
 .row10{
     width: 10%;
 }
@@ -222,7 +230,7 @@ table .gap-line{
 }
 .address-modal .modal-main .modal-footer{
     vertical-align: middle;
-    margin-top: 50px;
+    margin-top: 15px;
 }
 .address-modal .modal-main .close-btn{
     position: absolute;
@@ -240,6 +248,18 @@ table .gap-line{
     display: inline-block;
     width: 18px;
     height: 18px;
+}
+.modal-content{
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0px solid #999;
+    border: 0px solid rgba(0,0,0,.2);
+    border-radius: 0px;
+    outline: 0;
+    -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.5);
+    box-shadow: 0 0px 0px rgba(0,0,0,.5);
 }
 .address-modal .modal-main .modal-content{
     margin: 20px auto 20px auto;
@@ -260,16 +280,20 @@ table .gap-line{
 .address-modal .modal-main .modal-content .input-small{
     width: 250px;
 }
+.address-modal .modal-main .modal-content .input-detain{
+    width: 510px;
+    height: 80px;
+}
 .address-modal .modal-main .modal-content select{
     display: block;
     float: left;
-    width: 160px;
+    width: 130px;
     border: 1px solid #c2c3c6;
     border-radius: 4px;
     font-size: 14px;
     margin: 20px -40px auto 80px;
-    height: 40px;
-    line-height: 40px;
+    height: 30px;
+    line-height: 30px;
     padding: 5px 15px 5px 15px;
 }
 .address-modal .modal-main .modal-content .check{
@@ -294,15 +318,17 @@ table .gap-line{
 }
 .address-modal .modal-main .modal-footer .cancel-btn{
     background-color: #cccccc;
+    float: left;
     color: #363636;
     margin-top: 10px;
-    margin-left: 67px;
+    margin-left: 50px;
 }
 .address-modal .modal-main .modal-footer .submit-btn{
     background-color: #e72715;
     color: #FFFFFF;
+    float: right;
     margin-top: 10px;
-    margin-left: 320px;
+    margin-right: 50px;
 }
 
 .address-modal .modal-main .modal-content .space{

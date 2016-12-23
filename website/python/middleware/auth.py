@@ -22,6 +22,7 @@ class AuthenticationMiddleware(object):
         return None
 
     def process_view(self, request, view, args, kwargs):
+        return None;
         feature = request.path.split('/');
         try:
             if feature[1] == 'backgroup':

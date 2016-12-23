@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<body>
+    {% if data.popAddJobModal %}
+        <div id="pop" class="address-modal" style="display: block">
+    {% else %}
+        <div id="pop" class="address-modal" style="display: block">
+    {% endif %}
+        <div class="modal-mask js-modal-close"></div>
+            <div class="modal-main">
+                <div class="modal-header">
+                    添加职位
+                    <a class="close-btn js-modal-close" href="javascript:void(0);">
+                        <i class="passport-icon close-icon"></i>
+                    </a>
+                </div>
+                <div class="modal-content">
+                    <input name="name" class=" input input-small" type="text" placeholder="请输入职位名称">
+                    <input name="department" class="input input-small" type="text" placeholder="请输入部门">
+                    <input name="number" class="input input-small" type="text" placeholder="请输入招聘人数">
+                    <textarea name="description" class="input input-detain" placeholder="请输入职位描述"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <a class="cancel-btn" href="javascript:void(0);">返回</a>
+                    <a class="submit-btn" href="javascript:void(0);">确定</a>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

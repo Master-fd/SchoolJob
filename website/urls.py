@@ -13,8 +13,9 @@ urlpatterns = [
 
     url('^search/$', views.search),   #搜索
     url('^main/(?P<keyword>\w+)/$', views.main),    #社团招聘页
-    url('^backgroup/(?P<pageName>\w+)/$', views.studentBackPage),  #后台
-
+    url('^jobInfo/(?P<jobId>)\d+/$', views.jobInfo),   #job详情
+    url('^backgroup/student/(?P<pageName>\w+)/$', views.studentBackPage),  #user后台
+    url('^backgroup/organization/(?P<pageName>\w+)/$', views.organizationBackPage),  #organization后台
 ]
 
 

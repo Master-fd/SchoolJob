@@ -89,3 +89,11 @@ class Main(object):
                       },
         }
         return render_to_response('main/main.html', context_instance=RequestContext(self.request, data));
+
+    #返回职位详情
+    def pageInfo(self, jobId):
+        data = self.jobInfoManager.getData(jobId=jobId);
+        if data:
+            data = data[0];
+
+        return render_to_response('main/jobInfo.html', context_instance=RequestContext(self.request, data));

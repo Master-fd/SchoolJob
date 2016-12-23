@@ -1,0 +1,58 @@
+
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content="校园社团招聘">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="校园社团 社团招聘 社团">
+{% endblock %}
+
+{% block title %}我的资料{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="page" class="container" data-id="applicant">
+    {% include 'backgroup/organization/navbar.html' %}
+    <div class="page-containter">
+            <section class="title">
+                <h3>我的资料</h3>
+            </section>
+
+            <section class="information">
+                <ul class="list">
+                    <li class="item">
+                        <h4 class="title"><i class="icon icon-check"></i>社团名</h4>
+                        <span class="nike-name">社联</span>
+                        <a href="javascript:void(0);" class="modify" data-id="nickname">修改</a>
+                        <div class="gap-line"></div>
+                    </li>
+                    <li class="item">
+                        <h4 class="title"><i class="icon icon-check"></i>描述</h4>
+                        <span class="nike-name">描述faso大会速度还是大搜我会记得哈搜的的睡觉奥ID赛季的哦啊的撒加厚大赛打扫ID萨达后ID撒谎都按时到</span>
+                        <a href="javascript:void(0);" class="modify" data-id="email">修改</a>
+                    </li>
+                    <li class="item">
+                        <h4 class="title"><i class="icon icon-check"></i>登录密码</h4>
+                        <span class="nike-name">互联网账号存在被盗风险，建议您定期 更改密码以保护账户安全。</span>
+                        <a href="javascript:void(0);" class="modify" data-id="password">修改</a>
+                    </li>
+                    <li class="item item-image">
+                        <h4 class="title"><i class="icon icon-check"></i>推广图片</h4>
+                        <span class="nike-name">
+                            <img class="full" src="/static/image/banner1.jpg">
+                        </span>
+                        <a href="javascript:void(0);" class="modify" data-id="email">修改</a>
+                    </li>
+                </ul>
+            </section>
+
+
+        </div>
+</div>
+{% endblock %}

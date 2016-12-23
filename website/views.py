@@ -33,20 +33,43 @@ def main(request, keyword):
     pageMain = Main(request);
     return pageMain.pageMain(keyword);
 
+#job详情
+def jobInfo(request, jobId):
+    pageMain = Main(request);
+    return pageMain.pageInfo(jobId);
 #student后台
 def studentBackPage(request, pageName='me'):
     #获取数据
-    pass
-    # if pageName=='me':
-    #
-    # elif pageName == 'collect':
-    #
-    # elif pageName == 'applicant':
-    #
-    # elif pageName == 'resume':
-
+    if pageName=='me':
+        data = {
+        };
+        page = 'backgroup/student/aboutMe.html';
+    elif pageName == 'collect':
+        data = {
+        };
+        page = 'backgroup/student/collect.html';
+    elif pageName == 'applicant':
+        data = {
+        };
+        page = 'backgroup/student/applicant.html';
+    elif pageName == 'resume':
+        pass
     #渲染返回
-    # return ResponsesSingleton.getInstance().returnDrawPage()
+    return render_to_response(page, context_instance=RequestContext(request, data))
 
 
 #organization后台
+def organizationBackPage(request, pageName='me'):
+    #获取数据
+    if pageName=='me':
+        data = {
+        };
+        page = 'backgroup/organization/aboutMe.html';
+    elif pageName == 'jobs':
+        data = {
+        };
+        page = 'backgroup/organization/jobs.html';
+    elif pageName == 'resume':
+        pass
+    #渲染返回
+    return render_to_response(page, context_instance=RequestContext(request, data))
