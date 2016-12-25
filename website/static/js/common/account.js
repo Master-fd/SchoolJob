@@ -10,24 +10,21 @@ define(function(require, exports){
 
 //    判断是否登录, 设置isLogin, 未登录则弹窗
     exports.isLoginFun = function(successUrl, func){
-        var params = {operation : 'isLogin'};  //获取用户详细信息
-        $.getJSON(url, params, function(json_data){
-            if (json_data.status == 'success'){
-                //已登录
-                isLogin = true;
-                if (successUrl)
-                    window.location.href = successUrl;
+        //已登录
+        if (isLogin){
+            if (successUrl){
+                window.location.href = successUrl;
                 if (func)
                     func();
-            }else{
+            }
+        }else{
                 isLogin = false;
-            //    弹窗
+                //    弹窗
                 pop.popType('login');
             }
-        });
-    }
+    };
     //登录
-    exports.loginOrRegister = function(account, password, operation){
+    exports.login = function(account, password, operation){
         var params = {
             operation : operation,
             account : account,
@@ -38,13 +35,32 @@ define(function(require, exports){
         $.post(url, params, function(json_data){
             if (json_data.status == 'success'){
                 isLogin = true;
-                $body.find('.js-logout').css('display' , 'block');
+                $body.find('.js-logout').css('display' , 'inline-block');
+                $body.find('.js-login .js-loginName').text('个人中心');
+                //设置显示选定的学校
+                var university = json_data.data[1];
+                $('.js-change-addr').text(university.name+' | 切换');
+            }else{
+                pop.popType('error', json_data.message);
+            }
+        }, 'json');
+    };
+    //注册
+    exports.register = function(data){
+        var params = data;
+        pop.popClose();
+
+        $.post(url, params, function(json_data){
+            if (json_data.status == 'success'){
+                isLogin = true;
+                pop.popType('success', '注册成功');
+                $body.find('.js-logout').css('display' , 'inline-block');
                 $body.find('.js-login .js-loginName').text('个人中心');
             }else{
                 pop.popType('error', json_data.message);
             }
         }, 'json');
-    }
+    };
     //退出
     exports.logout = function(){
         var params = {operation : 'logout'};
@@ -56,13 +72,13 @@ define(function(require, exports){
                 window.location.href = resourceUrl+'home/';
             }
         }, 'json');
-    }
+    };
 
-//修改用户信息
+//修改用户基本信息
     exports.modifyUserInfo = function (key, value) {
 
         var params = {
-                operation : 'modify',
+                operation : 'modifyInfo',
             };
         if (key=='nickname')
             params['nickname'] = value;
@@ -75,5 +91,8 @@ define(function(require, exports){
             if (json_data.status == 'success'){
             }
         }, 'json');
-    }
+    };
+
+
+
 });

@@ -2,9 +2,9 @@
 <html lang="zh-Hans">
 <body>
     {% if data.popAddressModal %}
-        <div id="pop" class="address-modal" style="display: block">
+        <div id="pop-addr-option" class="address-modal js-addr-option" style="display: block">
     {% else %}
-        <div id="pop" class="address-modal" style="display: none">
+        <div id="pop-addr-option" class="address-modal js-addr-option" style="display: none">
     {% endif %}
         <div class="modal-mask js-modal-close"></div>
             <div class="modal-main">
@@ -15,19 +15,19 @@
                     </a>
                 </div>
                 <div class="modal-content">
-                    <select class="province" id="province">
+                    <select class="province" id="js-province">
                         <option>省份</option>
                     </select>
-                    <select class="university" id="university">
+                    <select class="university" id="js-university">
                         <option>大学</option>
                     </select>
-                    <select class="college" id="college">
+                    <select class="college" id="js-college">
                         <option>学院</option>
                     </select>
                     <div class="space"></div>
                 </div>
                 <div class="modal-footer">
-                    <a class="cancel-btn" href="javascript:void(0);">返回</a>
+                    <a class="cancel-btn" href="javascript:void(0);">取消</a>
                     <a class="submit-btn" href="javascript:void(0);">确定</a>
                 </div>
             </div>

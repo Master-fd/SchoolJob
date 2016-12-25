@@ -17,7 +17,7 @@
 
 
 {% block content %}
-<div id="page" class="container" data-id="applicant">
+<div id="page" class="container" data-id="me">
     {% include 'backgroup/student/navbar.html' %}
     <div class="page-containter">
             <section class="title">
@@ -28,13 +28,13 @@
                 <ul class="list">
                     <li class="item">
                         <h4 class="title"><i class="icon icon-check"></i>账户昵称</h4>
-                        <span class="nike-name">和平清风</span>
+                        <span class="nike-name">{{ data.name }}</span>
                         <a href="javascript:void(0);" class="modify" data-id="nickname">修改</a>
                         <div class="gap-line"></div>
                     </li>
                     <li class="item">
                         <h4 class="title"><i class="icon icon-check"></i>E-mail</h4>
-                        <span class="nike-name">1003768663@qq.com</span>
+                        <span class="nike-name">{{ data.email }}</span>
                         <a href="javascript:void(0);" class="modify" data-id="email">修改</a>
                     </li>
                     <li class="item">

@@ -12,6 +12,14 @@ define(function(require){
     switch (_page){
 
         case 'home' : seajs.use('static/js/home/home.js'); break;   //¼ÓÔØHome
+
+        case 'me': seajs.use('static/js/backgroup/backgroup.js');
+                    seajs.use('static/js/backgroup/me.js'); break;   //backgroup
+        case 'resume':seajs.use('static/js/backgroup/resume.js');
+                        seajs.use('static/js/backgroup/backgroup.js'); break;
+        case 'applicant':
+        case 'collect':seajs.use('static/js/backgroup/backgroup.js'); break;
+
     }
 
     seajs.use('static/js/plugin/bootstrap-3.3.0/dist/js/bootstrap.min.js');

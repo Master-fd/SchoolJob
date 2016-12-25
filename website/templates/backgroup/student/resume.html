@@ -1,0 +1,111 @@
+
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content="校园社团招聘">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="校园社团 社团招聘 社团">
+{% endblock %}
+
+{% block title %}我的简历{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="page" class="container" data-id="resume">
+    {% include 'backgroup/student/navbar.html' %}
+    <div class="page-containter">
+        <h3>我的简历</h3>
+        <section class="resume-warp">
+            <h4> <span class="color-orange">*</span>个人基本信息</h4>
+            <div class="record-row">
+                <div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+                </div>
+                <div class="record-input">
+                    <input class="input" type="text" name="name" value="{{ data.name }}">
+                </div>
+            </div>
+            <div class="record-row">
+                <div></div><div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</span>
+                </div>
+                <div class="record-input">
+                    {% if data.sex == 'male' %}
+                        <label class="record-radio cursor-pointer"><input class="cursor-pointer" type="radio" name="sex" value="male" checked="checked">男</label>
+                        <label class="record-radio cursor-pointer"><input class="cursor-pointer" type="radio" name="sex" value="female">女</label>
+                    {% else %}
+                        <label class="record-radio cursor-pointer"><input class="cursor-pointer" type="radio" name="sex" value="male">男</label>
+                        <label class="record-radio cursor-pointer"><input class="cursor-pointer" type="radio" name="sex" value="female" checked="checked">女</label>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="record-row">
+                <div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">院&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系：</span>
+                </div>
+                <div class="record-input">
+                    <input class="input" type="text" name="college" value="{{ data.college }}">
+                </div>
+            </div>
+            <div class="record-row">
+                <div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</span>
+                </div>
+                <div class="record-input">
+                    <input class="input" type="text" name="email" value="{{ data.email }}">
+                </div>
+            </div>
+            <div class="record-row">
+                <div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</span>
+                </div>
+                <div class="record-input">
+                    <input class="input" type="text" name="phoneNumber" value="{{ data.phoneNumber }}">
+                </div>
+            </div>
+            <h4> <span class="color-orange">*</span>实践经历与奖励</h4>
+            <div class="record-row textarea">
+                <div class="record-title">
+                    <span class="color-orange">*</span>
+                    <span class="title">特&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长：</span>
+                </div>
+                <div class="record-input">
+                    <textarea name="strong">{{ data.strong }}</textarea>
+                </div>
+            </div>
+            <div class="record-row textarea">
+                <div class="record-title">
+                    <span class="color-orange"></span>
+                    <span class="title">经&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;验：</span>
+                </div>
+                <div class="record-input">
+                    <textarea name="experience">{{ data.experience }}</textarea>
+                </div>
+            </div>
+            <div class="record-row textarea">
+                <div class="record-title">
+                    <span class="color-orange"></span>
+                    <span class="title">其&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他：</span>
+                </div>
+                <div class="record-input">
+                    <textarea name="others">{{ data.others }}</textarea>
+                </div>
+            </div>
+            <div class="record-row align-center">
+                <a class="submit-resume-btn" id="save-resume">保存简历</a>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

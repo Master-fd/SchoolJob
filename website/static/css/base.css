@@ -96,6 +96,13 @@ table .gap-line{
     display: inline-block;
     background: url(../image/sbolo-icon.png);
 }
+.color-orange{
+    color: #ec6738;
+}
+.align-center{
+    text-align: center;
+}
+
 .row10{
     width: 10%;
 }
@@ -280,6 +287,9 @@ table .gap-line{
 .address-modal .modal-main .modal-content .input-small{
     width: 250px;
 }
+.address-modal .modal-main .modal-content .input-big{
+    width: 350px;
+}
 .address-modal .modal-main .modal-content .input-detain{
     width: 510px;
     height: 80px;
@@ -315,6 +325,7 @@ table .gap-line{
     text-align: center;
     border-radius: 4px;
     font-size: 16px;
+    opacity: 1;
 }
 .address-modal .modal-main .modal-footer .cancel-btn{
     background-color: #cccccc;
@@ -322,19 +333,21 @@ table .gap-line{
     color: #363636;
     margin-top: 10px;
     margin-left: 50px;
+    opacity: 1;
 }
 .address-modal .modal-main .modal-footer .submit-btn{
-    background-color: #e72715;
+    background-color: #4090ff;
     color: #FFFFFF;
     float: right;
     margin-top: 10px;
     margin-right: 50px;
+    opacity: 1;
 }
 
 .address-modal .modal-main .modal-content .space{
     height: 60px;
 }
-/*´íÎóÌáÊ¾*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾*/
 .address-modal .modal-main .modal-content .error{
     border: 1px solid red;
 }
@@ -415,7 +428,8 @@ table .gap-line{
     height: 40px;
     line-height: 40px;
     text-align: center;
-    background-color: #e72715;
+    background-color: rgba(64, 144, 255, 1);
+    opacity: 1;
     color: #fff;
     border-radius: 4px;
     font-size: 16px;
@@ -433,13 +447,15 @@ table .gap-line{
     background-color: #18223d;
     z-index: 1003;
     border-bottom: 8px solid #18223d;
+    line-height: 80px;
 }
 .header .item{
     vertical-align: middle;
     display: inline-block;
 }
 .header .item.right{
-    margin-left: 250px;
+    margin-right: 50px;
+    float: right;
 }
 .header .item .logo{
     margin-left: 15px;
@@ -508,7 +524,10 @@ table .gap-line{
     margin-left: 20px;
     background-position: -382px -22px;
 }
-
+.passport-icon{
+    display:inline-block;
+    background: url(/static/image/passport-icon.png);
+}
 /*footer*/
 .footer{
 

@@ -2,9 +2,9 @@
 <html lang="zh-Hans">
 <body>
     {% if data.popRegisterModal %}
-        <div id="pop" class="address-modal" style="display: block">
+        <div id="pop-register" class="address-modal js-register" style="display: block">
     {% else %}
-        <div id="pop" class="address-modal" style="display: none">
+        <div id="pop-register" class="address-modal js-register" style="display: none">
     {% endif %}
         <div class="modal-mask js-modal-close"></div>
             <div class="modal-main">
@@ -15,21 +15,21 @@
                     </a>
                 </div>
                 <div class="modal-content">
-                    <input name="account" class=" input input-small" type="text" placeholder="请输入6-15位账户">
-                    <input name="password" class="input input-small" type="text" placeholder="请输入6-15位密码">
-                    <input name="name" class="input input-small" type="text" placeholder="学生名/组织名">
-                    <select class="province" id="province">
-                        <option>省份</option>
+                    <input name="account" class=" input input-big" type="text" placeholder="请输入6-15位账户/学生以数字开头/组织以字母开头">
+                    <input name="password" class="input input-big" type="password" placeholder="请输入6-15位密码">
+                    <input name="name" class="input input-big" type="text" placeholder="学生名/组织名">
+                    <select class="province" id="js-province">
+{#                        <option value="-1">省份</option>#}
                     </select>
-                    <select class="university" id="university">
-                        <option>大学</option>
+                    <select class="university" id="js-university">
+{#                        <option value="-1">大学</option>#}
                     </select>
-                    <select class="college" id="college">
-                        <option>学院</option>
+                    <select class="college" id="js-college">
+{#                        <option value="-1">院系</option>#}
                     </select>
                     <div class="check">
-                        <label><input name="type" class="checkredio" type="radio" value="student" checked="checked">学生</label>
-                        <label><input name="type" class="checkredio" type="radio" value="organization">组织</label>
+                        <label><input name="js-type" class="checkredio" type="radio" value="student" checked="checked">学生</label>
+                        <label><input name="js-type" class="checkredio" type="radio" value="organization">组织</label>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -5,11 +5,11 @@
     <div class="container">
         <label class="item"><a class="full logo" href="/home/" style="opacity: 1"></a></label>
         <label class="item">
-            <a href="/home/" class="js-home home">北京大学 | 切换</a>
+            <a href="javascript:void(0);" class="js-change-addr home">{{ university }} | 切换</a>
         </label>
         <label class="item">
             <a href="/home/" class="js-home home">首页</a>
-            <a href="/main/" class="js-goods goods ">社团招聘</a>
+            <a href="/main/undefine" class="js-goods goods ">社团招聘</a>
         </label>
         <label class="item right">
             <a href="javascript:void(0);" class="user js-login" data-id="">
@@ -20,18 +20,17 @@
                     <span class="js-loginName">个人中心</span>
                 {% endif %}
             </a>
-        </label>
-        <label class="item">
             {% if isLogin == 'false' %}
-                <a href="javascript:void(0);" class="logout js-logout" style="display: none">
-                    <span>退出</span>
-                </a>
-            {% else %}
-                <a href="javascript:void(0);" class="logout js-logout" style="display: block">
-                    <span>退出</span>
-                </a>
-            {% endif %}
+                    <a href="javascript:void(0);" class="logout js-logout" style="display: none">
+                        <span>退出</span>
+                    </a>
+                {% else %}
+                    <a href="javascript:void(0);" class="logout js-logout" style="display: inline-block">
+                        <span>退出</span>
+                    </a>
+                {% endif %}
         </label>
+
     </div>
 </div>
 </body>

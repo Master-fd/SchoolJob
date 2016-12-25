@@ -9,6 +9,7 @@ from SchoolJob import settings
 from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
 from website.python.studentInfo.userDatabase import StudentInfoManager
 from website.python.organizationInfo.organizationDatabase import OrganizationInfoManager
+import re
 
 '''
 用户基本请求
@@ -19,7 +20,9 @@ class UserBase(object):
     def __init__(self, request=HttpRequest()):
         super(UserBase, self).__init__();
         self.request = request;
-
+        self.organization = OrganizationInfoManager();
+        self.student = StudentInfoManager();
+        assert self.request, 'self.request=None, Must Not None';
 
     #检测用户是否已经登录
     def checkIsLogin(self):
@@ -33,8 +36,19 @@ class UserBase(object):
         except:
             return False, account;
 
+    #检查当前login的用户是否是organization
+    def checkUserIsOrganization(self, account):
+        if not account:
+            isLogin, account = self.checkIsLogin();
+        match = re.match('\d+', account);  #不是数字开头就是组织
+        if not match:
+            return True;
+        else:
+            return False;
+
+
     #注销
-    def __userLogout(self):
+    def userLogout(self):
         isLogin, account = self.checkIsLogin();
         if isLogin:
             del self.request.session['account'];
@@ -44,19 +58,15 @@ class UserBase(object):
     def getAllOrganization(self):
         uid = self.request.session.get('universityId', None);  #获取学校id
         #获取所有organization
-        organization = OrganizationInfoManager();
-        organizationList = organization.getData(collegeId=uid);
+        organizationList = self.organization.getData(collegeId=uid);
         return organizationList;
 
 
 #页面渲染固定参数
 def userInfo(request=HttpRequest()):
-    user = UserBase()
+    user = UserBase(request)
     school = SchoolInfoManager();
     isLogin, account = user.checkIsLogin();
-
-    isLogin, account = True, 'feidong';
-
     return {
         'isLogin': json.dumps(isLogin),
         'account' : json.dumps(account),

@@ -28,8 +28,7 @@ class OrganizationInfoManager(object):
             results = self.modelObjects.create(**kwargs);
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;

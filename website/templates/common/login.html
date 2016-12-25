@@ -3,9 +3,9 @@
 
 <body>
     {% if data.popLoginModal %}
-    <div id="pop" class="login-modal" style="display: block">
+    <div id="pop-login" class="login-modal" style="display: block">
     {% else %}
-    <div id="pop" class="login-modal" style="display: none">
+    <div id="pop-login" class="login-modal" style="display: none">
     {% endif %}
         <div class="modal-mask js-modal-close"></div>
         <div class="modal-main">
@@ -20,7 +20,7 @@
                 <input class="input" name="password" type="password" placeholder="请输入6-15位密码">
 
                 <a class="submit-btn" data-id="login" href="javascript:void(0);">登录</a>
-                <a class="submit-btn" data-id="register" href="javascript:void(0);">注册</a>
+                <a class="submit-btn" data-id="register" href="javascript:void(0);">马上注册</a>
             </div>
 
         </div>

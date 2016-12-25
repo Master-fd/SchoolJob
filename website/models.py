@@ -8,14 +8,14 @@ from django.db import models
 #大学,都是一对多关系
 #省份
 class Provinces(models.Model):
-    name = models.CharField(max_length=11, default=None);
+    name = models.CharField(max_length=64, default=None);
 #大学，需要关联一个省份
 class University(models.Model):
-    name = models.CharField(max_length=255, default=None),
+    name = models.CharField(max_length=64, default=None);
     pid = models.CharField(max_length=11);
 #学院
 class College(models.Model):
-    name = models.CharField(max_length=255, default=None),
+    name = models.CharField(max_length=64, default=None);
     uid = models.CharField(max_length=11);
 
 #用户表
@@ -54,7 +54,7 @@ class Resume(models.Model):
 #学生收藏表
 class Collect(models.Model):
     collectId = models.CharField(max_length=64, unique=True);
-    jobId = models.CharField(max_length=64, unique=True);
+    jobId = models.CharField(max_length=64);
     name = models.CharField(max_length=64);   #职位名称
     organizations = models.CharField(max_length=255);
     department = models.CharField(max_length=64);
@@ -65,7 +65,7 @@ class Collect(models.Model):
 #学生应聘表
 class Applicant(models.Model):
     applicantId = models.CharField(max_length=64, unique=True);
-    jobId = models.CharField(max_length=64, unique=True);
+    jobId = models.CharField(max_length=64);
     name = models.CharField(max_length=64);   #职位名称
     organizations = models.CharField(max_length=255);
     department = models.CharField(max_length=64);
@@ -101,7 +101,9 @@ class Jobs(models.Model):
 
 #社团收到的简历
 class ReceResume(models.Model):
-    receResumeId = models.CharField(max_length=64, unique=True)
+    receResumeId = models.CharField(max_length=64, unique=True);
+    department = models.CharField(max_length=255);
+    jobId = models.CharField(max_length=64);
     resumeId = models.CharField(max_length=64);
     name = models.CharField(max_length=64);
     sex = models.CharField(max_length=64);

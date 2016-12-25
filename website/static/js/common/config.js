@@ -10,7 +10,8 @@
         alias : {
             'jquery' : 'static/js/plugin/jquery-2.1.4/jquery.js',
             'pop' : 'static/js/common/popmodal.js',
-            'account' : 'static/js/common/account.js'
+            'account' : 'static/js/common/account.js',
+            'school' : 'static/js/common/school.js'
         }
     });
 

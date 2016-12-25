@@ -18,53 +18,54 @@ from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
 
 class OrganizationRequestManager(UserBase):
 
-    def __init__(self):
-        super(OrganizationRequestManager, self).__init__();
+    def __init__(self, request=HttpRequest()):
+        super(OrganizationRequestManager, self).__init__(request);
         self.organizationInfoManager = OrganizationInfoManager();
         self.jobsInfoManager = JobsManager();
         self.recvResumInfoManager = RecvResumeManager();
         self.schoolInfoManager = SchoolInfoManager();
+        self.request = request;
 
     #管理请求端口,分发任务
-    def requestPortManager(self, request=HttpRequest()):
-        isLogin, account = self.checkIsLogin(request);   #检查是否login， 获取账号
-        if request.method == 'POST':
-            operation = request.POST.get('operation', None);
+    def requestPortManager(self):
+        isLogin, account = self.checkIsLogin();   #检查是否login， 获取账号
+        if self.request.method == 'POST':
+            operation = self.request.POST.get('operation', None);
             if operation == 'register':   #注册
-                return self.__userRegister(request);
+                return self.__userRegister();
             elif operation == 'login':   # 登录
-                return self.__userLogin(request);
+                return self.__userLogin();
             elif operation == 'logout':  #注销
-                return self.__userLogout(request);
+                return self.userLogout();
             elif operation == 'modifyInfo':  #修改基本信息
-                return self.__userModify(request);
+                return self.__userModify();
             elif operation == 'addResume':   #add 简历
-                return self.__addRecvResume(account,request);
+                return self.__addRecvResume(account,);
             elif operation == 'modifyResume':   #修改简历
-                return self.__modifyRecvResume(account, request);
+                return self.__modifyRecvResume(account);
             elif operation == 'deleteResume': #删除简历
-                return self.__deleteRecvResume(account, request);
+                return self.__deleteRecvResume(account);
             elif operation == 'addJob':    #增加工作
-                return self.__addjob(account, request);
+                return self.__addjob(account);
             elif operation == 'modifyJob':   #修改工作
-                return self.__modifyJob(account, request);
+                return self.__modifyJob(account);
             elif operation == 'deleteJob': #删除工作
-                return self.__deleteJob(account, request);
+                return self.__deleteJob(account);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
-        elif request.method == 'GET':
-            operation = request.GET.get('operation', None);
+        elif self.request.method == 'GET':
+            operation = self.request.GET.get('operation', None);
             if operation == 'getUserInfo':   #获取用户资料
-                return self.__getUserInfo(request);
+                return self.__getUserInfo();
             elif operation == 'isLogin':   #检查是否login
                 if isLogin:
                     return ResponsesSingleton.getInstance().responseJsonArray('success', '已登录', [{'isLogin': True,'account': account}]);
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray('fail', '未登录');
             elif operation == 'getResume':   #获取简历
-                return self.__getRecvResume(account, request);
+                return self.__getRecvResume(account);
             elif operation == 'getJob':   #获取工作
-                return self.__getJob(account, request);
+                return self.__getJob(account);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
         else:
@@ -94,14 +95,14 @@ class OrganizationRequestManager(UserBase):
         return result;
 
     #用户注册
-    def __userRegister(self, request=HttpRequest()):
+    def __userRegister(self):
         #输入合法性检验
-        account = request.POST.get('account', None);
-        password = request.POST.get('password', None);
-        name = request.POST.get('name', None);
-        collegeId = request.POST.get('collegeId', None);
-        universityId = request.POST.get('universityId', None);
-        provincesId = request.POST.get('provincesId', None);
+        account = self.request.POST.get('account', None);
+        password = self.request.POST.get('password', None);
+        name = self.request.POST.get('name', None);
+        collegeId = self.request.POST.get('collegeId', None);
+        universityId = self.request.POST.get('universityId', None);
+        provincesId = self.request.POST.get('provinceId', None);
 
         checkResult = self.__inputDataCheck(account, password, name, provincesId, universityId, collegeId);
         if checkResult == True:
@@ -116,7 +117,7 @@ class OrganizationRequestManager(UserBase):
                 #插入数据库
                 data = {
                     'account' : account,
-                    'password' : password,
+                    'password' : hashPassword,
                     'name' : name,
                     'provincesId' : provincesId,
                     'universityId' : universityId,
@@ -125,7 +126,7 @@ class OrganizationRequestManager(UserBase):
                 result = self.organizationInfoManager.addData(**data);
                 if result:
                     data = [{ 'account' : account}];
-                    request.session['account'] = account;  #注册之后直接登录
+                    self.request.session['account'] = account;  #注册之后直接登录
                     return ResponsesSingleton.getInstance().responseJsonArray("success", "注册成功", data);
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray("fail", "注册失败，请重试");
@@ -133,10 +134,10 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray("fail", checkResult);
 
     #用户登录
-    def __userLogin(self, request=HttpRequest()):
+    def __userLogin(self):
         #输入合法性检验
-        account = request.POST.get('account', None);
-        password = request.POST.get('password', None);
+        account = self.request.POST.get('account', None);
+        password = self.request.POST.get('password', None);
         if account and password:
             #查询数据库
             hash_md5 = hashlib.md5();
@@ -146,12 +147,18 @@ class OrganizationRequestManager(UserBase):
                 results = self.organizationInfoManager.getData(account=account, password=hashPassword);
                 if results:#登录成功
                     user = results[0];
-                    data = [{ 'account' : account}];
-                    universityList = self.schoolInfoManager.getProvincesUniversityCollegeById(None, user['universityId'], None);
-                    university = universityList[0];
-                    request.session['account'] = account;
-                    request.session['universityId'] = university['id'];
-                    request.session['universityName'] = university['name'];
+                    universityDict = self.schoolInfoManager.getProvincesUniversityCollegeById(user['provincesId'], user['universityId'], user['collegeId']);
+                    province = universityDict.get('province', None);
+                    university = universityDict.get('university', None);
+                    college = universityDict.get('college', None);
+                    self.request.session['account'] = account;
+                    self.request.session['provinceId'] = province['id'];
+                    self.request.session['provinceName'] = province['name'];
+                    self.request.session['universityId'] = university['id'];
+                    self.request.session['universityName'] = university['name'];
+                    self.request.session['collegeId'] = college['id'];
+                    self.request.session['collegeName'] = college['name'];
+                    data = [province, university, college];
                     return ResponsesSingleton.getInstance().responseJsonArray("success", "登录成功", data);
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray("fail", "账户或密码错误");
@@ -161,8 +168,8 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray("fail", '账户或密码为空');
 
     #读取用户基本信息
-    def __getUserInfo(self, request=HttpRequest()):
-        isLogin, account = self.checkIsLogin(request);
+    def __getUserInfo(self):
+        isLogin, account = self.checkIsLogin();
         if isLogin == True:
             #查找用户信息
             data = self.organizationInfoManager.getData(account=account);
@@ -175,20 +182,20 @@ class OrganizationRequestManager(UserBase):
 
 
     #修改用户基本信息
-    def __userModify(self, request=HttpRequest()):
-        isLogin, account = self.checkIsLogin(request);
+    def __userModify(self):
+        isLogin, account = self.checkIsLogin();
         if isLogin:
             condition = {};
-            if request.POST.get('password', None):
-                password = request.POST.get('password', None);
+            if self.request.POST.get('password', None):
+                password = self.request.POST.get('password', None);
                 hash_md5 = hashlib.md5();
                 hash_md5.update(password);
                 hashPassword = hash_md5.hexdigest();
                 condition['password'] = hashPassword;
-            if request.POST.get('name', None):
-                condition['name'] = request.POST.get('name', None);
-            if request.POST.get('description', None):
-                condition['description'] = request.POST.get('description', None);
+            if self.request.POST.get('name', None):
+                condition['name'] = self.request.POST.get('name', None);
+            if self.request.POST.get('description', None):
+                condition['description'] = self.request.POST.get('description', None);
 
             try:
                 result = self.organizationInfoManager.modifyData(account, **condition);
@@ -202,21 +209,21 @@ class OrganizationRequestManager(UserBase):
 #--------------- 发布job信息操作--------------------------------------------------------------
 
     #读取用户job信息
-    def __getJob(self, account, request=HttpRequest()):
+    def __getJob(self, account):
         condition = {
-            'jobId' : request.GET.get('jobId', None)
+            'jobId' : self.request.GET.get('jobId', None)
         }
         data = self.jobsInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #设置job
-    def __addjob(self, account, request=HttpRequest()):
+    def __addjob(self, account):
 
         data = {
-            'name' : request.POST.get('name' , None),
-            'department' : request.POST.get('department', None),
-            'description' : request.POST.get('description', None),
-            'number' : request.POST.get('number', None),
+            'name' : self.request.POST.get('name' , None),
+            'department' : self.request.POST.get('department', None),
+            'description' : self.request.POST.get('description', None),
+            'number' : self.request.POST.get('number', None),
         }
         for key, value in data:
             if value==None:
@@ -228,10 +235,10 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
     #删除job
-    def __deleteJob(self, account, request=HttpRequest()):
+    def __deleteJob(self, account):
 
         condition = {
-            'jobId' : request.GET.get('jobId', None)
+            'jobId' : self.request.GET.get('jobId', None)
         }
         results = self.jobsInfoManager.deleteData(account, **condition);
         if results:
@@ -240,13 +247,13 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
     #修改job
-    def __modifyJob(self, account, request=HttpRequest()):
-        jobId = request.POST.get('jobId', None),
+    def __modifyJob(self, account):
+        jobId = self.request.POST.get('jobId', None),
         data = {
-            'name' : request.POST.get('name' , None),
-            'department' : request.POST.get('department', None),
-            'description' : request.POST.get('description', None),
-            'number' : request.POST.get('number', None)
+            'name' : self.request.POST.get('name' , None),
+            'department' : self.request.POST.get('department', None),
+            'description' : self.request.POST.get('description', None),
+            'number' : self.request.POST.get('number', None)
         }
         for key, value in data:
             if value==None:
@@ -261,26 +268,26 @@ class OrganizationRequestManager(UserBase):
 
 #--------------- 简历操作--------------------------------------------------------------
     #读取用户接收到的简历信息
-    def __getRecvResume(self, account, request=HttpRequest()):
+    def __getRecvResume(self, account):
         condition = {
-            'receResumeId' : request.GET.get('receResumeId', None)
+            'receResumeId' : self.request.GET.get('receResumeId', None)
         }
         data = self.recvResumInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
     #添加RecvResume
-    def __addRecvResume(self, account, request=HttpRequest()):
+    def __addRecvResume(self, account):
 
         data = {
-            'resumeId' : request.POST.get('resumeId' , None),
-            'sex' : request.POST.get('sex' , None),
-            'college' : request.POST.get('college' , None),
-            'email' : request.POST.get('email' , None),
-            'phoneNumber' : request.POST.get('phoneNumber' , None),
-            'experience' : request.POST.get('experience' , None),
-            'strong' : request.POST.get('strong' , None),
-            'others' : request.POST.get('others' , None),
-            'status' : request.POST.get('status' , None),
+            'resumeId' : self.self.request.POST.get('resumeId' , None),
+            'sex' : self.request.POST.get('sex' , None),
+            'college' : self.request.POST.get('college' , None),
+            'email' : self.request.POST.get('email' , None),
+            'phoneNumber' : self.request.POST.get('phoneNumber' , None),
+            'experience' : self.request.POST.get('experience' , None),
+            'strong' : self.request.POST.get('strong' , None),
+            'others' : self.request.POST.get('others' , None),
+            'status' : self.request.POST.get('status' , None),
         }
         for key, value in data:
             if value==None:
@@ -292,10 +299,10 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
     #删除RecvResume
-    def __deleteRecvResume(self, account, request=HttpRequest()):
+    def __deleteRecvResume(self, account):
 
         condition = {
-            'receResumeId' : request.GET.get('receResumeId', None)
+            'receResumeId' : self.request.GET.get('receResumeId', None)
         }
         results = self.recvResumInfoManager.deleteData(account, **condition);
         if results:
@@ -304,10 +311,10 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
     #修改RecvResume
-    def __modifyRecvResume(self, account, request=HttpRequest()):
-        receResumeId = request.POST.get('receResumeId', None),
+    def __modifyRecvResume(self, account):
+        receResumeId = self.request.POST.get('receResumeId', None),
         data = {
-            'status' : request.POST.get('status' , None)
+            'status' : self.request.POST.get('status' , None)
         }
         for key, value in data:
             if value==None:

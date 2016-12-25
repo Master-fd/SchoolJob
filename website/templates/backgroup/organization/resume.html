@@ -1,0 +1,60 @@
+
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content="校园社团招聘">
+{% endblock %}
+
+{% block keywords %}
+    <meta name="keywords" content="校园社团 社团招聘 社团">
+{% endblock %}
+
+{% block title %}收到的简历{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/main.css">
+{% endblock %}
+
+
+{% block content %}
+<div id="page" class="container" data-id="applicant">
+    {% include 'backgroup/organization/navbar.html' %}
+    <div class="page-containter">
+        <h3>收到的简历</h3>
+        <section class="job-wrap">
+            <table cellpadding="0" cellspacing="0" border="0">
+            <colgroup>
+                <col width="250">
+                <col width="155">
+                <col width="155">
+                <col width="120">
+                <col width="100">
+            </colgroup>
+            <thead>
+                <tr class="title">
+                    <th>名称</th>
+                    <th>电话</th>
+                    <th>应聘部门</th>
+                    <th>应聘职位</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for foo in data.resumeList %}
+                <tr data-id={{ foo.resumeId }}>
+                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+                    <td>{{ foo.phoneNumber }}</td>
+                    <td>{{ foo.department }}</td>
+                    <td>{{ foo.jobNmae }}</td>
+                    <td><a href="javascript:void (0);">删除</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </section>
+    </div>
+</div>
+{#{% block modal %}#}
+{#    {% include 'backgroup/organization/modalJob.html' %}#}
+{#{% endblock %}#}
+{% endblock %}

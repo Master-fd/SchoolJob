@@ -28,17 +28,17 @@ class SchoolInfoManager(object):
         try:
             data = self.provinceModel.all();
             for obj in data:
-                provinces.append(model_to_dict(data));
+                provinces.append(model_to_dict(obj));
         except Exception as e:
             provinces = [];
         return provinces;
 
     #根据省份id或者名字获取所有学校, 返回字典
-    def getAllUniversityByProvinces(self, provincesId=None):
+    def getAllUniversityByProvinces(self, provinceId=None):
         schools = [];
-        if provincesId:
+        if provinceId:
             try:
-                data = self.universityModel.filter(pid=provincesId);
+                data = self.universityModel.filter(pid=provinceId);
                 for obj in data:
                     schools.append(model_to_dict(obj));
             except Exception as e:
@@ -72,7 +72,7 @@ class SchoolInfoManager(object):
 
     #根据id获取省份,大学，学院，返回字典，
     def getProvincesUniversityCollegeById(self, provincesId=None, universityId=None, collegeId=None):
-        data = {};
+        data = {}
         try:
             if provincesId:
                 result = self.provinceModel.get(id=provincesId);  #省份

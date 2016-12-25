@@ -27,8 +27,7 @@ class StudentInfoManager(object):
             results = self.modelObjects.create(**kwargs);
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;
@@ -46,6 +45,7 @@ class StudentInfoManager(object):
     def modifyData(self, account, **new):
         try:
             self.modelObjects.filter(account=account).update(**new);
+            print 'das'
             result = True;
         except Exception as e:
             result = False;
@@ -61,6 +61,7 @@ class StudentInfoManager(object):
                     data.append(model_to_dict(obj));
         except Exception as e:
             data = None;
+
         return data;
 
 
@@ -81,8 +82,8 @@ class ResumeManager(object):
             #生成唯一的resumeid
             resumeId = '00000000';
             while True:
-                resumeId = str(random.randint(10000000, 100000000))
-                if not self.resumeModel.get(resumeId=resumeId):
+                resumeId = str(random.randint(10000000, 100000000));
+                if not self.resumeModel.filter(resumeId=resumeId):
                     break;
 
             userObj = self.studentModel.get(account=account);
@@ -92,8 +93,7 @@ class ResumeManager(object):
             results = self.resumeModel.create(**kwargs)
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;
@@ -121,11 +121,10 @@ class ResumeManager(object):
     def getData(self, account):
         try:
             userObj = self.studentModel.get(account=account);
-            results = userObj.resume;
+            resume = userObj.resume;
             data = [];
-            if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+            if resume:
+                data.append(model_to_dict(resume));
         except Exception as e:
             data = None;
         return data;
