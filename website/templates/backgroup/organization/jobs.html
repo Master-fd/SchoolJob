@@ -17,11 +17,11 @@
 
 
 {% block content %}
-<div id="page" class="container" data-id="applicant">
+<div id="page" class="container" data-id="jobs">
     {% include 'backgroup/organization/navbar.html' %}
     <div class="page-containter">
         <h3>发布的职位
-            <a class="add-btn"><i class="icon icon-add"></i>添加新工作</a>
+            <a class="add-btn js-add-btn"><i class="icon icon-add"></i>添加新工作</a>
         </h3>
         <section class="job-wrap">
             <table cellpadding="0" cellspacing="0" border="0">
@@ -41,14 +41,14 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="js-job-list">
             {% for foo in data.jobsList %}
                 <tr data-id={{ foo.jobId }}>
                     <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
-                    <td>{{ foo.organizations }}</td>
+                    <td>{{ foo.organization }}</td>
                     <td>{{ foo.department }}</td>
                     <td>{{ foo.number }}</td>
-                    <td><a href="javascript:void (0);"></a></td>
+                    <td><a class="js-delete" href="javascript:void (0);">删除</a></td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -56,7 +56,8 @@
         </section>
     </div>
 </div>
+{% endblock %}
+
 {% block modal %}
     {% include 'backgroup/organization/modalJob.html' %}
-{% endblock %}
 {% endblock %}

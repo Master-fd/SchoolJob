@@ -2,9 +2,9 @@
 <html lang="zh-Hans">
 <body>
     {% if data.popAddJobModal %}
-        <div id="pop" class="address-modal" style="display: block">
+        <div id="pop-add-jobs" class="js-add-job address-modal" style="display: block">
     {% else %}
-        <div id="pop" class="address-modal" style="display: block">
+        <div id="pop-add-jobs" class="js-add-job address-modal" style="display: none">
     {% endif %}
         <div class="modal-mask js-modal-close"></div>
             <div class="modal-main">
@@ -21,7 +21,7 @@
                     <textarea name="description" class="input input-detain" placeholder="请输入职位描述"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <a class="cancel-btn" href="javascript:void(0);">返回</a>
+                    <a class="cancel-btn" href="javascript:void(0);">取消</a>
                     <a class="submit-btn" href="javascript:void(0);">确定</a>
                 </div>
             </div>

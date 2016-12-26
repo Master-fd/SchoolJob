@@ -13,7 +13,7 @@ define(function (require, exports) {
             case 'login' : $body.find('.login-modal').css('display', 'block'); break;
             case 'address' : $body.find('.js-addr-option').css('display', 'block'); break;
             case 'register' : $body.find('.js-register').css('display', 'block'); break;
-            case 'addjob' : $body.find('.order-modal').css('display', 'block'); break;
+            case 'addjob' : $body.find('.js-add-job').css('display', 'block'); break;
             case 'error' : swal({
                                title : title,
                                type : 'error',
@@ -50,18 +50,21 @@ define(function (require, exports) {
         }
     }
 
-    //代码主动关闭弹窗
-    exports.popClose = function(){
+    function closeAllModal(){
         $body.find('#pop-login').css('display', 'none');
         $body.find('#pop-register').css('display', 'none');
         $body.find('#pop-addr-option').css('display', 'none');
+        $body.find('#pop-add-jobs').css('display', 'none');
+    }
+    //代码主动关闭弹窗
+    exports.popClose = function(){
+        closeAllModal();
     };
 
     //单击‘x’，或者外面阴影部分，关闭弹窗
     $body.on('click', '.js-modal-close', function(){
-        $body.find('#pop-login').css('display', 'none');
-        $body.find('#pop-register').css('display', 'none');
-        $body.find('#pop-addr-option').css('display', 'none');
+        console.log('close')
+        closeAllModal();
     });
 
 

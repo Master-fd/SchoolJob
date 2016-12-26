@@ -15,7 +15,7 @@ define(function(require, exports){
     //登录头像被点击,
     $body.on('click', '.header .js-login', function(){
          //如果未登陆就弹出登录，已经登陆了就跳转到对应的url
-        account.isLoginFun(resourceUrl+'backgroup/applicant');
+        account.isLoginFun(resourceUrl+'backgroup/home/');
     }).on('click', '.header .js-logout', function () {
         account.logout();  //退出
     }).on('click', '.login-modal .submit-btn', function(){

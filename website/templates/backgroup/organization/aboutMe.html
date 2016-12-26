@@ -17,7 +17,7 @@
 
 
 {% block content %}
-<div id="page" class="container" data-id="applicant">
+<div id="page" class="container" data-id="me">
     {% include 'backgroup/organization/navbar.html' %}
     <div class="page-containter">
             <section class="title">
@@ -28,14 +28,14 @@
                 <ul class="list">
                     <li class="item">
                         <h4 class="title"><i class="icon icon-check"></i>社团名</h4>
-                        <span class="nike-name">社联</span>
+                        <span class="nike-name">{{ data.name }}</span>
                         <a href="javascript:void(0);" class="modify" data-id="nickname">修改</a>
                         <div class="gap-line"></div>
                     </li>
                     <li class="item">
                         <h4 class="title"><i class="icon icon-check"></i>描述</h4>
-                        <span class="nike-name">描述faso大会速度还是大搜我会记得哈搜的的睡觉奥ID赛季的哦啊的撒加厚大赛打扫ID萨达后ID撒谎都按时到</span>
-                        <a href="javascript:void(0);" class="modify" data-id="email">修改</a>
+                        <span class="nike-name">{{ data.description }}</span>
+                        <a href="javascript:void(0);" class="modify" data-id="description">修改</a>
                     </li>
                     <li class="item">
                         <h4 class="title"><i class="icon icon-check"></i>登录密码</h4>

@@ -51,31 +51,11 @@ def resumeInfo(request, resumeId):
     pageBackgroup = Backgroup(request);
     return pageBackgroup.pageResumeInfo(resumeId);
 
-#student后台
-def studentBackPage(request, pageName='applicant'):
+#user后台
+def userBackPage(request, pageName='home'):
     #获取数据
     pageBackgroup = Backgroup(request);
     return pageBackgroup.pageBackgroup(pageName);
-
-
-#organization后台
-def organizationBackPage(request, pageName='me'):
-    #获取数据
-    if pageName=='me':
-        data = {
-        };
-        page = 'backgroup/organization/aboutMe.html';
-    elif pageName == 'jobs':
-        data = {
-        };
-        page = 'backgroup/organization/jobs.html';
-    elif pageName == 'resume':
-        data = {
-        };
-        page = 'backgroup/organization/resume.html';
-    #渲染返回
-    return render_to_response(page, context_instance=RequestContext(request, data))
-
 
 #获取中国学校信息请求
 def schoolInfoRequestManager(request):

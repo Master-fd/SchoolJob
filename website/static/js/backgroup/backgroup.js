@@ -9,7 +9,7 @@ define(function (require, exports) {
     var pageId = $page.data('id');
 
 /******左侧选项卡*************************************************/
-    $body.on('click', '.user-page-left .js-applicant, .user-page-left .js-collect, .user-page-left .js-resume, .user-page-left .js-me', function () {
+    $body.find('.user-page-left').on('click', '.js-applicant, .js-collect, .js-resume, .js-me, .js-jobs', function () {
         var url = resourceUrl+'backgroup/' + $(this).data('id') + '/';
         account.isLoginFun(url);
 

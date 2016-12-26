@@ -20,7 +20,12 @@ class JobsInfoManager(object):
             data = [];
             if results:
                 for obj in results:
-                    data.append(model_to_dict(obj));
+                    dict = model_to_dict(obj);
+                    dict['createDate'] = obj.createDate;
+                    dict['updateDate'] = obj.updateDate;   #model_to_dict无法转换时间，需要手动转
+                    dict['organization'] = obj.organizationsId.name;   #社团名
+                    dict['descriptionLines'] = obj.description.split('\n');   #输出的时候保持字符串分行
+                    data.append(dict);
         except Exception as e:
             data = None;
         return data;

@@ -86,6 +86,8 @@ define(function(require, exports){
             params['email'] = value;
         if (key=='password')
             params['password'] = value;
+        if (key=='description')
+            params['description'] = value;
 
         $.post(url, params, function(json_data){
             if (json_data.status == 'success'){

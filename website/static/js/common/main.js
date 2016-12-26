@@ -5,13 +5,13 @@
 define(function(require){
 
 
-    window.$ = window.jQuery = require('jquery');  //¼ÓÔØjq
-    window.pop = require('pop'); //¼ÓÔØÃÉ°æµ¯¿ò
+    window.$ = window.jQuery = require('jquery');  //ï¿½ï¿½ï¿½ï¿½jq
+    window.pop = require('pop'); //ï¿½ï¿½ï¿½ï¿½ï¿½É°æµ¯ï¿½ï¿½
 
     var _page = $('#page').data('id');
     switch (_page){
 
-        case 'home' : seajs.use('static/js/home/home.js'); break;   //¼ÓÔØHome
+        case 'home' : seajs.use('static/js/home/home.js'); break;   //ï¿½ï¿½ï¿½ï¿½Home
 
         case 'me': seajs.use('static/js/backgroup/backgroup.js');
                     seajs.use('static/js/backgroup/me.js'); break;   //backgroup
@@ -19,9 +19,10 @@ define(function(require){
                         seajs.use('static/js/backgroup/backgroup.js'); break;
         case 'applicant':
         case 'collect':seajs.use('static/js/backgroup/backgroup.js'); break;
-
+        case 'jobs':seajs.use('static/js/backgroup/backgroup.js');
+                    seajs.use('static/js/backgroup/jobs.js'); break;
     }
 
     seajs.use('static/js/plugin/bootstrap-3.3.0/dist/js/bootstrap.min.js');
-    seajs.use('static/js/common/base.js');   //¼ÓÔØheaderºÍfooterµÄjs
+    seajs.use('static/js/common/base.js');   //ï¿½ï¿½ï¿½ï¿½headerï¿½ï¿½footerï¿½ï¿½js
 });

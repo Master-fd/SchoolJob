@@ -37,15 +37,17 @@ class UserBase(object):
             return False, account;
 
     #检查当前login的用户是否是organization
-    def checkUserIsOrganization(self, account):
+    def checkUserIsOrganization(self, account=None):
         if not account:
             isLogin, account = self.checkIsLogin();
-        match = re.match('\d+', account);  #不是数字开头就是组织
-        if not match:
-            return True;
+        if account:
+            match = re.match('\d+', account);  #不是数字开头就是组织
+            if not match:
+                return True;
+            else:
+                return False;
         else:
-            return False;
-
+            return False
 
     #注销
     def userLogout(self):

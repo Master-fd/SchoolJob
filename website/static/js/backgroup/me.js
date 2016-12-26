@@ -19,7 +19,10 @@ define(function (require) {
             title = '修改昵称';
         }else if(key == 'email'){
             title = '修改邮箱'
+        }else if(key == 'description'){
+            title = '修改描述'
         }
+
 
         swal({
             title : title,

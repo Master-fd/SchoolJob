@@ -15,6 +15,7 @@ from website.python.common.response import ResponsesSingleton
 from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
 from website.python.userBase.userBase import UserBase
 from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
+from SchoolJob import settings
 
 class OrganizationRequestManager(UserBase):
 
@@ -192,11 +193,11 @@ class OrganizationRequestManager(UserBase):
                 hash_md5.update(password);
                 hashPassword = hash_md5.hexdigest();
                 condition['password'] = hashPassword;
-            if self.request.POST.get('name', None):
-                condition['name'] = self.request.POST.get('name', None);
+            if self.request.POST.get('nickname', None):
+                condition['name'] = self.request.POST.get('nickname', None);
             if self.request.POST.get('description', None):
                 condition['description'] = self.request.POST.get('description', None);
-
+            print condition, self.request
             try:
                 result = self.organizationInfoManager.modifyData(account, **condition);
                 if result:
@@ -225,12 +226,17 @@ class OrganizationRequestManager(UserBase):
             'description' : self.request.POST.get('description', None),
             'number' : self.request.POST.get('number', None),
         }
-        for key, value in data:
+        for key, value in data.items():
             if value==None:
                 data.pop(key);  #删除值为None的key-value
         results = self.jobsInfoManager.addData(account, **data);
+        organizationList = self.organizationInfoManager.getData(account=account);
+        organizationInfo = organizationList[0];
+        for item in results:
+            item['url'] = settings.BASE_URL+'jobInfo/'+item['jobId'];
+            item['organization'] = organizationInfo.get('name', None);
         if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
+            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', results);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
 
@@ -238,7 +244,7 @@ class OrganizationRequestManager(UserBase):
     def __deleteJob(self, account):
 
         condition = {
-            'jobId' : self.request.GET.get('jobId', None)
+            'jobId' : self.request.POST.get('jobId', None)
         }
         results = self.jobsInfoManager.deleteData(account, **condition);
         if results:

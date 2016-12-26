@@ -23,20 +23,18 @@
     <h3 class="job-title">定制化广告产品部_产品经理（分行业）</h3>
         <div class="job-survey">
             <ul>
-                <li><label>职位名称:</label>百度</li>
-                <li><label>社&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;团:</label>北京市</li>
-                <li><label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门:</label>百度</li>
-                <li><label>招聘人数:</label>10</li>
-                <li><label>更新时间:</label>2016-12-23</li>
+                <li><label>职位名称:</label>{{ name }}</li>
+                <li><label>社&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;团:</label>{{ organization }}</li>
+                <li><label>部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门:</label>{{ department }}</li>
+                <li><label>招聘人数:</label>{{ number }}</li>
+                <li><label>更新时间:</label>{{ updateDate }}</li>
             </ul>
         </div>
         <div class="job-detail">
             <h3>工作职责与要求:</h3>
-            <p>-结合公司发展战略，负责品专产品规划及发展方向的整体把握和工作部署，明晰产品定位、目标、策略并落实实施</p>
-            <p>-分析跟踪行业趋势，定期完成分析报告或产品竞争战略和计划</p>
-            <p>-通过各类调研及分析方法，结合行业、用户、产品的表现数据，搜集和提出产品需求，制定产品规范，设计产品；并与技术人员一起，综合优化利用各种技术手段，完成产品研发</p>
-            <p>-分析上线品专产品的运营数据，定期组织分析、撰写产品运营分析报告，提出产品改进意见，不断完善在线产品、持续改善用户体验</p>
-
+            {% for foo in descriptionLines %}
+                <p>--{{ foo }}</p>
+            {% endfor %}
 
             <div class="job-operation">
                 <a class="apply-job">申请职位</a>

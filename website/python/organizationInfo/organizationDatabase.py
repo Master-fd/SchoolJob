@@ -82,7 +82,7 @@ class JobsManager(object):
             jobId = '00000000';
             while True:
                 jobId = str(random.randint(10000000, 100000000))
-                if not self.jobsModel.get(jobId=jobId):
+                if not self.jobsModel.filter(jobId=jobId):
                     break;
             userObj = self.organizationModel.get(account=account);
             kwargs['organizationsId'] = userObj;
@@ -90,14 +90,15 @@ class JobsManager(object):
             results = self.jobsModel.create(**kwargs)
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;
 
     #删除一个职位数据
     def deleteData(self, account=None, **kwargs):
+        if not account or not kwargs:
+            return False
         try:
             userObj = self.organizationModel.get(account=account);
             userObj.jobs_set.filter(**kwargs).delete();
