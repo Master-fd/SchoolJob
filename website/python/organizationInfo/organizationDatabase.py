@@ -116,7 +116,7 @@ class JobsManager(object):
             result = False;
         return result;
 
-    #获取职位数据, 返回数组
+    #获取该组织的职位数据, 返回数组
     def getData(self, account, **kwargs):
         try:
             userObj = self.organizationModel.get(account=account);

@@ -51,7 +51,7 @@ def resumeInfo(request, resumeId):
     pageBackgroup = Backgroup(request);
     return pageBackgroup.pageResumeInfo(resumeId);
 
-#user后台
+#user后台页面渲染
 def userBackPage(request, pageName='home'):
     #获取数据
     pageBackgroup = Backgroup(request);

@@ -11,7 +11,8 @@ define(function(require){
     var _page = $('#page').data('id');
     switch (_page){
 
-        case 'home' : seajs.use('static/js/home/home.js'); break;   //����Home
+        case 'home' :
+        case 'main': seajs.use('static/js/home/home.js'); break;   //����Home
 
         case 'me': seajs.use('static/js/backgroup/backgroup.js');
                     seajs.use('static/js/backgroup/me.js'); break;   //backgroup

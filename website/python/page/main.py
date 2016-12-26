@@ -35,56 +35,33 @@ class Main(object):
         jobsList = [];
         for item in organizationList:
             if not keyword:
-                #直接在main页面搜索
+                #直接在main ajax页面搜索
                 name = self.request.GET.get('name', None);
                 organizationId = self.request.GET.get('organizationId', None);
                 jobsList += self.jobInfoManager.getSearchData(name, organizationId);
-            elif keyword=='undefine':
+            elif keyword=='':
                 #直接进来默认获取该学校的所有
-                jobsList += self.jobInfoManager.getSearchData(None, item['id'])
+                jobsList += self.jobInfoManager.getData(organizationsId=item['id']);
             else:
-                #首页搜索进来
+                #首页搜索进来或者ajax页面搜索
                 jobsList += self.jobInfoManager.getSearchData(keyword, None);  #搜索jobname
-
-        return jobsList;
+        newJobsList = [];
+        for item in jobsList:
+            item['url'] = settings.BASE_URL+'jobInfo/'+item['jobId'];
+            newJobsList.append(item);
+        return newJobsList;
 
     def pageMain(self, keyword=None):
         #取出数据库推广的组织
-        # organizationList = self.getAllOrganization();
-        organizationList = []
-        for i in range(0, 5):  #测试数据
-            item = {'id' : i, 'name' : '社联','url' : settings.BASE_URL, 'bannerImageUrl' : '/static/image/banner1.jpg'}
-            organizationList.append(item);
-        #大banner
-        bannerList = []
-        for item in organizationList:
-            item['url'] = settings.BASE_URL+'home/'+str(item['id']);
-            bannerList.append(item);
-        #搜索,默认是
-        # jobsList = self.getJobsByKeyword(keyword);
-        jobsList = []
-        for i in range(0, 10):
-            item = {'name' : '跨级时候好的撒的',
-                    'jobId' : i,
-                    'url' : settings.BASE_URL,
-                    'organizations' : '设立昂',
-                    'department' : '高级',
-                    'number' : i,
-                    'updateDate' : '2011-2-2',
-                    'description' : '''工作职责：
-                    - 负责从结构/半结构化或无结构的文本中抽取信息，包括但不限于实体、概念及之间的关系
-                    - 负责对信息抽取结果合理建模，并高效整理成高质量、高可信的知识
-                    - 负责智能产品所需的领域知识库构建以及支撑产品的应用设计与开发
-                    职位要求：
-                    - 1年及以上大规模数据处理、挖掘、分析等相关工作经验
-                    - 熟悉常用数据挖掘、机器学习、自然语言处理工具
-                    - 熟悉Linux/Unix开发环境，熟练使用C/C++、Shell/Python语言，具有良好的开发素养'''}
-            jobsList.append(item);
+        organizationList = self.getAllOrganization();
+
+        #获取职位
+        jobsList = self.getJobsByKeyword(keyword);
         data = {
             'data' : {'popLoginModal' : False,
                       'popAddressModal' : False,
                       'popRegisterModal' : False,
-                      'banner' : bannerList,
+                      'organizationList' : organizationList,
                       'jobsList' : jobsList
                       },
         }

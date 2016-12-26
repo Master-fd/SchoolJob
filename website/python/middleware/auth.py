@@ -11,13 +11,13 @@ class AuthenticationMiddleware(object):
 
     def process_request(self, request):
         #检查session是否存在学校，不存在则设置
-        # if not request.session.get('universityId', None):
-        #     school = SchoolInfoManager();
-        #     data = school.getAllUniversityByProvinces(None);
-        #     if data:
-        #         university = data[0];
-        #     request.session['universityId'] = university['id'];
-        #     request.session['universityName'] = university['name'];
+        if not request.session.get('universityId', None):
+            school = SchoolInfoManager();
+            data = school.getAllUniversityByProvinces(None);
+            if data:
+                university = data[0];
+            request.session['universityId'] = university['id'];
+            request.session['universityName'] = university['name'];
 
         return None
 

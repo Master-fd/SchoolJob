@@ -24,27 +24,27 @@
         <div id="carousel-example-generic" class="full carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
-              {% for foo in data.banner %}
+              {% for foo in data.organizationList %}
                   {% if forloop.first %}
-                    <li data-target="#carousel-example-generic" data-slide-to="{{ foo.id }}" class="active"></li>
+                      <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
                   {% else %}
-                      <li data-target="#carousel-example-generic" data-slide-to="{{ foo.id }}"></li>
+                      <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"></li>
                   {% endif %}
               {% endfor %}
           </ol>
 
           <!-- Wrapper for slides -->
           <div class="full carousel-inner" role="listbox">
-            {% for foo in data.banner %}
+            {% for foo in data.organizationList %}
                 {% if forloop.first %}
                     <div class="full item active">
-                      <a href="{{ foo.url }}">
+                      <a href="/main/{{ foo.account }}">
                           <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
                       </a>
                     </div>
                 {% else %}
                     <div class="full item">
-                      <a href="{{ foo.url }}">
+                      <a href="/main/{{ foo.account }}">
                           <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
                       </a>
                     </div>
@@ -68,31 +68,13 @@
         <section class="nav">
             <div>
                 <ul>
-                    <li><a class="current" href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外asfdsf两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外dadas两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外fasdfas两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外fsadf两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
-                    <li><a href="javascript:void (0);">外两</a></li>
+                    {% for foo in data.organizationList %}
+                        {% if forloop.first %}
+                            <li><a class="current" href="javascript:void (0);">{{ foo.name }}</a></li>
+                        {% else %}
+                            <li><a href="javascript:void (0);">{{ foo.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
             <div class="search-warp">
@@ -105,11 +87,11 @@
             <h2 class="job-list-title">职位信息</h2>
             <table cellpadding="0" cellspacing="0" border="0">
             <colgroup>
-                <col width="310">
-                <col width="210">
-                <col width="210">
-                <col width="150">
-                <col width="170">
+                <col width="280">
+                <col width="200">
+                <col width="200">
+                <col width="120">
+                <col width="250">
             </colgroup>
             <thead>
                 <tr class="title">
@@ -124,22 +106,20 @@
             {% for foo in data.jobsList %}
                 <tr data-id={{ foo.jobId }}>
                     <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
-                    <td>{{ foo.organizations }}</td>
+                    <td>{{ foo.organization }}</td>
                     <td>{{ foo.department }}</td>
                     <td>{{ foo.number }}</td>
                     <td>{{ foo.updateDate }}
-                        <a class="pull-right down-arrow-icon"></a>
+                        <a href="javascript:void (0);" class="js-extend-btn pull-right down-arrow-icon"></a>
                     </td>
                 </tr>
-                <tr class="job-detail">
+                <tr class="job-detail hidden">
                     <td colspan="5">
                         <div>
                             <h3>工作职责与要求：</h3>
-{#                            <p>{{ foo.description }}</p>#}
-                            <p>-结合公司发展战略，负责品专产品规划及发展方向的整体把握和工作部署，明晰产品定位、目标、策略并落实实施</p>
-                            <p>-分析跟踪行业趋势，定期完成分析报告或产品竞争战略和计划</p>
-                            <p>-通过各类调研及分析方法，结合行业、用户、产品的表现数据，搜集和提出产品需求，制定产品规范，设计产品；并与技术人员一起，综合优化利用各种技术手段，完成产品研发</p>
-                            <p>-分析上线品专产品的运营数据，定期组织分析、撰写产品运营分析报告，提出产品改进意见，不断完善在线产品、持续改善用户体验</p>
+                            {% for foo in foo.descriptionLines %}
+                                <p>--{{ foo }}</p>
+                            {% endfor %}
 
                             <div class="job-operation">
                                 <a class="apply-job" data-index="0">申请职位</a>
