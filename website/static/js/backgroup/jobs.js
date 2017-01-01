@@ -10,7 +10,7 @@ define(function (require, exports) {
     $body.on('click', '.js-add-btn', function () {
         //弹窗
         pop.popType('addjob');
-    })
+    });
 
     $pop.on('click', '.cancel-btn', function () {
         pop.popClose();
@@ -43,7 +43,7 @@ define(function (require, exports) {
             department : department,
             number : number,
             description : description
-        }
+        };
         $.post(url, params, function (json_data) {
             if (json_data.status=='success'){
                 //发布成功
@@ -76,7 +76,7 @@ define(function (require, exports) {
         var params = {
             operation : 'deleteJob',
             jobId : jobId
-        }
+        };
         $.post(url, params, function (json_data) {
 
             if (json_data.status == 'success'){

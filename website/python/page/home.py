@@ -53,7 +53,7 @@ class Home(object):
                 'cy' : str(cy)+'%',
                 'id' : 1,
                 'name' : item['name'],
-                'url' : 'http://127.0.0.1:8000/'+str(item['account'])
+                'account' : str(item['account'])
             };
             pointList.append(point);
         return pointList;
@@ -62,12 +62,7 @@ class Home(object):
 
     def pageHome(self):
 
-        # organizationList = self.getAllOrganization();  #获取所有组织
-        organizationList=[]
-        for i in range(0, 10):
-            item = {'name':'社团联合',
-                    'account' : i};
-            organizationList.append(item);
+        organizationList = self.getAllOrganization();  #获取所有组织
         if len(organizationList)<=10:
             pointList = self.pointByCircle((50, 50), 32, organizationList);      #给所有组织增加渲染的坐标
         elif len(organizationList)<=20:

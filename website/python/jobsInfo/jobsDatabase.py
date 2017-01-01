@@ -29,20 +29,3 @@ class JobsInfoManager(object):
         except Exception as e:
             data = None;
         return data;
-    #搜索商品
-    def getSearchData(self, name, organizationId):
-        try:
-            condition = {};
-            if name:
-                condition['name__icontains']=name;
-            if organizationId:
-                condition['organizationId']=organizationId;
-            results = self.jobsModel.filter(**condition);
-            data = [];
-            if results:
-                for obj in results:
-                    item = model_to_dict(obj)
-                    data.append(item);
-        except Exception as e:
-            data = None;
-        return data;

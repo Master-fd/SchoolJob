@@ -24,8 +24,8 @@
 
         <div class="search-box">
             <div class="search-inner">
-                <form action="/home/" method="get">
-                    <input class="search-input" type="text" placeholder="搜索" name="keyword">
+                <form action="/main/" method="get">
+                    <input class="search-input" type="text" placeholder="搜索" name="jobName">
                     <button class="search-btn cursor-pointer" type="submit">搜搜一下</button>
                 </form>
             </div>
@@ -33,7 +33,7 @@
 
          <svg id="js-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
             {% for foo in data.organizationList %}
-                <a xlink:href="{{ foo.url }}" target="_self">
+                <a xlink:href="/main?organizationAccount={{ foo.account }}" target="_self">
                     <text font-family="Microsoft YaHei" pointType="small" px="{{ foo.px }}" py="{{ foo.py }}" font-size="10">
                         <tspan fill="rgba(255,255,255,0.5)" x="{{ foo.x }}" y="{{ foo.y }}">{{ foo.name }}</tspan>
                     </text>

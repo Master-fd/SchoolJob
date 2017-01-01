@@ -21,26 +21,15 @@ from website.python.page.backgroup import Backgroup
 
 
 
-#搜索接口
-def search(request):
-    dic = {
-        'data' : {'popLoginModal' : False,
-                  'popAddressModal' : False,
-                  'popRegisterModal' : False}
-    }
-
-    return render_to_response('home/home.html', context_instance=RequestContext(request, dic));
-
-
 #首页渲染
 def home(request):
     pageHome = Home(request);
     return pageHome.pageHome();
 
 #社团招聘页
-def main(request, keyword):
+def main(request):
     pageMain = Main(request);
-    return pageMain.pageMain(keyword);
+    return pageMain.pageMain();
 
 #job详情
 def jobInfo(request, jobId):
@@ -68,8 +57,8 @@ def userInfoRequestPort(request):
     account = request.POST.get('account', None);
     userBase = UserBase(request);
     #先检查已经login或者未login的用户是不是student
-    result = userBase.checkUserIsOrganization(account);
-    if result:
+    isOrganization = userBase.checkUserIsOrganization(account);
+    if isOrganization:
         #组织
         databaseRequest = OrganizationRequestManager(request);
     else:
@@ -79,3 +68,7 @@ def userInfoRequestPort(request):
 
     return response;
 
+#搜索业务
+def searchInfoRequest(request):
+    pageMain = Main(request);
+    return pageMain.searchInfoRequest();

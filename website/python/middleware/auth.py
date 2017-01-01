@@ -16,9 +16,8 @@ class AuthenticationMiddleware(object):
             data = school.getAllUniversityByProvinces(None);
             if data:
                 university = data[0];
-            request.session['universityId'] = university['id'];
-            request.session['universityName'] = university['name'];
-
+                request.session['universityId'] = university['id'];
+                request.session['universityName'] = university['name'];
         return None
 
     def process_view(self, request, view, args, kwargs):

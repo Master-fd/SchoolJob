@@ -132,6 +132,30 @@ class JobsManager(object):
             data = None;
         return data;
 
+    #搜索商品
+    def getSearchData(self, account=None, name=None):
+        try:
+            if not account:
+                return None;
+            #获取组织
+            userObj = self.organizationModel.get(account=account);
+            if name:  #获取对应组织的符合条件的职位
+                results = userObj.jobs_set.filter(name__icontains=name);
+            else:
+                results = userObj.jobs_set.all();   #获取所有
+            data = [];
+            if results:
+                for obj in results:
+                    item = model_to_dict(obj)
+                    item['createDate'] = obj.createDate;
+                    item['updateDate'] = obj.updateDate;   #model_to_dict无法转换时间，需要手动转
+                    item['organization'] = obj.organizationsId.name;   #社团名
+                    item['descriptionLines'] = obj.description.split('\n');   #输出的时候保持字符串分行
+                    data.append(item);
+        except Exception as e:
+            data = None;
+        return data;
+
 
 '''
 简历信息增删改查, 一对多关系

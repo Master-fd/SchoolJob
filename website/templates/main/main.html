@@ -38,13 +38,13 @@
             {% for foo in data.organizationList %}
                 {% if forloop.first %}
                     <div class="full item active">
-                      <a href="/main/{{ foo.account }}">
+                      <a href="/main?organizationAccount={{ foo.account }}">
                           <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
                       </a>
                     </div>
                 {% else %}
                     <div class="full item">
-                      <a href="/main/{{ foo.account }}">
+                      <a href="/main?organizationAccount={{ foo.account }}">
                           <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
                       </a>
                     </div>
@@ -68,18 +68,24 @@
         <section class="nav">
             <div>
                 <ul>
+                    {% if data.currentOrganization == None %}
+                        <li><a class="js-item current" href="javascript:void (0);">所有</a></li>
+                    {% else %}
+                        <li><a class="js-item" href="javascript:void (0);">所有</a></li>
+                    {% endif %}
+
                     {% for foo in data.organizationList %}
-                        {% if forloop.first %}
-                            <li><a class="current" href="javascript:void (0);">{{ foo.name }}</a></li>
+                        {% if data.currentOrganization == foo.account %}
+                            <li><a class="js-item current" href="javascript:void (0);" data-id={{ foo.account }}>{{ foo.name }}</a></li>
                         {% else %}
-                            <li><a href="javascript:void (0);">{{ foo.name }}</a></li>
+                            <li><a class="js-item " href="javascript:void (0);" data-id={{ foo.account }}>{{ foo.name }}</a></li>
                         {% endif %}
                     {% endfor %}
                 </ul>
             </div>
             <div class="search-warp">
-                <input id="search-input" name="search-value" class="search-input pull-left" placeholder="搜索">
-                <a href="javascript:void (0);"><span class="search-icon"></span></a>
+                <input name="search-value" class="search-input pull-left" placeholder="搜索">
+                <a class="js-search" href="javascript:void (0);"><span class="search-icon"></span></a>
             </div>
         </section>
     {#   内容#}
@@ -102,7 +108,7 @@
                     <th>更新时间</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="js-jobBody">
             {% for foo in data.jobsList %}
                 <tr data-id={{ foo.jobId }}>
                     <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
