@@ -9,10 +9,12 @@ from django.template import loader, RequestContext, Context
 from website.python.common.response import ResponsesSingleton
 
 from website.python.studentInfo.studentInfo import ResumeManager
-from website.python.organizationInfo.organizationInfo import JobsManager
+from website.python.studentInfo.studentInfo import ColloctManager, ApplicantManager
+from website.python.organizationInfo.organizationInfo import JobsManager, RecvResumeManager
 from website.python.organizationInfo.organizationDatabase import  OrganizationInfoManager
 from website.python.userBase.userBase import UserBase
 from website.python.studentInfo.studentInfo import StudentInfoManager
+from website.python.resumeInfo.resumeDatabase import ResumeInfoManager
 from SchoolJob import settings
 
 '''
@@ -23,15 +25,18 @@ class Backgroup(object):
         super(Backgroup, self).__init__();
         self.request = request;
         self.resumeManager = ResumeManager();
+        self.resumeInfoManager = ResumeInfoManager();
+        self.recvResumeManager = RecvResumeManager();
+        self.collectManager = ColloctManager();
         self.jobsManager = JobsManager();
         self.organizationInfoManager = OrganizationInfoManager();
-
+        self.applicant = ApplicantManager();
 
 
     def pageResumeInfo(self, resumeId):
         if resumeId:
-            data = self.resumeManager.getData(resumeId);
-            print data;
+            data = self.resumeInfoManager.getData(resumeId=resumeId);
+
             if data:
                 data = {
                     'data' : data[0]
@@ -77,10 +82,18 @@ class Backgroup(object):
                     };
                 page = 'backgroup/organization/jobs.html';
             elif pageName == 'resume':
-                data = self.resumeManager.getData(account=account);
+                #简历
+                data = self.recvResumeManager.getData(account=account);
+                for item in data:
+                    jobList = self.jobsManager.getData(account=account, jobId=item['jobId']);
+                    if jobList:
+                        job = jobList[0];
+                        item['jobName'] = job['name'];
+                    else:
+                        item['jobName'] = '职位已删除';
                 if data:
                     data = {
-                        'data' : data[0],
+                        'data' : data,
                         'current' : 'resume'};
                 else:
                     data = {
@@ -102,19 +115,22 @@ class Backgroup(object):
                     };
                 page = 'backgroup/student/aboutMe.html';
             elif pageName == 'collect':
-                data = {
-                        'current' : 'collect',
-                        'data' : {
-
-                        }
-                    };
+                dataList = self.collectManager.getData(account=account);
+                if dataList:
+                    data = {
+                            'current' : 'collect',
+                            'data' : dataList
+                        };
+                else:
+                    data = {
+                        'data' : {},
+                        'current' : 'current'};
                 page = 'backgroup/student/collect.html';
             elif pageName == 'applicant' or pageName == 'home':
+                data = self.applicant.getData(account=account);
                 data = {
                         'current' : 'applicant',
-                        'data' : {
-
-                        }
+                        'data' : data
                     };
                 page = 'backgroup/student/applicant.html';
             elif pageName == 'resume':

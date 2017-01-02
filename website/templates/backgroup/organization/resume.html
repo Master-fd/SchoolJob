@@ -17,7 +17,7 @@
 
 
 {% block content %}
-<div id="page" class="container" data-id="resume">
+<div id="page" class="container" data-id="organizationResume">
     {% include 'backgroup/organization/navbar.html' %}
     <div class="page-containter">
         <h3>收到的简历</h3>
@@ -40,13 +40,13 @@
                 </tr>
             </thead>
             <tbody>
-            {% for foo in data.resumeList %}
-                <tr data-id={{ foo.resumeId }}>
-                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+            {% for foo in data %}
+                <tr data-id={{ foo.receResumeId }}>
+                    <td><a href="/resumeInfo/{{ foo.resumeId }}">{{ foo.name }}</a></td>
                     <td>{{ foo.phoneNumber }}</td>
                     <td>{{ foo.department }}</td>
-                    <td>{{ foo.jobNmae }}</td>
-                    <td><a href="javascript:void (0);">删除</a></td>
+                    <td>{{ foo.jobName }}</td>
+                    <td><a class="js-delete-resume" data-id="{{ foo.jobId }}" href="javascript:void (0);">删除</a></td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -147,7 +147,7 @@ class ColloctManager(object):
             collectId = '00000000';
             while True:
                 collectId = str(random.randint(10000000, 100000000))
-                if not self.collectModel.get(collectId=collectId):
+                if not self.collectModel.filter(collectId=collectId):
                     break;
             userObj = self.studentModel.get(account=account);
             kwargs['studentInfoId'] = userObj;
@@ -155,8 +155,7 @@ class ColloctManager(object):
             results = self.collectModel.create(**kwargs)
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;
@@ -204,7 +203,7 @@ class ApplicantManager(object):
             applicantId = '00000000';
             while True:
                 applicantId = str(random.randint(10000000, 100000000))
-                if not self.applicantModel.get(applicantId=applicantId):
+                if not self.applicantModel.filter(applicantId=applicantId):
                     break;
             userObj = self.studentModel.get(account=account);
             kwargs['studentInfoId'] = userObj;
@@ -212,8 +211,7 @@ class ApplicantManager(object):
             results = self.applicantModel.create(**kwargs)
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;

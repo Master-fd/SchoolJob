@@ -15,6 +15,8 @@ from website.python.common.response import ResponsesSingleton
 from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
 from website.python.userBase.userBase import UserBase
 from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
+from website.python.studentInfo.studentInfo import ResumeManager
+from website.python.jobsInfo.jobsDatabase import JobsInfoManager
 from SchoolJob import settings
 
 class OrganizationRequestManager(UserBase):
@@ -23,8 +25,10 @@ class OrganizationRequestManager(UserBase):
         super(OrganizationRequestManager, self).__init__(request);
         self.organizationInfoManager = OrganizationInfoManager();
         self.jobsInfoManager = JobsManager();
+        self.jobDbManager = JobsInfoManager();
         self.recvResumInfoManager = RecvResumeManager();
         self.schoolInfoManager = SchoolInfoManager();
+        self.resumeManager = ResumeManager();
         self.request = request;
 
     #管理请求端口,分发任务
@@ -40,7 +44,7 @@ class OrganizationRequestManager(UserBase):
                 return self.userLogout();
             elif operation == 'modifyInfo':  #修改基本信息
                 return self.__userModify();
-            elif operation == 'addResume':   #add 简历
+            elif operation == 'addUserResume':   #add 简历
                 return self.__addRecvResume(account,);
             elif operation == 'modifyResume':   #修改简历
                 return self.__modifyRecvResume(account);
@@ -281,34 +285,60 @@ class OrganizationRequestManager(UserBase):
         data = self.recvResumInfoManager.getData(account, **condition);
         return ResponsesSingleton.getInstance().responseJsonArray('success', '获取成功', data);
 
-    #添加RecvResume
+    #添加RecvResume, 这个account应该是用户
     def __addRecvResume(self, account):
 
+        #根据account获取简历
+        resumeList = self.resumeManager.getData(account=account);
+        if resumeList:
+            resume = resumeList[0];
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '该用户没有简历');
+        jobId = self.request.POST.get('jobId', None);
+        jobList = self.jobDbManager.getData(jobId=jobId);
+        if jobList:
+            job = jobList[0];
+        organizationList = self.organization.getData(id=job['organizationsId']);
+        if organizationList:
+            organization = organizationList[0];
         data = {
-            'resumeId' : self.self.request.POST.get('resumeId' , None),
-            'sex' : self.request.POST.get('sex' , None),
-            'college' : self.request.POST.get('college' , None),
-            'email' : self.request.POST.get('email' , None),
-            'phoneNumber' : self.request.POST.get('phoneNumber' , None),
-            'experience' : self.request.POST.get('experience' , None),
-            'strong' : self.request.POST.get('strong' , None),
-            'others' : self.request.POST.get('others' , None),
-            'status' : self.request.POST.get('status' , None),
+            'department' : job.get('department', None),
+            'jobId' : jobId,
+            'resumeId' : resume.get('resumeId', None),
+            'name' : resume.get('name', None),
+            'sex' : resume.get('sex' , None),
+            'college' : resume.get('college' , None),
+            'email' : resume.get('email' , None),
+            'phoneNumber' : resume.get('phoneNumber' , None),
+            'experience' : resume.get('experience' , None),
+            'strong' : resume.get('strong' , None),
+            'others' : resume.get('others' , None),
+            'status' : '新简历',
         }
-        for key, value in data:
+        for key, value in data.items():
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.recvResumInfoManager.addData(account, **data);
-        if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
+
+        check = {
+            'jobId' : jobId,
+            'resumeId' : resume.get('resumeId', None),
+        }
+        results = self.recvResumInfoManager.getData(organization['account'], **check);
+        if not results:
+            results = self.recvResumInfoManager.addData(organization['account'], **data);
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '已发送过了');
+        if results:
+            return ResponsesSingleton.getInstance().responseJsonArray('success', '发送成功', data);
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送失败');
 
     #删除RecvResume
     def __deleteRecvResume(self, account):
 
         condition = {
-            'receResumeId' : self.request.GET.get('receResumeId', None)
+            'receResumeId' : self.request.POST.get('receResumeId', None),
+            'jobId' : self.request.POST.get('jobId', None)
         }
         results = self.recvResumInfoManager.deleteData(account, **condition);
         if results:

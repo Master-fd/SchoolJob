@@ -36,6 +36,7 @@ def jobInfo(request, jobId):
     pageMain = Main(request);
     return pageMain.pageInfo(jobId);
 
+#简历详情
 def resumeInfo(request, resumeId):
     pageBackgroup = Backgroup(request);
     return pageBackgroup.pageResumeInfo(resumeId);
@@ -68,6 +69,19 @@ def userInfoRequestPort(request):
 
     return response;
 
+#resume请求
+def resumeInfoRequestPort(request):
+    #添加到组织接收简历
+    organizationRequest = OrganizationRequestManager(request);
+    #添加到用户已发送简历
+    studentRequest = StudentRequestManager(request);
+    studentRequest.requestPortManager();
+    return organizationRequest.requestPortManager();
+
+#用户删除applicant记录
+def deleteApplicant(request):
+    studentRequest = StudentRequestManager(request);
+    return studentRequest.requestPortManager();
 #搜索业务
 def searchInfoRequest(request):
     pageMain = Main(request);

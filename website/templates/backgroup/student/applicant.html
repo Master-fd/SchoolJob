@@ -24,9 +24,10 @@
         <section class="job-wrap">
             <table cellpadding="0" cellspacing="0" border="0">
             <colgroup>
-                <col width="300">
-                <col width="180">
-                <col width="180">
+                <col width="210">
+                <col width="165">
+                <col width="165">
+                <col width="120">
                 <col width="120">
             </colgroup>
             <thead>
@@ -35,15 +36,17 @@
                     <th>社团</th>
                     <th>部门</th>
                     <th>状态</th>
+                    <th>删除</th>
                 </tr>
             </thead>
             <tbody>
-            {% for foo in data.jobsList %}
-                <tr data-id={{ foo.jobId }}>
-                    <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
+            {% for foo in data %}
+                <tr data-id={{ foo.applicantId }}>
+                    <td><a href="/jobInfo/{{ foo.jobId }}">{{ foo.name }}</a></td>
                     <td>{{ foo.organizations }}</td>
                     <td>{{ foo.department }}</td>
                     <td>{{ foo.status }}</td>
+                    <td><a class="js-delete-applicant" href="javascript:void (0);">删除</a></td>
                 </tr>
             {% endfor %}
             </tbody>

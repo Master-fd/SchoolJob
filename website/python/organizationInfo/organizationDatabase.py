@@ -172,19 +172,19 @@ class RecvResumeManager(object):
     def addData(self, account=None, **kwargs):
         try:
             #生成唯一的resumeid
-            recvResumeId = '00000000';
+            receResumeId = '00000000';
             while True:
-                recvResumeId = str(random.randint(10000000, 100000000))
-                if not self.recvResumeModel.get(recvResumeId=recvResumeId):
+                receResumeId = str(random.randint(10000000, 100000000))
+                if not self.recvResumeModel.filter(receResumeId=receResumeId):
                     break;
             userObj = self.organizationModel.get(account=account);
+
             kwargs['organizationsId'] = userObj;
-            kwargs['recvResumeId'] = recvResumeId;
+            kwargs['receResumeId'] = receResumeId;
             results = self.recvResumeModel.create(**kwargs)
             data = [];
             if results:
-                for obj in results:
-                    data.append(model_to_dict(obj));
+                data.append(model_to_dict(results));
         except Exception as e:
             data = None;
         return data;
@@ -200,9 +200,9 @@ class RecvResumeManager(object):
         return result;
 
     #修改简历处理信息数据
-    def modifyData(self, account, recvResumeId, **new):
+    def modifyData(self, account, receResumeId, **new):
         try:
-            self.recvResumeModel.filter(account=account, recvResumeId=recvResumeId).update(**new);
+            self.recvResumeModel.filter(account=account, receResumeId=receResumeId).update(**new);
             result = True;
         except Exception as e:
             result = False;

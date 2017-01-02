@@ -12,16 +12,21 @@ define(function(require){
     switch (_page){
 
         case 'home' :
-        case 'main': seajs.use('static/js/home/home.js'); break;   //����Home
+        case 'main':
+        case 'jobInfo': seajs.use('static/js/home/home.js'); break;   //����Home
 
         case 'me': seajs.use('static/js/backgroup/backgroup.js');
                     seajs.use('static/js/backgroup/me.js'); break;   //backgroup
         case 'resume':seajs.use('static/js/backgroup/resume.js');
                         seajs.use('static/js/backgroup/backgroup.js'); break;
-        case 'applicant':
-        case 'collect':seajs.use('static/js/backgroup/backgroup.js'); break;
+        case 'applicant':seajs.use('static/js/backgroup/applicant.js');
+                    seajs.use('static/js/backgroup/backgroup.js');break;
+        case 'collect':seajs.use('static/js/backgroup/backgroup.js');
+                    seajs.use('static/js/backgroup/collect.js'); break;
         case 'jobs':seajs.use('static/js/backgroup/backgroup.js');
                     seajs.use('static/js/backgroup/jobs.js'); break;
+        case 'organizationResume' : seajs.use('static/js/backgroup/backgroup.js');
+                                    seajs.use('static/js/backgroup/organizationResume.js'); break;
     }
 
     seajs.use('static/js/plugin/bootstrap-3.3.0/dist/js/bootstrap.min.js');

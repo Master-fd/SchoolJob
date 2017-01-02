@@ -18,7 +18,7 @@ define(function (require) {
                 strList.push('<tr data-id='+data.jobId+'>');
                 strList.push('<td><a href='+data.url+'>'+data.name+'</a></td>');
                 strList.push('<td>'+data.organization+'</td>');
-                strList.push('<td>'+data.department+'</td>');
+                strList.push('<td">'+data.department+'</td>');
                 strList.push('<td>'+data.number+'</td>');
                 strList.push('<td>'+data.updateDate+'<a href="javascript:void (0);" class="js-extend-btn pull-right down-arrow-icon"></a></td></tr>');
                 strList.push('<tr class="job-detail hidden">');
@@ -48,6 +48,40 @@ define(function (require) {
                     searchOption.joinHtml(json_data.data);
                 }
             });
+        }
+    };
+
+    var collectOption = {
+        //收藏操作
+        //添加
+        addCollect: function(params) {
+            var url = resourceUrl+'userInfoRequest/';
+            params['operation'] = 'addCollect';
+            $.post(url, params, function (json_data) {
+
+                if (json_data.status == 'success') {
+                    pop.popType('success', json_data.message);
+                }else{
+                    pop.popType('error', json_data.message);
+                }
+            }, 'json');
+        },
+
+    };
+
+    var resumeOption = {
+        //发送简历操作
+        sendResume: function (params) {
+            var url = resourceUrl+'resumeInfoRequest/';
+            params['operation'] = 'addUserResume';
+            $.post(url, params, function (json_data) {
+
+                if (json_data.status == 'success') {
+                    pop.popType('success', json_data.message);
+                }else{
+                    pop.popType('error', json_data.message);
+                }
+            }, 'json');
         }
     };
 
@@ -87,7 +121,27 @@ define(function (require) {
             organizationAccount : oragnizationAccount
         };
         searchOption.search(params);
+    }).on('click', '.collect-job', function () {
+
+        //添加收藏
+        var jobId = $(this).parents('tr').prev().data('id');
+
+        if (!jobId){
+            jobId = $(this).parents('div').data('id');
+        }
+        var params = {jobId : jobId};
+        collectOption.addCollect(params);
+    }).on('click', '.apply-job', function () {
+        //发送简历
+        var jobId = $(this).parents('tr').prev().data('id');
+        if (!jobId){
+            jobId = $(this).parents('div').data('id');
+        }
+        var params = {
+            jobId : jobId};
+        resumeOption.sendResume(params);
     });
+
 
 
 

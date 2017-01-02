@@ -25,10 +25,12 @@
           <!-- Indicators -->
           <ol class="carousel-indicators">
               {% for foo in data.organizationList %}
-                  {% if forloop.first %}
-                      <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-                  {% else %}
-                      <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"></li>
+                  {% if foo.bannerImageUrl %}
+                      {% if forloop.first %}
+                          <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+                      {% else %}
+                          <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"></li>
+                      {% endif %}
                   {% endif %}
               {% endfor %}
           </ol>
@@ -36,18 +38,20 @@
           <!-- Wrapper for slides -->
           <div class="full carousel-inner" role="listbox">
             {% for foo in data.organizationList %}
-                {% if forloop.first %}
-                    <div class="full item active">
-                      <a href="/main?organizationAccount={{ foo.account }}">
-                          <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
-                      </a>
-                    </div>
-                {% else %}
-                    <div class="full item">
-                      <a href="/main?organizationAccount={{ foo.account }}">
-                          <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
-                      </a>
-                    </div>
+                {% if foo.bannerImageUrl %}
+                    {% if forloop.first %}
+                        <div class="full item active">
+                          <a href="/main?organizationAccount={{ foo.account }}">
+                              <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
+                          </a>
+                        </div>
+                    {% else %}
+                        <div class="full item">
+                          <a href="/main?organizationAccount={{ foo.account }}">
+                              <img src="{{ foo.bannerImageUrl }}" alt="{{ foo.name }}">
+                          </a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endfor %}
           </div>
@@ -113,7 +117,7 @@
                 <tr data-id={{ foo.jobId }}>
                     <td><a href="{{ foo.url }}">{{ foo.name }}</a></td>
                     <td>{{ foo.organization }}</td>
-                    <td>{{ foo.department }}</td>
+                    <td class="js-department">{{ foo.department }}</td>
                     <td>{{ foo.number }}</td>
                     <td>{{ foo.updateDate }}
                         <a href="javascript:void (0);" class="js-extend-btn pull-right down-arrow-icon"></a>

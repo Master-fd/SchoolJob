@@ -328,6 +328,9 @@
     margin-right: 30px;
     max-width: 600px;
 }
+.resume-warp .record-input p{
+    margin: 15px auto 15px auto;
+}
 .resume-warp .record-input.auto-height{
     float: none;
     margin-left: 110px;

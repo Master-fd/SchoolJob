@@ -11,7 +11,7 @@ define(function (require, exports) {
 
     var resumeOtp = {
 
-        //添加用户resume
+        //用户添加resume
         addUserResume:function () {
             var name=$body.find('.resume-warp').find("input[name='name']").val();
             var sex=$body.find('.resume-warp').find("input[name='sex']:checked").val();

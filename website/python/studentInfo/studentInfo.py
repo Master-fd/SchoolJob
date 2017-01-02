@@ -10,6 +10,8 @@ from website.python.common.response import ResponsesSingleton
 from userDatabase import StudentInfoManager, ResumeManager, ColloctManager, ApplicantManager
 from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
 from website.python.userBase.userBase import UserBase
+from website.python.jobsInfo.jobsDatabase import JobsInfoManager
+
 '''
 网络请求数据处理
 '''
@@ -23,6 +25,7 @@ class StudentRequestManager(UserBase):
         self.collectInfoManager = ColloctManager();
         self.applicantInfoManager = ApplicantManager();
         self.schoolInfoManager = SchoolInfoManager();
+        self.jobInfoManager = JobsInfoManager();
 
     #管理请求端口,分发任务
     def requestPortManager(self):
@@ -37,7 +40,7 @@ class StudentRequestManager(UserBase):
                 return self.__userLogin();
             elif operation == 'logout':  #注销
                 return self.userLogout();
-            elif operation == 'modifyInfo':  #修改基本信息
+            elif operation == 'modifyInfo':  #修改基本信息'
                 return self.__userModify();
             elif operation == 'addResume':   #add 简历
                 return self.__addResume(account);
@@ -45,6 +48,14 @@ class StudentRequestManager(UserBase):
                 return self.__modifyResume(account);
             elif operation == 'deleteResume': #删除简历
                 return self.__deleteResume(account);
+            elif operation == 'addCollect':  #添加收藏
+                return self.__addCollect(account);
+            elif operation == 'deleteCollect':  #删除收藏
+                return self.__deleteCollect(account);
+            elif operation == 'addUserResume':  #添加已应聘职位
+                return self.__addApplicant(account);
+            elif operation == 'deleteApplicant':   #删除已应聘职位
+                return self.__deleteApplicant(account);
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
         elif self.request.method == 'GET':
@@ -223,11 +234,16 @@ class StudentRequestManager(UserBase):
         for key, value in data.items():
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-        results = self.resumeInfoManager.addData(account, **data);
+        results = self.resumeInfoManager.getData(account);
+        if results:   #如果已经存在，则修改简历
+            results = self.resumeInfoManager.modifyData(account, **data);
+        else:
+            results = self.resumeInfoManager.addData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+
 
     #删除简历
     def __deleteResume(self, account):
@@ -252,12 +268,11 @@ class StudentRequestManager(UserBase):
         for key, value in data.items():
             if value==None:
                 data.pop(key);  #删除值为None的key-value
-
         results = self.resumeInfoManager.modifyData(account, **data);
         if results:
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
 
 #--------------- 收藏操作--------------------------------------------------------------
 
@@ -272,28 +287,35 @@ class StudentRequestManager(UserBase):
     #设置收藏
     def __addCollect(self, account):
 
-        data = {
-            'jobId' : self.request.POST.get('jobId' , None),
-            'name' : self.request.POST.get('name' , None),
-            'organizations' : self.request.POST.get('organizations', None),
-            'department' : self.request.POST.get('department', None),
-            'description' : self.request.POST.get('description', None),
-            'status' : self.request.POST.get('status', None),
-        }
-        for key, value in data:
-            if value==None:
-                data.pop(key);  #删除值为None的key-value
-        results = self.collectInfoManager.addData(account, **data);
-        if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
+        jobId = self.request.POST.get('jobId' , None);
+        #获取指定的job
+        jobsList = self.jobInfoManager.getData(jobId=jobId);
+        if jobsList:
+            job = jobsList[0];
+            data = {
+                'name' : job['name'],
+                'jobId' : jobId,
+                'organizations' : job['organization'],
+                'department' : job['department'],
+                'description' : job['description']
+            }
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+            data=[];
+        results = self.collectInfoManager.getData(account, jobId=jobId);
+        if not results:
+            results = self.collectInfoManager.addData(account, **data);
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '已经收藏过了');
+        if results:
+            return ResponsesSingleton.getInstance().responseJsonArray('success', '收藏成功', data);
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '收藏失败');
 
     #删除收藏
     def __deleteCollect(self, account):
 
         condition = {
-            'collectId' : self.request.GET.get('collectId', None)
+            'collectId' : self.request.POST.get('collectId', None)
         }
         results = self.collectInfoManager.deleteData(account, **condition);
         if results:
@@ -313,28 +335,39 @@ class StudentRequestManager(UserBase):
     #设置applicant
     def __addApplicant(self, account):
 
+        jobId = self.request.POST.get('jobId', None);
+        jobList = self.jobInfoManager.getData(jobId=jobId);
+        if jobList:
+            job = jobList[0];
+        organizationList = self.organization.getData(id=job['organizationsId']);
+        organization={};
+        if organizationList:
+            organization = organizationList[0];
+
         data = {
-            'jobId' : self.request.POST.get('jobId' , None),
-            'name' : self.request.POST.get('name' , None),
-            'organizations' : self.request.POST.get('organizations', None),
-            'department' : self.request.POST.get('department', None),
-            'description' : self.request.POST.get('description', None),
-            'status' : self.request.POST.get('status', None),
+            'department' : job.get('department', None),
+            'jobId' : jobId,
+            'name' : job.get('name', None),
+            'applicant' : job.get('description', None),
+            'organizations' : organization.get('name', None),
+            'status' : '已发送'
         }
-        for key, value in data:
-            if value==None:
-                data.pop(key);  #删除值为None的key-value
-        results = self.applicantInfoManager.addData(account, **data);
+        check = {
+            'jobId' : jobId
+        }
+        results = self.applicantInfoManager.getData(account, **check);
+        if not results:
+            results = self.applicantInfoManager.addData(account, **data);
         if results:
-            return ResponsesSingleton.getInstance().responseJsonArray('success', '添加成功', data);
+            return True;
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+            return False;
 
     #删除applicant
     def __deleteApplicant(self, account):
 
         condition = {
-            'collectId' : self.request.GET.get('collectId', None)
+            'applicantId' : self.request.POST.get('applicantId', None)
         }
         results = self.applicantInfoManager.deleteData(account, **condition);
         if results:
