@@ -274,6 +274,7 @@ table .gap-line{
     text-align: center;
 }
 .address-modal .modal-main .modal-content .email-content{
+    font-size: 14px;
     width: 600px;
     height: 180px;
     border-radius: 4px;

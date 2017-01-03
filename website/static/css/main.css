@@ -101,6 +101,7 @@
     background: url(/static/image/banner-icon.png) -28px -146px;
 }
 .job-wrap .checkbox{
+    cursor: pointer;
     float: left;
     margin: 5px 20px auto auto;
 }
@@ -362,6 +363,9 @@
 }
 .resume-warp .record-input p{
     margin: 15px auto 15px auto;
+}
+.resume-warp .record-input textarea{
+    padding: 5px 10px 5px 10px;
 }
 .resume-warp .record-input.auto-height{
     float: none;

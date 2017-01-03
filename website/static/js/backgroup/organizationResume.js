@@ -34,26 +34,42 @@ define(function (require, exports) {
         checkBox.each(function (i, n) {
             emailArray.push($(n).data('id'));
         });
-
         if (!emailArray){
             pop.popType('error', '未选定发送对象');
+            return false
         }
         if (!emailContent){
             pop.popType('error', 'Email内容不能为空');
+            return false
         }
-        if (resumeIdArray && emailContent){
-            var params = {
+        if (emailArray && emailContent){
+
+            data = {
                 operation : 'sendEmail',
                 emailArray : emailArray,
                 emailContent : emailContent
             };
-            $.post(url, params, function (json_data) {
-                if (json_data.status=='success'){
-                    pop.popType('success', '已发送');
-                }else{
-                    pop.popType('success', '发送失败');
+
+            $.ajax({
+                type:'POST',
+                url : url,
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success : function (json_data) {
+                            if (json_data.status=='success'){
+                                pop.popType('success', '已发送', '', function () {
+                                    pop.popClose();
+                                });
+
+                            }else{
+                                pop.popType('error', '发送失败');
+                            }
+                        },
+                error : function (json_data) {
+                    pop.popType('error', '发送失败');
                 }
-            }, 'json');
+            });
         }
     });
 

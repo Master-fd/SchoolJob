@@ -9,8 +9,7 @@ __author__ = 'Administrator'
 import hashlib
 
 from django.http import HttpRequest
-
-from website import models
+from django.template.loader import render_to_string
 from website.python.common.response import ResponsesSingleton
 from organizationDatabase import OrganizationInfoManager, JobsManager, RecvResumeManager
 from website.python.userBase.userBase import UserBase
@@ -21,6 +20,7 @@ from SchoolJob import settings
 from website.python.tools.uploader import Uploader
 from website.python.tools.email import Email
 import os
+import json
 
 class OrganizationRequestManager(UserBase):
 
@@ -39,6 +39,9 @@ class OrganizationRequestManager(UserBase):
         isLogin, account = self.checkIsLogin();   #检查是否login， 获取账号
         if self.request.method == 'POST':
             operation = self.request.POST.get('operation', None);
+            if not operation:
+                jsonData = json.loads(self.request.body);
+                operation = jsonData.get('operation', None);
             if operation == 'register':   #注册
                 return self.__userRegister();
             elif operation == 'login':   # 登录
@@ -61,7 +64,7 @@ class OrganizationRequestManager(UserBase):
                 return self.__modifyJob(account);
             elif operation == 'deleteJob': #删除工作
                 return self.__deleteJob(account);
-            elif operation == 'resumeIdArray':   #发送email
+            elif operation == 'sendEmail':   #发送email
                 return self.__sendEmail(account);
             elif operation == 'addCollect':
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', '组织不能收藏职位');
@@ -393,15 +396,24 @@ class OrganizationRequestManager(UserBase):
 
     #发送email
     def __sendEmail(self, account=None):
-        emailArray = self.request.POST.get('emailArray', None);
-        emailContent = self.request.POST.get('emailContent', None);
-        email = Email();
-        
-        message1 = ['测试邮件1', '这是我的测试邮件1', ('a1003768663@126.com',)];
-        message2 = ['测试邮件2', '这是我的测试邮件2', ('a1003768663@126.com',)];
-        emails = (message1, message2);
-        result = email.sendMultiEmail(emails=emails);
-        if result:
-            return HttpResponse('sendMultiEmail success');
+        organizationList = self.organizationInfoManager.getData(account=account);
+        name = None;
+        if organizationList:
+            organization = organizationList[0];
+            name = organization.get('name', None);
+        if not name:
+            name = '邮件'
+        json_data = json.loads(self.request.body);
+        if json_data:
+            emailArray = json_data.get('emailArray', None);
+            emailContent = json_data.get('emailContent', None);
+            emailContentLines = emailContent.split('\n');   #输出的时候保持字符串分行
+            htmlStr = render_to_string('common/email.html', {'emailContentLines': emailContentLines});
+            email = Email();
+            result = email.sendAuthEmail(subject=name, html_content=htmlStr, toEmail=tuple(emailArray));
+            if result:
+                return ResponsesSingleton.getInstance().responseJsonArray('success', '发送成功');
+            else:
+                return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送失败');
         else:
-            return HttpResponse('sendMultiEmail fail');
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送失败');

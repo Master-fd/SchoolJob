@@ -103,3 +103,5 @@ def deleteApplicant(request):
 def searchInfoRequest(request):
     pageMain = Main(request);
     return pageMain.searchInfoRequest();
+
+
