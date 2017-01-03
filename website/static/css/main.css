@@ -100,7 +100,10 @@
     padding: 10px 21px 0 0;
     background: url(/static/image/banner-icon.png) -28px -146px;
 }
-
+.job-wrap .checkbox{
+    float: left;
+    margin: 5px 20px auto auto;
+}
 .job-detail{
     font-size: 12px;
     font-weight: 400;
@@ -276,9 +279,38 @@
     width: 600px;
     margin: 20px auto auto 85px;
 }
+.information .list .item .image{
+    position: relative;
+    margin: 25px 50px 20px 80px;
+    height: 100px;
+}
 .information .list .item .modify{
     display: inline-block;
     margin: 20px auto auto 100px;
+}
+.information .list .item .hide-input{
+    position: absolute;
+    font-size: 0px;
+    z-index: 2000;
+    opacity: 0;
+    float: left;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+.information .list .item .mask-input{
+    position: absolute;
+    text-align: center;
+    z-index: 0;
+    float: left;
+    cursor: pointer;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #EFEFEF;
 }
 .information .list .item.item-image{
     margin: 40px auto auto auto;

@@ -37,9 +37,8 @@ define(function(require, exports){
                 isLogin = true;
                 $body.find('.js-logout').css('display' , 'inline-block');
                 $body.find('.js-login .js-loginName').text('个人中心');
-                //设置显示选定的学校
-                var university = json_data.data[1];
-                $('.js-change-addr').text(university.name+' | 切换');
+                //登录之后刷新当前页面
+                window.location.reload();  //刷新当前页面
             }else{
                 pop.popType('error', json_data.message);
             }

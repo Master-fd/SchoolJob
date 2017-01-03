@@ -20,7 +20,9 @@
 <div id="page" class="container" data-id="organizationResume">
     {% include 'backgroup/organization/navbar.html' %}
     <div class="page-containter">
-        <h3>收到的简历</h3>
+        <h3>收到的简历
+             <a class="add-btn js-sendEmail-btn">发送Email</a>
+        </h3>
         <section class="job-wrap">
             <table cellpadding="0" cellspacing="0" border="0">
             <colgroup>
@@ -42,7 +44,7 @@
             <tbody>
             {% for foo in data %}
                 <tr data-id={{ foo.receResumeId }}>
-                    <td><a href="/resumeInfo/{{ foo.resumeId }}">{{ foo.name }}</a></td>
+                    <td><input class="checkbox" name="resume-select" type="checkbox" data-id={{ foo.email }}><a href="/resumeInfo/{{ foo.resumeId }}">{{ foo.name }}</a></td>
                     <td>{{ foo.phoneNumber }}</td>
                     <td>{{ foo.department }}</td>
                     <td>{{ foo.jobName }}</td>
@@ -54,7 +56,5 @@
         </section>
     </div>
 </div>
-{#{% block modal %}#}
-{#    {% include 'backgroup/organization/modalJob.html' %}#}
-{#{% endblock %}#}
+
 {% endblock %}

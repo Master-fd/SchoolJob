@@ -2,7 +2,7 @@
 # __author__ = 'fenton-fd.zhu'
 
 from django.shortcuts import render, render_to_response, HttpResponse
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from django.template import loader, RequestContext, Context
 from website.python.common.response import ResponsesSingleton
 from website.python.userBase.userBase import UserBase
@@ -87,5 +87,6 @@ class Main(object):
         data = self.jobInfoManager.getData(jobId=jobId);
         if data:
             data = data[0];
-
-        return render_to_response('main/jobInfo.html', context_instance=RequestContext(self.request, data));
+            return render_to_response('main/jobInfo.html', context_instance=RequestContext(self.request, data));
+        else:
+            return HttpResponseRedirect('/noresult');

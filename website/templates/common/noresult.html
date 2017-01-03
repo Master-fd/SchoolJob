@@ -1,0 +1,28 @@
+{% extends 'common/base.html' %}
+
+{% block description %}
+    <meta name="description" content=页面已失效>
+{% endblock %}
+
+{% block keywords%}
+    <meta name="keywords" content=页面已失效>
+{% endblock %}
+
+{% block title %}页面已失效{% endblock %}
+
+{% block userStyle %}
+    <link rel="stylesheet" href="/static/css/noresult.css">
+{% endblock %}
+
+{% block content %}
+
+    <div id="page" class="container" data-id="noresult">
+
+        <section class="content">
+            <div class="no-result-img">
+                <img src="/static/image/no-result.png">
+            </div>
+            <p class="text">页面已失效</p>
+        </section>
+    </div>
+{% endblock %}

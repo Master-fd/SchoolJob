@@ -18,6 +18,9 @@ from website.python.schoolInfo.schoolDatabase import SchoolInfoManager
 from website.python.studentInfo.studentInfo import ResumeManager
 from website.python.jobsInfo.jobsDatabase import JobsInfoManager
 from SchoolJob import settings
+from website.python.tools.uploader import Uploader
+from website.python.tools.email import Email
+import os
 
 class OrganizationRequestManager(UserBase):
 
@@ -44,6 +47,8 @@ class OrganizationRequestManager(UserBase):
                 return self.userLogout();
             elif operation == 'modifyInfo':  #修改基本信息
                 return self.__userModify();
+            elif operation == 'uploadBanner':  #上传banner图片
+                return self.__uploadBanner(account);
             elif operation == 'addUserResume':   #add 简历
                 return self.__addRecvResume(account,);
             elif operation == 'modifyResume':   #修改简历
@@ -56,6 +61,10 @@ class OrganizationRequestManager(UserBase):
                 return self.__modifyJob(account);
             elif operation == 'deleteJob': #删除工作
                 return self.__deleteJob(account);
+            elif operation == 'resumeIdArray':   #发送email
+                return self.__sendEmail(account);
+            elif operation == 'addCollect':
+                return ResponsesSingleton.getInstance().responseJsonArray('fail', '组织不能收藏职位');
             else:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', 'operation有误');
         elif self.request.method == 'GET':
@@ -201,7 +210,7 @@ class OrganizationRequestManager(UserBase):
                 condition['name'] = self.request.POST.get('nickname', None);
             if self.request.POST.get('description', None):
                 condition['description'] = self.request.POST.get('description', None);
-            print condition, self.request
+
             try:
                 result = self.organizationInfoManager.modifyData(account, **condition);
                 if result:
@@ -210,7 +219,27 @@ class OrganizationRequestManager(UserBase):
                     return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
             except Exception, e:
                 return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
-            
+
+    #上传banner图片
+    def __uploadBanner(self, account=None):
+        #新建上传器
+        if account:
+            dirRoot = os.path.join(os.path.join(settings.MEDIA_ROOT, 'bannerImage'), account);  #每个用户的banner图片使用他的用户名作为文件夹命名
+            myUploder = Uploader(dirRoot);   #新建下载器
+            condition = {
+                'bannerImageUrl' : myUploder.uploadFile(self.request.FILES.get('bannerImageUrl', None))
+            };
+            try:
+                result = self.organizationInfoManager.modifyData(account, **condition);
+                if result:
+                    return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
+                else:
+                    return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
+            except Exception, e:
+                return ResponsesSingleton.getInstance().responseJsonArray('fail', '修改失败');
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '没有登录');
+
 #--------------- 发布job信息操作--------------------------------------------------------------
 
     #读取用户job信息
@@ -293,7 +322,7 @@ class OrganizationRequestManager(UserBase):
         if resumeList:
             resume = resumeList[0];
         else:
-            return ResponsesSingleton.getInstance().responseJsonArray('fail', '该用户没有简历');
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '您还没有简历');
         jobId = self.request.POST.get('jobId', None);
         jobList = self.jobDbManager.getData(jobId=jobId);
         if jobList:
@@ -361,3 +390,18 @@ class OrganizationRequestManager(UserBase):
             return ResponsesSingleton.getInstance().responseJsonArray('success', '修改成功');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '删除失败');
+
+    #发送email
+    def __sendEmail(self, account=None):
+        emailArray = self.request.POST.get('emailArray', None);
+        emailContent = self.request.POST.get('emailContent', None);
+        email = Email();
+        
+        message1 = ['测试邮件1', '这是我的测试邮件1', ('a1003768663@126.com',)];
+        message2 = ['测试邮件2', '这是我的测试邮件2', ('a1003768663@126.com',)];
+        emails = (message1, message2);
+        result = email.sendMultiEmail(emails=emails);
+        if result:
+            return HttpResponse('sendMultiEmail success');
+        else:
+            return HttpResponse('sendMultiEmail fail');

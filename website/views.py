@@ -16,11 +16,14 @@ from website.python.userBase.userBase import UserBase
 from website.python.page.home import Home
 from website.python.page.main import Main
 from website.python.page.backgroup import Backgroup
-
+import re
 # Create your views here.
 
 
-
+#页面吧已失效
+def noResult(request):
+    data = {};
+    return render_to_response('common/noresult.html', context_instance=RequestContext(request, data));
 #首页渲染
 def home(request):
     pageHome = Home(request);
@@ -71,17 +74,31 @@ def userInfoRequestPort(request):
 
 #resume请求
 def resumeInfoRequestPort(request):
-    #添加到组织接收简历
-    organizationRequest = OrganizationRequestManager(request);
-    #添加到用户已发送简历
-    studentRequest = StudentRequestManager(request);
-    studentRequest.requestPortManager();
-    return organizationRequest.requestPortManager();
+    userBase = UserBase(request);
+    isLogin, account = userBase.checkIsLogin()
+    if isLogin:
+        match = re.match('\d+', account);
+        if match:
+            #添加到组织接收简历
+            organizationRequest = OrganizationRequestManager(request);
+            #添加到用户已发送简历
+            studentRequest = StudentRequestManager(request);
+            studentRequest.requestPortManager();
+            return organizationRequest.requestPortManager();
+        else:
+            return ResponsesSingleton.getInstance().responseJsonArray('fail', '组织不能发送简历');
+    else:
+        return ResponsesSingleton.getInstance().responseJsonArray('fail', '您尚未登录');
 
 #用户删除applicant记录
 def deleteApplicant(request):
-    studentRequest = StudentRequestManager(request);
-    return studentRequest.requestPortManager();
+    userBase = UserBase(request);
+    isLogin, account = userBase.checkIsLogin()
+    if isLogin:
+        studentRequest = StudentRequestManager(request);
+        return studentRequest.requestPortManager();
+    else:
+        return ResponsesSingleton.getInstance().responseJsonArray('fail', '您尚未登录');
 #搜索业务
 def searchInfoRequest(request):
     pageMain = Main(request);

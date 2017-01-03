@@ -273,6 +273,12 @@ table .gap-line{
     display: block;
     text-align: center;
 }
+.address-modal .modal-main .modal-content .email-content{
+    width: 600px;
+    height: 180px;
+    border-radius: 4px;
+    padding: 5px 10px 5px 10px;
+}
 .address-modal .modal-main .modal-content .input{
     display: block;
     margin: 20px auto auto 80px;

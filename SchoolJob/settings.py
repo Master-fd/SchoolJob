@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'schoolJob',
-        'HOST' : '119.29.151.45',
+        'HOST' : '127.0.0.1',   #'119.29.151.45',
         'PORT' : '3306',
         'USER' : 'root',
         'PASSWORD' : '633922'
@@ -168,3 +168,12 @@ SESSION_COOKIE_DOMIN = None           #Session的cookie保存的域名（默认�
 SESSION_COOKIE_AGE = 2000            #Session的cookie失效日期（默认2周）
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True    #是否关闭浏览器使得Session过期（默认）
 SESSION_SAVE_EVERY_REQUEST = True   # 是否每次请求都保存Session，默认修改之后才保存（默认）
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True  #使用保密协议,QQ需要使用保密协议传输
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = '1003768663@qq.com'
+EMAIL_HOST_PASSWORD = 'yhouxzhsnmezbcad'   # 需要使用QQ邮箱的授权码，不是密码,这和其他的邮箱不同
+DEFAULT_FROM_EMAIL = 'feidong <1003768663@qq.com>'

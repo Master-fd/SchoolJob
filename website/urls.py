@@ -15,6 +15,7 @@ urlpatterns = [
     url('^jobInfo/(?P<jobId>\d+)/$', views.jobInfo),   #job详情
     url('^resumeInfo/(?P<resumeId>\d+)/$', views.resumeInfo),  #简历详情
     url('^backgroup/(?P<pageName>\w+)/$', views.userBackPage),  #user后台
+    url('^noresult/$', views.noResult),   #页面已失效
 
     #ajax
     url('^schoolInfoRequest/$', views.schoolInfoRequestManager),  #中国学校相关信息请求

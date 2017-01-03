@@ -124,9 +124,8 @@ define(function(require, exports){
         $.post(url, params, function (json_data) {
 
             if (json_data.status == 'success'){
-                //设置显示选定的学校
-                var university = json_data.data[1];
-                $('.js-change-addr').text(university.name+' | 切换');
+                //从新设置了学校，刷新一下当前页面
+                window.location.reload();  //刷新当前页面
             }
         }, 'json');
         return false;

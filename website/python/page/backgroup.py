@@ -4,7 +4,7 @@ __author__ = 'Administrator'
 
 
 from django.shortcuts import render, render_to_response, HttpResponse
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 from django.template import loader, RequestContext, Context
 from website.python.common.response import ResponsesSingleton
 
@@ -36,14 +36,14 @@ class Backgroup(object):
     def pageResumeInfo(self, resumeId):
         if resumeId:
             data = self.resumeInfoManager.getData(resumeId=resumeId);
-
             if data:
-                data = {
-                    'data' : data[0]
-                }
+                data = {'data' : data[0]};
+                return render_to_response('backgroup/student/resumeInfo.html', context_instance=RequestContext(self.request, data));
+            else:
+                return HttpResponseRedirect('/noresult');
         else:
             data = {}
-        return render_to_response('backgroup/student/resumeInfo.html', context_instance=RequestContext(self.request, data));
+            return render_to_response('backgroup/student/resumeInfo.html', context_instance=RequestContext(self.request, data));
 
     def pageBackgroup(self, pageName):
         page = None;
@@ -62,7 +62,8 @@ class Backgroup(object):
                         'current' : 'me',
                         'data' : {
                             'name' : organizationInfo.get('name', None),
-                            'description' : organizationInfo.get('description', None)
+                            'description' : organizationInfo.get('description', None),
+                            'bannerImageUrl' : organizationInfo.get('bannerImageUrl', None)
                         }
                     };
                 page = 'backgroup/organization/aboutMe.html';

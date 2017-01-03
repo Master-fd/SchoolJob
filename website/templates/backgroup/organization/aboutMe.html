@@ -43,11 +43,15 @@
                         <a href="javascript:void(0);" class="modify" data-id="password">修改</a>
                     </li>
                     <li class="item item-image">
-                        <h4 class="title"><i class="icon icon-check"></i>推广图片</h4>
-                        <span class="nike-name">
-                            <img class="full" src="/static/image/banner1.jpg">
-                        </span>
-                        <a href="javascript:void(0);" class="modify" data-id="email">修改</a>
+                        <h4 class="title"><i class="icon icon-check"></i>推广图片(可单击图片修改)</h4>
+                        <div class="image">
+                            <input name="bannerImageUrl" class="js-banner-image hide-input" type="file" accept="image/gif,image/jpeg,image/jpg" >
+                            {% if data.bannerImageUrl %}
+                                <img class="mask-input" src="{{ data.bannerImageUrl }}">
+                            {% else %}
+                                <img class="mask-input" src="/static/image/plus.png">
+                            {% endif %}
+                        </div>
                     </li>
                 </ul>
             </section>

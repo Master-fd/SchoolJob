@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<body>
+    {% if data.popAddressModal %}
+        <div id="pop-sendEmail-option" class="address-modal" style="display: block">
+    {% else %}
+        <div id="pop-sendEmail-option" class="address-modal" style="display: none">
+    {% endif %}
+        <div class="modal-mask js-modal-close"></div>
+            <div class="modal-main">
+                <div class="modal-header">
+                    发送邮件
+                    <a class="close-btn js-modal-close" href="javascript:void(0);">
+                        <i class="passport-icon close-icon"></i>
+                    </a>
+                </div>
+                <div class="modal-content">
+                    <textarea class="email-content" name="email-content"></textarea>
+                    <div class="space"></div>
+                </div>
+                <div class="modal-footer">
+                    <a class="cancel-btn js-modal-close" href="javascript:void(0);">取消</a>
+                    <a class="submit-btn" href="javascript:void(0);">发送</a>
+                </div>
+            </div>
+        </div>
+
+</body>
+</html>

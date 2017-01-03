@@ -286,7 +286,8 @@ class StudentRequestManager(UserBase):
 
     #设置收藏
     def __addCollect(self, account):
-
+        if not account:
+            return ResponsesSingleton.getInstance().responseJsonArray('error', '您尚未登录');
         jobId = self.request.POST.get('jobId' , None);
         #获取指定的job
         jobsList = self.jobInfoManager.getData(jobId=jobId);
