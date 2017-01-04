@@ -129,8 +129,19 @@ class StudentRequestManager(UserBase):
                 };
                 result = self.studentInfoManager.addData(**data);
                 if result:
-                    data = [{ 'account' : account}];
-                    self.request.session['account'] = account;  #注册之后直接登录
+                    user = result[0];
+                    universityDict = self.schoolInfoManager.getProvincesUniversityCollegeById(user['provincesId'], user['universityId'], user['collegeId']);
+                    province = universityDict.get('province', None);
+                    university = universityDict.get('university', None);
+                    college = universityDict.get('college', None);
+                    self.request.session['account'] = account;
+                    self.request.session['provinceId'] = province['id'];
+                    self.request.session['provinceName'] = province['name'];
+                    self.request.session['universityId'] = university['id'];
+                    self.request.session['universityName'] = university['name'];
+                    self.request.session['collegeId'] = college['id'];
+                    self.request.session['collegeName'] = college['name'];
+                    data = [province, university, college];
                     return ResponsesSingleton.getInstance().responseJsonArray("success", "注册成功", data);
                 else:
                     return ResponsesSingleton.getInstance().responseJsonArray("fail", "注册失败，请重试");

@@ -35,8 +35,6 @@ define(function(require, exports){
         $.post(url, params, function(json_data){
             if (json_data.status == 'success'){
                 isLogin = true;
-                $body.find('.js-logout').css('display' , 'inline-block');
-                $body.find('.js-login .js-loginName').text('个人中心');
                 //登录之后刷新当前页面
                 window.location.reload();  //刷新当前页面
             }else{
@@ -52,9 +50,9 @@ define(function(require, exports){
         $.post(url, params, function(json_data){
             if (json_data.status == 'success'){
                 isLogin = true;
-                pop.popType('success', '注册成功');
-                $body.find('.js-logout').css('display' , 'inline-block');
-                $body.find('.js-login .js-loginName').text('个人中心');
+                pop.popType('success', '注册成功', '', function () {
+                    window.location.reload();  //刷新当前页面
+                });
             }else{
                 pop.popType('error', json_data.message);
             }
@@ -66,8 +64,6 @@ define(function(require, exports){
         $.post(url, params, function(json_data){
             if (json_data.status == 'success'){
                 isLogin = false;
-                $body.find('.js-logout').css('display' , 'none');
-                $body.find('.js-login .js-loginName').text('登录');
                 window.location.href = resourceUrl+'home/';
             }
         }, 'json');

@@ -16,12 +16,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#网站地址
 
-HOST = '119.29.151.45'
-PORT = '8000'
-DOMIN = 'www.schoolJon.com'
-BASE_URL = 'http://127.0.0.1:8000/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -141,6 +136,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+#网站地址
+HOST = '119.29.151.45'
+PORT = '8000'
+DOMIN = 'www.schoolJon.com'
+BASE_URL = 'http://127.0.0.1:8000/'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -177,3 +178,5 @@ EMAIL_PORT = 25
 EMAIL_HOST_USER = '1003768663@qq.com'
 EMAIL_HOST_PASSWORD = 'yhouxzhsnmezbcad'   # 需要使用QQ邮箱的授权码，不是密码,这和其他的邮箱不同
 DEFAULT_FROM_EMAIL = 'feidong <1003768663@qq.com>'
+
+

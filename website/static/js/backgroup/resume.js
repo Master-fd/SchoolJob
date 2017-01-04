@@ -37,6 +37,12 @@ define(function (require, exports) {
             if (!email){
                 pop.popType('error', 'Email不能为空');
                 return false;
+            }else{
+                match = email.match(/[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+/);
+                if (match==null){
+                    pop.popType('error', 'Email不合法');
+                    return false;
+                }
             }
             if (!phoneNumber){
                 pop.popType('error', '电话不能为空');
