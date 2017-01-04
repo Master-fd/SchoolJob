@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'k)&n7d_mfb(^%*u3p6-5$9#5+&(4@+b@6&&ap0745rv1d1gp3w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -128,7 +128,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = 'Asia/ShangHai'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -138,10 +138,10 @@ USE_TZ = True
 
 #网站地址
 HOST = '119.29.151.45'
-PORT = '8000'
+PORT = '80'  #8000
 DOMIN = 'www.schoolJon.com'
-BASE_URL = 'http://127.0.0.1:8000/'
-
+# BASE_URL = 'http://127.0.0.1:8000/'
+BASE_URL = 'http://www.schooljob.xyz/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -156,7 +156,7 @@ CORS_ORIGIN_ALLOW_ALL = True   #允许所有跨域请求，具体查看https://g
 #session不使用系统自带的，采用redis
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'  #引擎（默认）可选：文档、内存、数据库级别
 SESSION_ENGINE = 'redis_sessions.session'  #使用redis做session引擎https://github.com/martinrusev/django-redis-sessions
-SESSION_REDIS_HOST = '119.29.151.45'
+SESSION_REDIS_HOST = '127.0.0.1'  #'119.29.151.45'
 SESSION_REDIS_PORT = 6379
 SESSION_REDIS_DB = 0
 # SESSION_REDIS_PASSWORD = '123456'    #如果redis没有设置密码，则不需要

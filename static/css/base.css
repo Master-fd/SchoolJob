@@ -1,0 +1,541 @@
+
+
+/*reset*/
+html, body, h1, h2, h3, h4, h4, h5,h6, div, dl, dt, dd, ul, ol, li, p, a, span, i, em,
+blockquote, pre, hr, figure, table, caption, th, td, form, fieldset, legend, input, button,
+textarea, menu{
+    padding: 0;
+    margin: 0;
+}
+td th{
+    display: table-cell;
+    vertical-align: inherit;
+}
+/*default*/
+div {
+    display: block;
+}
+label{
+    font-weight: normal;
+}
+li{
+    display: list-item;
+    list-style: none;
+    text-align: -webkit-match-parent;
+}
+body{
+    font-size: 14px;
+    line-height: 1.6em;
+    font-family: "Microsoft YaHei Light","Microsoft YaHei",Arial,Helvetica,"Hiragino Sans GB","SimSun","WenQuanYi Micro Hei",sans-serif;
+    color: #333;
+    background: #fff;
+    background-color: #ededed;
+}
+* {
+     -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+a,
+a:link,
+a:visited{
+    color: #222222;
+}
+a:hover{
+    text-decoration: none;
+    color: #4090ff;
+}
+.header a,
+.header a:link,
+.header a:visited{
+    color: #FFFFFF;
+    opacity: 0.5;
+}
+.header a:hover{
+    color: #FFFFFF;
+    opacity: 1;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    color: #333;
+    font-family: 'Microsoft YaHei';
+}
+
+table .gap-line{
+    height: 1px;
+    width: 100%;
+}
+.cursor-pointer{
+    cursor: pointer;
+}
+.hidden{
+    display: none;
+}
+.block{
+    display: block;
+}
+.container{
+    position: relative;
+    width: 1100px;
+    /*height: 400px;*/
+    /*min-height: 400px;*/
+    /*background-color: #FFFFFF;*/
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+.full{
+    width: 100%;
+    height: 100%;
+}
+.icon{
+    display: inline-block;
+    background: url(../image/sbolo-icon.png);
+}
+.color-orange{
+    color: #ec6738;
+}
+.align-center{
+    text-align: center;
+}
+
+.row10{
+    width: 10%;
+}
+.row15{
+    width: 15%;
+}
+.row20{
+    width: 20%;
+}
+.row30{
+    width: 30%;
+}
+.row33{
+    width: 33.33%;
+}
+.row40{
+    width: 40%;
+}
+.row50{
+    width: 50%;
+}
+.row60{
+    width: 60%;
+}
+.row66{
+    width: 66.67%;
+}
+.row70{
+    width: 70%;
+}
+.row80{
+    width: 80%;
+}
+.row90{
+    width: 90%;
+}
+.row100{
+    width: 100%;
+}
+.col10{
+    height: 10%;
+}
+.col20{
+    height: 20%;
+}
+.col30{
+    height: 30%;
+}
+.col33{
+    height: 33.37%;
+}
+.col40{
+    height: 40%;
+}
+.col50{
+    height: 50%;
+}
+.col60{
+    height: 60%;
+}
+.col66{
+    height: 66.67%;
+}
+.col70{
+    height: 70%;
+}
+.col80{
+    height: 80%;
+}
+.col90{
+    height: 90%;
+}
+.col100{
+    height: 100%;
+}
+.float-left{
+    float: left;
+}
+.float-right{
+    float: right;
+}
+.margin-bottom50{
+    margin-bottom: 50px;
+}
+.margin-bottom30{
+    margin-bottom: 30px;
+}
+.margin-bottom15{
+    margin-bottom: 15px;
+}
+
+.table td{
+    border-bottom: 1px solid #EFEFEF;
+}
+.address-modal{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1000;
+}
+.address-modal .modal-mask{
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.3;
+}
+.address-modal .modal-main{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 704px;
+    /*height: 410px;*/
+    margin: -205px 0 0 -302px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #666;
+    color: #363636;
+    font-size: 18px;
+}
+.address-modal .modal-main .modal-header{
+    padding-left: 40px;
+
+}
+.address-modal .modal-main .modal-header,
+.address-modal .modal-main .modal-footer{
+    color: #363636;
+    font-size: 18px;
+    height: 60px;
+    line-height: 60px;
+    background-color: #efefef;
+}
+.address-modal .modal-main .modal-footer{
+    vertical-align: middle;
+    margin-top: 15px;
+}
+.address-modal .modal-main .close-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+.address-modal .modal-main .close-icon {
+    vertical-align: middle;
+    background-position: -434px -39px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+}
+.modal-content{
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 0px solid #999;
+    border: 0px solid rgba(0,0,0,.2);
+    border-radius: 0px;
+    outline: 0;
+    -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.5);
+    box-shadow: 0 0px 0px rgba(0,0,0,.5);
+}
+.address-modal .modal-main .modal-content{
+    margin: 20px auto 20px auto;
+    display: block;
+    text-align: center;
+}
+.address-modal .modal-main .modal-content .email-content{
+    font-size: 14px;
+    width: 600px;
+    height: 180px;
+    border-radius: 4px;
+    padding: 5px 10px 5px 10px;
+}
+.address-modal .modal-main .modal-content .input{
+    display: block;
+    margin: 20px auto auto 80px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #c2c3c6;
+    border-radius: 4px;
+    padding: 5px 15px 5px 15px;
+    color: #363636;
+    font-size: 14px;
+}
+.address-modal .modal-main .modal-content .input-small{
+    width: 250px;
+}
+.address-modal .modal-main .modal-content .input-big{
+    width: 350px;
+}
+.address-modal .modal-main .modal-content .input-detain{
+    width: 510px;
+    height: 80px;
+}
+.address-modal .modal-main .modal-content select{
+    display: block;
+    float: left;
+    width: 130px;
+    border: 1px solid #c2c3c6;
+    border-radius: 4px;
+    font-size: 14px;
+    margin: 20px -40px auto 80px;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 15px 5px 15px;
+}
+.address-modal .modal-main .modal-content .check{
+    text-align: left;
+    margin: 66px auto auto 82px;
+    height: 36px;
+}
+.address-modal .modal-main .modal-content .checkredio {
+    margin: 20px 5px auto 15px;
+    width: 15px;
+    height: 15px;
+}
+.address-modal .modal-main .modal-footer .submit-btn,
+.address-modal .modal-main .modal-footer .cancel-btn{
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 16px;
+    opacity: 1;
+}
+.address-modal .modal-main .modal-footer .cancel-btn{
+    background-color: #cccccc;
+    float: left;
+    color: #363636;
+    margin-top: 10px;
+    margin-left: 50px;
+    opacity: 1;
+}
+.address-modal .modal-main .modal-footer .submit-btn{
+    background-color: #4090ff;
+    color: #FFFFFF;
+    float: right;
+    margin-top: 10px;
+    margin-right: 50px;
+    opacity: 1;
+}
+
+.address-modal .modal-main .modal-content .space{
+    height: 60px;
+}
+/*������ʾ*/
+.address-modal .modal-main .modal-content .error{
+    border: 1px solid red;
+}
+
+/*login*/
+.login-modal{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 10000;
+}
+.login-modal .modal-mask{
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.3;
+}
+.login-modal .modal-main{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 438px;
+    height: 454px;
+    margin: -227px 0 0 -219px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #666;
+    color: #363636;
+    font-size: 18px;
+}
+.login-modal .modal-main .passport-logo{
+    background-position: 0 -91px;
+    width: 190px;
+    height: 47px;
+    margin: 68px auto 40px;
+    text-align: center;
+}
+.login-modal .modal-main .close-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+}
+.login-modal .modal-main .close-icon {
+    vertical-align: middle;
+    background-position: -434px -39px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+}
+.login-modal .modal-main .modal-content{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0px auto 20px auto;
+    display: block;
+    text-align: center;
+}
+.login-modal .modal-main .modal-content input{
+    margin-top: 20px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #c2c3c6;
+    border-radius: 4px;
+    padding: 5px 15px 5px 45px;
+    width: 240px;
+    color: #363636;
+    font-size: 14px;
+}
+.login-modal .modal-main .modal-content .submit-btn{
+    display: block;
+    width: 302px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background-color: rgba(64, 144, 255, 1);
+    opacity: 1;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-left: 67px;
+}
+
+
+/*header*/
+.header{
+    position: relative;
+    height: 80px;
+    width: 100%;
+    min-width: 1170px;
+    background-color: #18223d;
+    z-index: 1003;
+    border-bottom: 8px solid #18223d;
+    line-height: 80px;
+}
+.header .item{
+    vertical-align: middle;
+    display: inline-block;
+}
+.header .item.right{
+    margin-right: 50px;
+    float: right;
+}
+.header .item .logo{
+    margin-left: 15px;
+    width: 180px;
+    height: 80px;
+    display: block;
+    background: url(/static/image/logo.png) left center no-repeat;
+}
+
+.header .item .search-text{
+    width: 255px;
+    height: 34px;
+    border: 1px solid #363636;
+    float: left;
+    margin-left: 60px;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.header .item .search-btn{
+    width: 60px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background: #363636;
+    float: left;
+    border-radius: 0 8px 8px 0;
+    border: 0;
+}
+.item .search-btn .search-icon{
+    width: 21px;
+    height: 21px;
+    background-position: -45px -25px;
+    vertical-align: middle;
+}
+.icon-right{
+    width: 21px;
+    height: 21px;
+    vertical-align: middle;
+}
+.item .home{
+    margin-left: 70px;
+}
+.item .goods{
+    margin-left: 30px;
+}
+.item .home,
+.item .goods{
+    display: inline-block;
+    text-align: center;
+    /*width: 50px;*/
+    height: 23px;
+    line-height: 23px;
+}
+.item .user{
+    margin-left: 100px;
+}
+.item .user .icon-right{
+    /*margin-left: 250px;*/
+    background-position: -314px -23px;
+}
+.item .logout{
+    margin-left: 10px;
+}
+.item .cart .icon-right{
+    margin-left: 20px;
+    background-position: -382px -22px;
+}
+.passport-icon{
+    display:inline-block;
+    background: url(/static/image/passport-icon.png);
+}
+/*footer*/
+.footer{
+
+}
