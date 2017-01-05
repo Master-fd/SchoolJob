@@ -54,6 +54,12 @@ class UserBase(object):
         isLogin, account = self.checkIsLogin();
         if isLogin:
             del self.request.session['account'];
+            del self.request.session['provinceId'];
+            del self.request.session['provinceName'];
+            del self.request.session['universityId'];
+            # del self.request.session['universityName'];   #退出时不要清除选定的大学
+            del self.request.session['collegeId'];
+            del self.request.session['collegeName'];
         return ResponsesSingleton.getInstance().responseJsonArray("success", "已退出");
 
     #获取所有当前选中的学校所有Organization

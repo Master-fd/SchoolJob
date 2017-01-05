@@ -125,7 +125,7 @@ class Backgroup(object):
                 else:
                     data = {
                         'data' : {},
-                        'current' : 'current'};
+                        'current' : 'collect'};
                 page = 'backgroup/student/collect.html';
             elif pageName == 'applicant' or pageName == 'home':
                 data = self.applicant.getData(account=account);
