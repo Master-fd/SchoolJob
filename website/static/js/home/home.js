@@ -104,23 +104,35 @@ define(function (require) {
         //切换选择的组织
         $(this).addClass('current');
         $(this).parents('li').siblings('li').find('a').removeClass('current');
-        var oragnizationAccount = $(this).data('id');
+        var organizationAccount = $(this).data('id');
 
-        var params = {
-            organizationAccount : oragnizationAccount
-        };
-        searchOption.search(params);
+        if (organizationAccount)
+            window.location.href = resourceUrl+'main/?organizationAccount='+organizationAccount;
+        else
+            window.location.href = resourceUrl+'main/';
+        //var params = {
+        //    organizationAccount : organizationAccount
+        //};
+        //searchOption.search(params);
 
     }).on('click', '.js-search', function () {
         //main 页面搜索
         var name = $(this).siblings('input').val();
-        var oragnizationAccount = $(this).parents('div').siblings('div').find('.current').data('id');
+        var organizationAccount = $(this).parents('div').siblings('div').find('.current').data('id');
+        if (organizationAccount && name)
+            window.location.href = resourceUrl+'main/?organizationAccount='+organizationAccount + '&jobName='+name;
+        else if (organizationAccount && !name)
+            window.location.href = resourceUrl+'main/?organizationAccount='+organizationAccount;
+        else if (!organizationAccount && name)
+            window.location.href = resourceUrl+'main/?jobName='+name;
+        else
+            window.location.href = resourceUrl+'main/';
 
-        var params = {
-            jobName : name,
-            organizationAccount : oragnizationAccount
-        };
-        searchOption.search(params);
+        //var params = {
+        //    jobName : name,
+        //    organizationAccount : organizationAccount
+        //};
+        //searchOption.search(params);
     }).on('click', '.collect-job', function () {
 
         //添加收藏
