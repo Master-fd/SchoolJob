@@ -159,7 +159,7 @@ SESSION_ENGINE = 'redis_sessions.session'  #使用redis做session引擎https://g
 SESSION_REDIS_HOST = '127.0.0.1'  #'119.29.151.45'
 SESSION_REDIS_PORT = 6379
 SESSION_REDIS_DB = 0
-# SESSION_REDIS_PASSWORD = '123456'    #如果redis没有设置密码，则不需要
+SESSION_REDIS_PASSWORD = '633922'    #如果redis没有设置密码，则不需要
 SESSION_REDIS_PREFIX = DOMIN+'session'
 SESSION_REDIS_SOCKET_TIMEOUT = 1
 #cookie and session全局设置,
