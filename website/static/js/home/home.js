@@ -18,15 +18,16 @@ define(function (require) {
                 strList.push('<tr data-id='+data.jobId+'>');
                 strList.push('<td><a href='+data.url+'>'+data.name+'</a></td>');
                 strList.push('<td>'+data.organization+'</td>');
-                strList.push('<td">'+data.department+'</td>');
+                strList.push('<td>'+data.department+'</td>');
                 strList.push('<td>'+data.number+'</td>');
-                strList.push('<td>'+data.updateDate+'<a href="javascript:void (0);" class="js-extend-btn pull-right down-arrow-icon"></a></td></tr>');
+                strList.push('<td>'+data.updateDate.substring(0, 19)+'<a href="javascript:void (0);" class="js-extend-btn pull-right down-arrow-icon"></a></td>');
+                strList.push('</tr>');
                 strList.push('<tr class="job-detail hidden">');
                 strList.push('<td colspan="5">');
                 strList.push('<div>');
                 strList.push('<h3>工作职责与要求：</h3>');
-                for (var item in data.descriptionLines){
-                    strPList.push('<p>--'+item+'</p>');
+                for (var j=0; j<data.descriptionLines.length; j++){
+                    strPList.push('<p>--'+data.descriptionLines[j]+'</p>');
                 }
                 strList.push(strPList.join(''));
                 strList.push('<div class="job-operation">');
@@ -43,7 +44,6 @@ define(function (require) {
 
             var url = resourceUrl+'searchInfoRequest/';
             $.getJSON(url, params, function (json_data) {
-
                 if (json_data.status=='success'){
                     searchOption.joinHtml(json_data.data);
                 }

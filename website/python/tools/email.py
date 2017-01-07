@@ -11,11 +11,7 @@ from  SchoolJob import settings
 class Email(object):
 
     def __init__(self):
-        # [a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+
-        pattern = re.compile(r'[a-zA-Z0-9]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+');
-        match = pattern.search(string=settings.DEFAULT_FROM_EMAIL);
-        if match:
-            self.myEmail = settings.DEFAULT_FROM_EMAIL;
+        self.myEmail = settings.DEFAULT_FROM_EMAIL;
 
     #一次发送一封邮件
     def sendEmail(self, subject, message, toEmail):

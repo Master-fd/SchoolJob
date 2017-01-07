@@ -425,6 +425,6 @@ class OrganizationRequestManager(UserBase):
             if result:
                 return ResponsesSingleton.getInstance().responseJsonArray('success', '发送成功');
             else:
-                return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送失败');
+                return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送12失败');
         else:
             return ResponsesSingleton.getInstance().responseJsonArray('fail', '发送失败');

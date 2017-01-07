@@ -24,6 +24,15 @@ define(function (require, exports) {
         }, 'json');
     }).on('click', '.js-sendEmail-btn', function () {
         //弹出发送邮件弹框
+        var emailArray = [];
+        var checkBox = $body.find("input[name='resume-select']:checked");
+        checkBox.each(function (i, n) {
+            emailArray.push($(n).data('id'));
+        });
+        if (!emailArray.length){
+            pop.popType('error', '未选定发送对象');
+            return false;
+        }
         pop.popType('sendEmail');
     }).on('click', '#pop-sendEmail-option .submit-btn', function () {
         //遍历所有选定的resume，发送邮件
@@ -34,7 +43,7 @@ define(function (require, exports) {
         checkBox.each(function (i, n) {
             emailArray.push($(n).data('id'));
         });
-        if (!emailArray){
+        if (!emailArray.length){
             pop.popType('error', '未选定发送对象');
             return false
         }
