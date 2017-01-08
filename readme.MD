@@ -1,5 +1,9 @@
 ##SchoolJob 项目工程 Source Code##
 
+###[项目链接传送门，请猛的单击](http://www.schooljob.xyz/)###
+
+
+###SchoolJob简介###
 **SchoolJob** 是一个专用于大学生社团纳新平台，学校社团注册之后，即可发布自己社团的相关纳新信息；新生们可以查看筛选查看该学校所有社团的相关纳新信息，收藏或发送自己的简历进行应聘；学校社团也可以方便的对简历进行管理，群发通知邮件。
 
 ###项目主要结构###
@@ -9,3 +13,4 @@
 ###部署环境###
 Django+uWSGI+nginx， 使用 Supervisor 进行 uWSGI 的后台进程管理 
 
+###[欢迎光临我的博客（单击我，我是传送门！！！）](http://www.cnblogs.com/hepingqingfeng/)###
